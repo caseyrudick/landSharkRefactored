@@ -95,28 +95,6 @@
       "northing": "67",
       "easting": "84",
       "id": 9
-    },
-    {
-      "operator": "asdf",
-      "rig": "asfg",
-      "well": "agfs",
-      "plans": [],
-      "county": "adsfg",
-      "uSstate": "adfg",
-      "northing": "adsgf",
-      "easting": "adfg",
-      "id": 10
-    },
-    {
-      "operator": "asdf",
-      "rig": "asfg",
-      "well": "agfs",
-      "plans": [],
-      "county": "adsfg",
-      "uSstate": "adfg",
-      "northing": "adsgf",
-      "easting": "adfg",
-      "id": 11
     }
   ]
 }

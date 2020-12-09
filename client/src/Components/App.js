@@ -16,13 +16,22 @@ import ExistingPlans from './ExistingPlans'
 import postWellInfoToJSONDb from '../ActionCreators/postWellInfoToJSONDb'
 
 
-const App = ({saveWellInfoToReduxStoreReducer, getWellPlansFromJSONdbReducer, postWellInfoToJSONDbReducer}) => {
+const App = ({saveActiveWellToReduxStoreReducer, areThereExistingPlans, saveWellInfoToReduxStoreReducer, getWellPlansFromJSONdbReducer, postWellInfoToJSONDbReducer}) => {
   
 const plansTabHandler = () => {
-  if (postWellInfoToJSONDbReducer.status === "received") {
+  if (saveWellInfoToReduxStoreReducer.status === "received" || 
+  saveActiveWellToReduxStoreReducer.status === "received") {
+    console.log(saveActiveWellToReduxStoreReducer.status === "received")
     return false
   }
   return true
+}
+
+const plansComponentHandler = () => {
+  if (saveActiveWellToReduxStoreReducer.status === "received") {
+    return <ExistingPlans/>
+  } 
+  return <Plans/>
 }
 
   return (
@@ -40,7 +49,7 @@ const plansTabHandler = () => {
         </Tab>
         <Tab eventKey="Plans" title="Plans" disabled={plansTabHandler()}>
           <Container>
-        {postWellInfoToJSONDbReducer.status === "received"? <Plans/> : "TBD"}
+        <Plans/>
           </Container>
         </Tab>
 
@@ -49,11 +58,26 @@ const plansTabHandler = () => {
   );
 }
 
-const mapStateToProps = ({ saveWellInfoToReduxStoreReducer, getWellPlansFromJSONdbReducer, postWellInfoToJSONDbReducer}) => {
+const mapStateToProps = ({ saveActiveWellToReduxStoreReducer, saveWellInfoToReduxStoreReducer, getWellPlansFromJSONdbReducer, postWellInfoToJSONDbReducer}) => {
+  const planned = () => {
+    if (saveActiveWellToReduxStoreReducer.response !== "received") {
+      return true
+    } 
+    return false
+  }
+  const plans = () => {
+    if (saveActiveWellToReduxStoreReducer.response ==="received") {
+      return saveActiveWellToReduxStoreReducer.response.selectedWell.plans
+    }
+    return null
+  }
   return {
     saveWellInfoToReduxStoreReducer, 
     getWellPlansFromJSONdbReducer,
-    postWellInfoToJSONDbReducer
+    postWellInfoToJSONDbReducer,
+    areThereExistingPlans: planned(),
+    existingWellPlans: plans(),
+    saveActiveWellToReduxStoreReducer
   }
 }
 

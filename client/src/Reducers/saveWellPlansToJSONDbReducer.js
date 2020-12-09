@@ -1,6 +1,6 @@
 import { SAVE_WELL_PLANS_TO_JSON_REQUESTED,
   SAVE_WELL_PLANS_TO_JSON_RECEIVED,
-  SAVE_WELL_PLANS_TO_JSON_FAILED } from "..ActionCreators/types"
+  SAVE_WELL_PLANS_TO_JSON_FAILED } from "../ActionCreators/types"
 
 const INITIAL_STATE = {
   response: {},

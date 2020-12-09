@@ -9,44 +9,70 @@
 
 // import 'react-datasheet/lib/react-datasheet.css'
 // import ReactDataSheet from "react-datasheet"
-// import saveNewPlanToReduxStore from "../ActionCreators/saveNewPlanToReduxStore"
-// import postPlanstoJSONdb from "../ActionCreators/saveWellPlansToJSON"
-// import wellsReducer from "../Reducers/wellsReducer"
+// import saveWellPlansToJSONDb from "../ActionCreators/saveWellPlansToJSONDb"
 
 
-// // iterate through existing grid to get a copy and not mutate current as we iterate over
-//     // iterate through the changes.  Each change is a cell, each cell is an object
-//     // with cell (previousVal), row, col, currentVal
-//     // mutate the value of the newGrid[row#][col#] to the new value 
-// const ExistingWellPlans = (selectedWell) => {
-//   const [grid, setGrid] = useState([/*insert connection to plans prop*/])
-//   const initialGrid = selectedWell
-//   // const initialGrid = 
+// const ExistingWellPlans = ({saveWellPlansToJSONDb, saveActiveWellToReduxStoreReducer, getWellsFromJSONDbReducer}) => {
+//   const [plans, setPlans] = useState([])
+//   const [grid, setGrid] = useState([])
+
+
+//   const [grid, setGrid] = useState(initialGrid);
 //   const onCellsChanged = (changes) => {
 //     const newGrid = grid.map(row => [...row])
-//     // newGrid is now a copy of old grid
 //     changes.forEach(({cell, row, col, value}) => {
-//       // each cell of newGrid is a copy of the old grid, plus changed value
 //       newGrid[row][col] = {...grid[row][col], value}
 //     })
-//     // set this grid as the local state's grid
 //     setGrid(newGrid)
 //   }
+
+//   const addNewRow = () => {
+//     const localGrid = [{value: grid.length + 1, readOnly: true}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}]
+//     setGrid([...grid, localGrid])
+//   };
+
+//   const editPlans = () => {
+//     setEditGrid(!editGrid)
+//     const gridNew = grid.map(row => [...row]);
+//     for (let row = 1; row < gridNew.length; row ++) {
+//       for (let col = 1; col < gridNew[row].length; col ++) {
+//         gridNew[row][col].readOnly = editGrid;
+//       }
+//     }
+//     setGrid(gridNew);
+//   };
+
+//   const removeRow = () => {
+//     const newGrid = [...grid];
+//     newGrid.pop();
+//     setGrid(newGrid);
+//   };
+
 //   return (
 //     <Container>
-//       <Col>Insert Name of well</Col>
+//       <Col>EXISTING PLANS</Col>
 
 //       <ReactDataSheet
 //         data={grid}
 //         valueRenderer={(cell)=> cell.value}
 //         onCellsChanged={onCellsChanged}
 //       ></ReactDataSheet>
+//       <Col>
+//     <Button variant="primary" className="mt-4 mb-4" onClick={()=>addNewRow()}>Add a Row</Button>
+//     <Button variant="danger" className="my-4 ml-4" onClick={()=>removeRow()}>Remove a Row</Button>
+//     <Button variant="info" className="my-4 ml-4" onClick={()=>editPlans()}>Edit Plans</Button>
+//     <Button variant="info" className="my-4 ml-4" onClick={()=>createNewPlan()}>Create New Plan</Button>
+    
+//       </Col>
 //     </Container>
 //   )
 // }
 
-// const mapStateToProps = ({selectedWell}) => {
-//   return {selectedWell}
+// const mapStateToProps = ({saveActiveWellToReduxStoreReducer, getWellsFromJSONDbReducer}) => {
+//   return {
+//     saveActiveWellToReduxStoreReducer,
+//     getWellsFromJSONDbReducer
+//   }
 // }
 
 // export default connect(mapStateToProps)(ExistingWellPlans)

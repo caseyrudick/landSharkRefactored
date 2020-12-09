@@ -13,7 +13,7 @@ import ReactDataSheet from 'react-datasheet';
 // actionCreators
 import saveWellPlansToJSONDb from "../ActionCreators/saveWellPlansToJSONDb"
 
-const Plans = ({currentWell, saveWellPlansToJSONDb}) => {
+const Plans = ({currentWell, currentWellId, saveWellPlansToJSONDb, nameConcat}) => {
   const [editGrid, setEditGrid] = useState(true)
   const initialGrid = [
     [{value: '', readOnly: true, width: '7rem'}, {value:"Measured Depth", readOnly: true, width: '7rem'}, {value:"Inclination", readOnly: true, width: '7rem'}, {value:"Azimuth", readOnly: true, width: '7rem'}, {value:"TVD", readOnly: true, width: '7rem'}, {value:"Northing", readOnly: true, width: '7rem'}, {value:"Easting", readOnly: true, width: '7rem'}],
@@ -70,8 +70,8 @@ const Plans = ({currentWell, saveWellPlansToJSONDb}) => {
       };
       const activeWellCopy = {...currentWell};
       activeWellCopy.plans.push(newWellPlanNumberAndPlan);
-      console.log(activeWellCopy)
-      saveWellPlansToJSONDb(activeWellCopy)
+
+      saveWellPlansToJSONDb(activeWellCopy, currentWellId)
       // saveNewPlanToReduxStore(activeWellCopy);
       // postPlansToJSONdb(activeWellCopy)
   };
@@ -80,7 +80,7 @@ const Plans = ({currentWell, saveWellPlansToJSONDb}) => {
 
   return (
     <Container>
-      <Col xs={30}>{`${currentWell.operator} - ${currentWell.rig} - ${currentWell.well}`}</Col>
+      <Col xs={30}>{nameConcat}</Col>
       <Col xs={30}>
     <ReactDataSheet
         data={grid}
@@ -98,14 +98,31 @@ const Plans = ({currentWell, saveWellPlansToJSONDb}) => {
   )
 }
 
-const mapStateToProps = ({postWellInfoToJSONDbReducer}) => {
+const mapStateToProps = ({postWellInfoToJSONDbReducer, getWellsFromJSONDbReducer, saveActiveWellToReduxStoreReducer}) => {
+  
+  const wellNameInfo = saveActiveWellToReduxStoreReducer.response.selectedWell
+  const well = wellNameInfo.well
+  const operator = wellNameInfo.operator
+  const rig = wellNameInfo.rig
+  const nameConcat = `${operator} - ${rig} - ${well}`
+  // need to figure out why currentWell stopped providing the activeWell
   const currentWell = postWellInfoToJSONDbReducer.response
+  let currentWellId = ""
+  for (let well in getWellsFromJSONDbReducer.response) {
+    let wellInfo = getWellsFromJSONDbReducer.response[well]
+    if (wellInfo.operator === currentWell.operator && wellInfo.well === currentWell.well) {
+      currentWellId = wellInfo.id
+    }
+  }
+  
   return {
-    currentWell
+    currentWellId,
+    currentWell,
+    nameConcat
   }
 }
 
-export default connect(mapStateToProps, {/*saveNewPlanToReduxStore,*/saveWellPlansToJSONDb})(Plans)
+export default connect(mapStateToProps, { saveWellPlansToJSONDb})(Plans)
 
 
 // const mapStateToProps = ({activeWell}) => {

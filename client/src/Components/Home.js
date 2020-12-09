@@ -18,8 +18,10 @@ import saveWellInfoToReduxStore from "../ActionCreators/saveWellInfoToReduxStore
 // import getWellPlansFromDynamoDb from 'ActionCreators/getWellPlansFromDynamoDb';
 import postWellInfoToJSONDb from "../ActionCreators/postWellInfoToJSONDb"
 import getWellsFromJSONDb from "../ActionCreators/getWellsFromJSONDb"
+import {saveSelectedAsActiveWell} from "../ActionCreators/saveActiveWellToReduxStore"
 
-const Home = ({postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, wells, getWellsFromJSONDb}) => {
+
+const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, wells, getWellsFromJSONDb}) => {
   const [activeWell, setActiveWell] = useState('None');
   const [operator, setOperator] = useState('');
   const [rig, setRig] = useState('');
@@ -30,7 +32,7 @@ const Home = ({postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToRed
   const [easting, setEasting] = useState('');
 
   useEffect(() => {
-
+    
     setTimeout(getWellsFromJSONDb, 1000);
   }, []);
 
@@ -60,6 +62,7 @@ const Home = ({postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToRed
             href=""
             key={`${well.rig} + ${well.well}`}
             onClick={()=> {
+              saveSelectedAsActiveWell(well)
               setActiveWell(wellFormat)
             }}
             > {wellFormat}
@@ -84,7 +87,7 @@ const Home = ({postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToRed
         </Dropdown.Toggle>
         {renderWellNames()}
       </Dropdown>
-
+      <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={handleFetchData()}>Fetch well data</Button>
       </Col>
     )
   }
@@ -103,15 +106,18 @@ const Home = ({postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToRed
     }
     postWellInfoToJSONDb(wellInfo)
     saveWellInfoToReduxStore(wellInfo)
+    getWellsFromJSONDb()
   }
 
-  // const handleFetchData = () => {
-  //   setTimeout(getWellPlansFromDynamoDb(selectedWell), 500);
-  //   setTimeout(getWellHardLinesFromDynamoDb(selectedWell), 1000);
-  //   setTimeout(getWellLeaseLinesFromDynamoDb(selectedWell), 1500);
-  //   setTimeout(getWellSurveysFromDynamoDb(selectedWell), 2000);
-  //   setTimeout(getOffsets(selectedWell), 2500);
-  // }
+  const handleFetchData = () => {
+
+
+    // setTimeout(getWellPlansFromDynamoDb(selectedWell), 500);
+    // setTimeout(getWellHardLinesFromDynamoDb(selectedWell), 1000);
+    // setTimeout(getWellLeaseLinesFromDynamoDb(selectedWell), 1500);
+    // setTimeout(getWellSurveysFromDynamoDb(selectedWell), 2000);
+    // setTimeout(getOffsets(selectedWell), 2500);
+  }
 
   const renderSelectWell = () => {
     return (
@@ -123,7 +129,7 @@ const Home = ({postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToRed
           </Dropdown.Toggle>
           {/* // {renderWellNames()} */}
         </Dropdown>
-        {/* <Button className="mt-4" variant="success" disabled={ selectedWell === "None" ? true : false } onClick={handleFetchData}>Fetch well data</Button> */}
+        
       </Col>
     )
   }
@@ -141,12 +147,13 @@ const Home = ({postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToRed
 //  }
 }
 
-const mapStateToProps = ({ saveWellInfoToReduxStoreReducer, postWellInfoToJSONDbReducer, getWellsFromJSONDbReducer }) => {
+const mapStateToProps = ({ saveActiveWellToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, postWellInfoToJSONDbReducer, getWellsFromJSONDbReducer }) => {
   return {
     saveWellInfoToReduxStoreReducer,
     postWellInfoToJSONDbReducer,
-    wells: getWellsFromJSONDbReducer
+    wells: getWellsFromJSONDbReducer,
+    activeWell: saveActiveWellToReduxStoreReducer.response
   };
 };
 
-export default connect(mapStateToProps, { saveWellInfoToReduxStore, postWellInfoToJSONDb, getWellsFromJSONDb })(Home);
+export default connect(mapStateToProps, { saveSelectedAsActiveWell, saveWellInfoToReduxStore, postWellInfoToJSONDb, getWellsFromJSONDb })(Home);
