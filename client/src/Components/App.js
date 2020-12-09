@@ -47,9 +47,9 @@ const plansComponentHandler = () => {
             <Home/>
           </Container>
         </Tab>
-        <Tab eventKey="Plans" title="Plans" disabled={plansTabHandler()}>
+        <Tab eventKey="Plans" title="Plans" disabled={true}>
           <Container>
-        <Plans/>
+        {plansComponentHandler()}
           </Container>
         </Tab>
 
