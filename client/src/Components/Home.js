@@ -19,9 +19,10 @@ import saveWellInfoToReduxStore from "../ActionCreators/saveWellInfoToReduxStore
 import postWellInfoToJSONDb from "../ActionCreators/postWellInfoToJSONDb"
 import getWellsFromJSONDb from "../ActionCreators/getWellsFromJSONDb"
 import {saveSelectedAsActiveWell} from "../ActionCreators/saveActiveWellToReduxStore"
+import getWellPlansFromJSONDb from "../ActionCreators/getWellPlansFromJSONDb"
 
-// check
-const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getWellsFromJSONDb, getWellsFromJSONDbReducer}) => {
+
+const Home = ({ getWellPlansFromJSONDb ,saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getWellsFromJSONDb, getWellsFromJSONDbReducer}) => {
   const [activeWell, setActiveWell] = useState('None');
   const [operator, setOperator] = useState('');
   const [rig, setRig] = useState('');
@@ -31,7 +32,7 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
   const [northing, setNorthing] = useState('');
   const [easting, setEasting] = useState('');
 
-  // check
+
   useEffect(() => {
     
     setTimeout(getWellsFromJSONDb, 1000);
@@ -45,7 +46,7 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
         <Dropdown.Menu>
           {wells.map(well => {
             return (
-              <Dropdown.Item href="" onClick={()=> setActiveWell(`${well.operator} - ${well.rig} - ${well.well}`)}>
+              <Dropdown.Item href="" key={well.well} onClick={()=> setActiveWell(`${well.operator} - ${well.rig} - ${well.well}`)}>
                 {well.operator} - {well.rig} - {well.well}
               </Dropdown.Item>
             )
@@ -57,9 +58,6 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
       return "Data loading"
     }
   }
-
-
-  
 
   const createNewWell = () => {
     return (
@@ -77,7 +75,6 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
     )
   }
 
-  // tbd
   const handleNewWellSubmit = () => {
     const wellInfo = {
       operator,
@@ -89,7 +86,7 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
       northing,
       easting
     }
-    postWellInfoToJSONDb(wellInfo)
+    // postWellInfoToJSONDb(wellInfo)
     saveWellInfoToReduxStore(wellInfo)
     getWellsFromJSONDb()
   }
@@ -97,13 +94,12 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
   const handleFetchData = () => {
 
 
-    // setTimeout(getWellPlansFromDynamoDb(selectedWell), 500);
+    // getWellPlansFromJSONDb(activeWell)
     // setTimeout(getWellHardLinesFromDynamoDb(selectedWell), 1000);
     // setTimeout(getWellLeaseLinesFromDynamoDb(selectedWell), 1500);
     // setTimeout(getWellSurveysFromDynamoDb(selectedWell), 2000);
     // setTimeout(getOffsets(selectedWell), 2500);
   }
-
 
 
 
@@ -160,4 +156,4 @@ const mapStateToProps = ({ saveActiveWellToReduxStoreReducer ,saveWellInfoToRedu
   };
 };
 
-export default connect(mapStateToProps, { saveSelectedAsActiveWell, saveWellInfoToReduxStore, postWellInfoToJSONDb, getWellsFromJSONDb })(Home);
+export default connect(mapStateToProps, { getWellPlansFromJSONDb, saveSelectedAsActiveWell, saveWellInfoToReduxStore, postWellInfoToJSONDb, getWellsFromJSONDb })(Home);

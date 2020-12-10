@@ -4,7 +4,7 @@ import { POST_PLANS_TO_JSON_REQUESTED,
   POST_PLANS_TO_JSON_FAILED } from "./types"
 import moment from "moment"
 
-export default (grid, vsDirection ,well, operator, rig, county, uSstate) => {
+export default (operator, rig ,well, county, uSstate, grid, vsDirection) => {
   return async (dispatch, getState) => {
 
     dispatch({
@@ -12,15 +12,16 @@ export default (grid, vsDirection ,well, operator, rig, county, uSstate) => {
     })
     try {
       const wellData = {
-        grid, 
-        vsDirection, 
-        well,
         operator,
         rig,
+        well,
         county,
         uSstate,
-        date: moment().format(),
+        vsDirection,
+        grid, 
+        date: moment().format()
       }
+      console.log(wellData)
       const response = await wells.post(`wells`, wellData)
       dispatch({
         type: POST_PLANS_TO_JSON_RECEIVED,

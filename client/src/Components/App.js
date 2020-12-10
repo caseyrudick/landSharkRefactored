@@ -40,6 +40,11 @@ const App = ({saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer}) =
         <Plans/>
           </Container>
         </Tab>
+        <Tab eventKey="ExistingPlans" title="ExistingPlans" >
+          <Container>
+        <ExistingPlans/>
+          </Container>
+        </Tab>
 
       </Tabs>
     </React.Fragment>

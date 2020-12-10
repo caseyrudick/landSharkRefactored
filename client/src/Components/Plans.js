@@ -101,7 +101,7 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
 
   const handleSubmit = () => {
     const {well, operator, rig, county, uSstate} = saveWellInfoToReduxStoreReducer.response
-    postPlansToJSONDb(grid, vsDirection ,well, operator, rig, county, uSstate)
+    postPlansToJSONDb(operator, rig ,well, county, uSstate, grid, vsDirection)
     savePlansToReduxStore(grid)
 
   }
@@ -158,7 +158,7 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
     return (
       <Row>
         <Col xs={10} className="my-4">
-          <Button variant="info" onClick={handleSubmit}>
+          <Button variant="info" onClick={()=>handleSubmit()}>
             Submit Data
           </Button>
         </Col>
@@ -189,7 +189,7 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
         <Col xs={2}>
           <Form className="mt-7">
             <Form.Group controlId="formBasicEmail">
-              <Form.Control className="mt-3" type="float" placeHolder="Enter VS Here" onChange={event => handleVSDirection(event.target.value)}/>
+              <Form.Control className="mt-3" type="float" placeholder="Enter VS Here" onChange={event => handleVSDirection(event.target.value)}/>
             </Form.Group>
           </Form>
         </Col>

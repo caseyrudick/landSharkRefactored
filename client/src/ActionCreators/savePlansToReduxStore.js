@@ -4,7 +4,6 @@ import { SAVE_PLANS_TO_REDUX_STORE_REQUESTED,
 } from "./types"
 
 export default (plans) => {
-  console.log(plans)
   return async (dispatch, getState) => {
     dispatch({
       type: SAVE_PLANS_TO_REDUX_STORE_REQUESTED
