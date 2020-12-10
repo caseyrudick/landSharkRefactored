@@ -16,15 +16,12 @@ export default (selectedWell) => {
       const wellList = getState().getWellsFromJSONDbReducer.response
       const selectedWellConvertedToArray = selectedWell.split("-").map(word => word.trim())
       const selectedWellOperator = selectedWellConvertedToArray[0]
-      const selectedWellWell = selectedWellConvertedToArray[3]
+      const selectedWell_Well = selectedWellConvertedToArray[2]
       for (let well in wellList) {
-        if (wellList[well].operator === selectedWellOperator && wellList[well].well === selectedWellWell) {
-
-      
+        if (wellList[well].operator == selectedWellOperator && wellList[well].well == selectedWell_Well) {
           result = [...wellList[well].grid]
         }
       }
-      console.log(result)
       dispatch({
         
         type: GET_WELL_PLANS_FROM_JSONDB_RECEIVED,

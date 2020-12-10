@@ -94,7 +94,7 @@ const Home = ({ getWellPlansFromJSONDb ,saveSelectedAsActiveWell, postWellInfoTo
   const handleFetchData = () => {
 
 
-    // getWellPlansFromJSONDb(activeWell)
+    getWellPlansFromJSONDb(activeWell)
     // setTimeout(getWellHardLinesFromDynamoDb(selectedWell), 1000);
     // setTimeout(getWellLeaseLinesFromDynamoDb(selectedWell), 1500);
     // setTimeout(getWellSurveysFromDynamoDb(selectedWell), 2000);
@@ -113,7 +113,7 @@ const Home = ({ getWellPlansFromJSONDb ,saveSelectedAsActiveWell, postWellInfoTo
         </Dropdown.Toggle>
         {renderWellNames()}
       </Dropdown>
-      <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={handleFetchData()}>Fetch well data</Button>
+      <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={()=>handleFetchData()}>Fetch well data</Button>
       </Col>
     )
   }

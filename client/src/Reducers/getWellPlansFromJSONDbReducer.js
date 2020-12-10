@@ -9,10 +9,13 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, {type, payload}) => {
+  
   switch (type) {
     case GET_WELL_PLANS_FROM_JSONDB_REQUESTED:
+      console.log("hello")
       return {...state, status: "waiting"}
     case GET_WELL_PLANS_FROM_JSONDB_RECEIVED:
+      console.log(payload)
       return {...state, response: payload, status: "received"}
     case GET_WELL_PLANS_FROM_JSONDB_FAILED:
       return {...state, response: payload, status: "failed"}

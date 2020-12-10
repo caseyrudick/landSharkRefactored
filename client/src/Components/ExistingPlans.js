@@ -28,9 +28,9 @@ const ExistingWellPlans = ({getWellPlansFromJSONDbReducer}) => {
 
   const convertSurveyNumberStringsToNumbers = () => {
     // let plansFromReducerCopy = [...getWellPlansFromJSONDbReducer.response]
-    console.log(getWellPlansFromJSONDbReducer.response)
+    // console.log(getWellPlansFromJSONDbReducer.response)
   }
-  convertSurveyNumberStringsToNumbers()
+  // convertSurveyNumberStringsToNumbers()
   return (
     
     "existing plans"
