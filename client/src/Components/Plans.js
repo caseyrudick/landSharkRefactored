@@ -10,7 +10,7 @@ import 'react-datasheet/lib/react-datasheet.css';
 import { connect } from "react-redux"
 import ReactDataSheet from 'react-datasheet';
 // actionCreators
-import savePlansToJSONDb from "../ActionCreators/postPlansToJSONDb"
+
 import savePlansToReduxStore from "../ActionCreators/savePlansToReduxStore"
 //helper functions
 import calculateTVD from "../HelperFunctions/Calculations/TVD"
@@ -22,16 +22,16 @@ import postPlansToJSONDb from "../ActionCreators/postPlansToJSONDb";
 
 
 
-const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlansToReduxStoreReducer, savePlansToJSONDb}) => {
+const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlansToReduxStoreReducer, postPlansToJSONDb}) => {
   
   const [editGrid, setEditGrid] = useState(true)
   const [input, setInput] = useState(false)
   const [vsDirection, setVSDirection] = useState(0)
   
   const initialGrid = [
-    [{value: '', readOnly: true, width: '7rem'}, {value:"Measured Depth", readOnly: true, width: '7rem'}, {value:"Inclination", readOnly: true, width: '7rem'}, {value:"Azimuth", readOnly: true, width: '7rem'}, {value:"TVD", readOnly: true, width: '7rem'}, {value:"Northing", readOnly: true, width: '7rem'}, {value:"Easting", readOnly: true, width: '7rem'}],
+    [{value: '', readOnly: true, width: '7rem'}, {value:"Measured Depth", readOnly: true, width: '7rem'}, {value:"Inclination", readOnly: true, width: '7rem'}, {value:"Azimuth", readOnly: true, width: '7rem'}, {value:"TVD", readOnly: true, width: '7rem'}, {value:"Northing", readOnly: true, width: '7rem'}, {value:"Easting", readOnly: true, width: '7rem'}, {value:"VS", readOnly: true, width: '7rem'},{value:"DLS", readOnly: true, width: '7rem'}],
     
-    [{value: 1, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
+    [{value: 1, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
     
     [{readOnly: true, value: 2}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
     [{readOnly: true, value: 3}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
@@ -48,7 +48,7 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
   },[input])
 
   useEffect(()=> {
-    handleAddRows(95)
+    handleAddRows(1)
   }, [])
 
   const performCalculations = () => {
@@ -103,6 +103,7 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
     const {well, operator, rig, county, uSstate} = saveWellInfoToReduxStoreReducer.response
     postPlansToJSONDb(grid, vsDirection ,well, operator, rig, county, uSstate)
     savePlansToReduxStore(grid)
+
   }
 
   const handleRemoveRow = () => {
@@ -136,7 +137,7 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
           <Button variant="success" className="ml-4" value={10} onClick={(event) => handleAddRows(event.target.value)}>
             Add 10 rows
           </Button>
-          <Button variant="sucess" className="ml-4" value={5} onClick={(event) => handleAddRows(event.target.value)}>
+          <Button variant="success" className="ml-4" value={5} onClick={(event) => handleAddRows(event.target.value)}>
             Add 5 rows
           </Button>
           <Button variant="success" className="ml-4" value={1} onClick={(event) => handleAddRows(event.target.value)}>
@@ -188,7 +189,7 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
         <Col xs={2}>
           <Form className="mt-7">
             <Form.Group controlId="formBasicEmail">
-              <Form.Control type="float" placeHolder="Enter VS Here" onChange={event => handleVSDirection(event.target.value)}/>
+              <Form.Control className="mt-3" type="float" placeHolder="Enter VS Here" onChange={event => handleVSDirection(event.target.value)}/>
             </Form.Group>
           </Form>
         </Col>
@@ -212,6 +213,6 @@ const mapStateToProps = ({saveWellInfoToReduxStoreReducer}) => {
   }
 }
 
-export default connect(mapStateToProps, { savePlansToReduxStore, savePlansToJSONDb})(Plans)
+export default connect(mapStateToProps, { savePlansToReduxStore, postPlansToJSONDb})(Plans)
 
 

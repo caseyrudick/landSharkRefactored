@@ -57,29 +57,7 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
       return "Data loading"
     }
   }
-    // let renderedWells;
-    // if (getWellsFromJSONDbReducer.status === "received") {
-    //   renderedWells = Object.values(getWellsFromJSONDbReducer.response)[0].map((well) => {
-    //     let wellFormat = `${well.operator} - ${well.rig} - ${well.well}`
-    //     return (
-    //       <Dropdown.Item
-    //         href=""
-    //         key={`${well.rig} + ${well.well}`}
-    //         onClick={()=> {
-    //           saveSelectedAsActiveWell(well)
-    //           setActiveWell(wellFormat)
-    //         }}
-    //         > {wellFormat}
-    //       </Dropdown.Item>
-    //     )
-    //   })
-    // }
-    // return (
-    //   <Dropdown.Menu>
-    //     {/* {renderedWells} */}
-    //   </Dropdown.Menu>
-    // )
-  // }
+
 
   
 
@@ -94,7 +72,7 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
         <Form.Control className="mt-3" placeholder="State" onChange={event => setUSstate(event.target.value)} />
         <Form.Control className="mt-3" placeholder="Northing" onChange={event => setNorthing(event.target.value)} />
         <Form.Control className="mt-3" placeholder="Easting" onChange={event => setEasting(event.target.value)} />
-        <Button className="mt-4" variant="info" disabled={ operator === "" || rig === "" || well === "" || county === "" || uSstate === "" ? true : false } onClick={handleNewWellSubmit}>Submit and begin adding well data</Button>
+        <Button className="mt-4" variant="info" disabled={ operator === "" || rig === "" || well === "" || county === "" || uSstate === "" ? true : false } onClick={()=>handleNewWellSubmit()}>Submit and begin adding well data</Button>
       </Col>
     )
   }

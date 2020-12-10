@@ -6,7 +6,7 @@ import saveWellInfoToReduxStoreReducer from "./saveWellInfoToReduxStoreReducer"
 import postWellInfoToJSONDbReducer from "./postWellInfoToJSONDbReducer"
 import getWellsFromJSONDbReducer from "./getWellsFromJSONDbReducer"
 import postPlansToJSONDbReducer from "./postPlansToJSONDbReducer"
-// import saveActiveWellToReduxStoreReducer from "./saveActiveWellToReduxStoreReducer"
+import savePlansToReduxStoreReducer from "./savePlansToReduxStoreReducer"
 import getWellPlansFromJSONDbReducer from "./getWellPlansFromJSONDbReducer"
 
 export default combineReducers({
@@ -14,4 +14,6 @@ export default combineReducers({
   saveWellInfoToReduxStoreReducer,  
   postWellInfoToJSONDbReducer,
   getWellsFromJSONDbReducer,
+  savePlansToReduxStoreReducer,
+  postPlansToJSONDbReducer
 })

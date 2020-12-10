@@ -7,7 +7,6 @@ import { SAVE_WELL_INFO_TO_REDUX_STORE_REQUESTED,
       dispatch({
         type: SAVE_WELL_INFO_TO_REDUX_STORE_REQUESTED,
       });
-  
       try {
         dispatch({
           type: SAVE_WELL_INFO_TO_REDUX_STORE_RECEIVED,
