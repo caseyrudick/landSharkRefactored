@@ -13,26 +13,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./Home"
 import Plans from "./Plans"
 import ExistingPlans from './ExistingPlans'
-import postWellInfoToJSONDb from '../ActionCreators/postWellInfoToJSONDb'
 
 
-const App = ({saveActiveWellToReduxStoreReducer, areThereExistingPlans, saveWellInfoToReduxStoreReducer, getWellPlansFromJSONdbReducer, postWellInfoToJSONDbReducer}) => {
+
+const App = ({saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer}) => {
   
-const plansTabHandler = () => {
-  if (saveWellInfoToReduxStoreReducer.status === "received" || 
-  saveActiveWellToReduxStoreReducer.status === "received") {
-    console.log(saveActiveWellToReduxStoreReducer.status === "received")
-    return false
-  }
-  return true
-}
 
-const plansComponentHandler = () => {
-  if (saveActiveWellToReduxStoreReducer.status === "received") {
-    return <ExistingPlans/>
-  } 
-  return <Plans/>
-}
+
+
 
   return (
     <React.Fragment>
@@ -47,9 +35,9 @@ const plansComponentHandler = () => {
             <Home/>
           </Container>
         </Tab>
-        <Tab eventKey="Plans" title="Plans" disabled={true}>
+        <Tab eventKey="Plans" title="Plans" disabled={getWellPlansFromJSONDbReducer.status === "received" || saveWellInfoToReduxStoreReducer.status === "received" ? false : true}>
           <Container>
-        {plansComponentHandler()}
+        <Plans/>
           </Container>
         </Tab>
 
@@ -58,26 +46,10 @@ const plansComponentHandler = () => {
   );
 }
 
-const mapStateToProps = ({ saveActiveWellToReduxStoreReducer, saveWellInfoToReduxStoreReducer, getWellPlansFromJSONdbReducer, postWellInfoToJSONDbReducer}) => {
-  const planned = () => {
-    if (saveActiveWellToReduxStoreReducer.response !== "received") {
-      return true
-    } 
-    return false
-  }
-  const plans = () => {
-    if (saveActiveWellToReduxStoreReducer.response ==="received") {
-      return saveActiveWellToReduxStoreReducer.response.selectedWell.plans
-    }
-    return null
-  }
+const mapStateToProps = ({ saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer}) => {
   return {
     saveWellInfoToReduxStoreReducer, 
-    getWellPlansFromJSONdbReducer,
-    postWellInfoToJSONDbReducer,
-    areThereExistingPlans: planned(),
-    existingWellPlans: plans(),
-    saveActiveWellToReduxStoreReducer
+    getWellPlansFromJSONDbReducer
   }
 }
 

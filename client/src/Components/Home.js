@@ -20,8 +20,8 @@ import postWellInfoToJSONDb from "../ActionCreators/postWellInfoToJSONDb"
 import getWellsFromJSONDb from "../ActionCreators/getWellsFromJSONDb"
 import {saveSelectedAsActiveWell} from "../ActionCreators/saveActiveWellToReduxStore"
 
-
-const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, wells, getWellsFromJSONDb}) => {
+// check
+const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getWellsFromJSONDb, getWellsFromJSONDbReducer}) => {
   const [activeWell, setActiveWell] = useState('None');
   const [operator, setOperator] = useState('');
   const [rig, setRig] = useState('');
@@ -31,10 +31,57 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
   const [northing, setNorthing] = useState('');
   const [easting, setEasting] = useState('');
 
+  // check
   useEffect(() => {
     
     setTimeout(getWellsFromJSONDb, 1000);
   }, []);
+
+  const renderWellNames = () => {
+    let renderedWells;
+    if (getWellsFromJSONDbReducer.status === "received") {
+      let wells = getWellsFromJSONDbReducer.response
+      return (
+        <Dropdown.Menu>
+          {wells.map(well => {
+            return (
+              <Dropdown.Item href="" onClick={()=> setActiveWell(`${well.operator} - ${well.rig} - ${well.well}`)}>
+                {well.operator} - {well.rig} - {well.well}
+              </Dropdown.Item>
+            )
+          })}
+        </Dropdown.Menu>
+      )
+    }
+    else {
+      return "Data loading"
+    }
+  }
+    // let renderedWells;
+    // if (getWellsFromJSONDbReducer.status === "received") {
+    //   renderedWells = Object.values(getWellsFromJSONDbReducer.response)[0].map((well) => {
+    //     let wellFormat = `${well.operator} - ${well.rig} - ${well.well}`
+    //     return (
+    //       <Dropdown.Item
+    //         href=""
+    //         key={`${well.rig} + ${well.well}`}
+    //         onClick={()=> {
+    //           saveSelectedAsActiveWell(well)
+    //           setActiveWell(wellFormat)
+    //         }}
+    //         > {wellFormat}
+    //       </Dropdown.Item>
+    //     )
+    //   })
+    // }
+    // return (
+    //   <Dropdown.Menu>
+    //     {/* {renderedWells} */}
+    //   </Dropdown.Menu>
+    // )
+  // }
+
+  
 
   const createNewWell = () => {
     return (
@@ -52,53 +99,13 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
     )
   }
 
-  const renderWellNames = () => {
-    let renderedWells;
-    if (wells.status === "received") {
-      renderedWells = Object.values(wells)[0].map((well) => {
-        let wellFormat = `${well.operator} - ${well.rig} - ${well.well}`
-        return (
-          <Dropdown.Item
-            href=""
-            key={`${well.rig} + ${well.well}`}
-            onClick={()=> {
-              saveSelectedAsActiveWell(well)
-              setActiveWell(wellFormat)
-            }}
-            > {wellFormat}
-          </Dropdown.Item>
-        )
-      })
-    }
-    return (
-      <Dropdown.Menu>
-        {renderedWells}
-      </Dropdown.Menu>
-    )
-  }
-
-  const selectExistingWell = () => {
-    return (
-      <Col>
-      <h3 className="my-4">Select Existing Well</h3>
-      <Dropdown>
-        <Dropdown.Toggle variant="primary" id="dropdown-basic">
-          {activeWell ? activeWell : `Select Well:`}
-        </Dropdown.Toggle>
-        {renderWellNames()}
-      </Dropdown>
-      <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={handleFetchData()}>Fetch well data</Button>
-      </Col>
-    )
-  }
-
-
+  // tbd
   const handleNewWellSubmit = () => {
     const wellInfo = {
       operator,
       rig,
       well,
-      plans: [],
+      // plans: [],
       county,
       uSstate,
       northing,
@@ -118,6 +125,26 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
     // setTimeout(getWellSurveysFromDynamoDb(selectedWell), 2000);
     // setTimeout(getOffsets(selectedWell), 2500);
   }
+
+
+
+
+  const selectExistingWell = () => {
+    return (
+      <Col>
+      <h3 className="my-4">Select Existing Well</h3>
+      <Dropdown>
+        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+          {activeWell ? activeWell : `Select Well:`}
+        </Dropdown.Toggle>
+        {renderWellNames()}
+      </Dropdown>
+      <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={handleFetchData()}>Fetch well data</Button>
+      </Col>
+    )
+  }
+
+
 
   const renderSelectWell = () => {
     return (
@@ -151,8 +178,7 @@ const mapStateToProps = ({ saveActiveWellToReduxStoreReducer ,saveWellInfoToRedu
   return {
     saveWellInfoToReduxStoreReducer,
     postWellInfoToJSONDbReducer,
-    wells: getWellsFromJSONDbReducer,
-    activeWell: saveActiveWellToReduxStoreReducer.response
+    getWellsFromJSONDbReducer,
   };
 };
 
