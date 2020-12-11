@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./Home"
 import Plans from "./Plans"
 import ExistingPlans from './ExistingPlans'
+import LeaseLines from "./LeaseLines"
 
 
 
@@ -37,24 +38,25 @@ const App = ({saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer}) =
         </Tab>
         <Tab eventKey="Plans" title="Plans" disabled={getWellPlansFromJSONDbReducer.status === "received" || saveWellInfoToReduxStoreReducer.status === "received" ? false : true}>
           <Container>
-        <Plans/>
+          {getWellPlansFromJSONDbReducer.status === "received" && !getWellPlansFromJSONDbReducer.response ? <Plans/> : <ExistingPlans/>}
           </Container>
         </Tab>
-        <Tab eventKey="ExistingPlans" title="ExistingPlans" >
+        <Tab eventKey="Lease Lines" title="Lease Lines" disabled={getWellPlansFromJSONDbReducer.status === "received" || saveWellInfoToReduxStoreReducer.status === "received" ? false : true}>
           <Container>
-        <ExistingPlans/>
+            <LeaseLines/>
+          {/* {getWellPlansFromJSONDbReducer.status === "received" && !getWellPlansFromJSONDbReducer.response ? <Plans/> : <ExistingPlans/>} */}
           </Container>
         </Tab>
-
       </Tabs>
     </React.Fragment>
   );
 }
 
-const mapStateToProps = ({ saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer}) => {
+const mapStateToProps = ({ saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, activeWell}) => {
   return {
     saveWellInfoToReduxStoreReducer, 
-    getWellPlansFromJSONDbReducer
+    getWellPlansFromJSONDbReducer,
+    activeWell
   }
 }
 

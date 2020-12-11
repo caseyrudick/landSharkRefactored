@@ -21,7 +21,6 @@ export default (operator, rig ,well, county, uSstate, grid, vsDirection) => {
         grid, 
         date: moment().format()
       }
-      console.log(wellData)
       const response = await wells.post(`wells`, wellData)
       dispatch({
         type: POST_PLANS_TO_JSON_RECEIVED,

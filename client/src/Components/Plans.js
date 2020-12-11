@@ -170,7 +170,6 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
   }
 
   const renderWellData = () => {
-    console.log(saveWellInfoToReduxStoreReducer)
     if (saveWellInfoToReduxStoreReducer.status === "received") {
       const { well, rig, operator} = saveWellInfoToReduxStoreReducer.response
       return <h3 className="hy-4"> {operator} - {rig} - {well}</h3>

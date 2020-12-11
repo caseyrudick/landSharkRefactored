@@ -14,7 +14,6 @@ import { POST_WELLINFO_TO_JSONDB_REQUESTED,
       dispatch({
         type: POST_WELLINFO_TO_JSONDB_REQUESTED,
       });
-  
       try {
         dispatch({
           type: POST_WELLINFO_TO_JSONDB_RECEIVED,
