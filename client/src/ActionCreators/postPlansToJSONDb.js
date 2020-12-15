@@ -1,7 +1,9 @@
 import wells from "../APIs/wells"
-import { POST_PLANS_TO_JSON_REQUESTED,
+import { 
+  POST_PLANS_TO_JSON_REQUESTED,
   POST_PLANS_TO_JSON_RECEIVED,
-  POST_PLANS_TO_JSON_FAILED } from "./types"
+  POST_PLANS_TO_JSON_FAILED 
+} from "./types"
 import moment from "moment"
 
 export default (operator, rig ,well, county, uSstate, grid, vsDirection) => {

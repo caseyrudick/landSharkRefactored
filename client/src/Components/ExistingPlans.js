@@ -11,7 +11,7 @@ import 'react-datasheet/lib/react-datasheet.css'
 import ReactDataSheet from "react-datasheet"
 import getWellPlansFromJSONDb from "../ActionCreators/getWellPlansFromJSONDb"
 
-const ExistingWellPlans = ({getWellPlansFromJSONDbReducer, activeWell}) => {
+const ExistingPlans = ({getWellPlansFromJSONDbReducer, activeWell}) => {
   const [plans, setPlans] = useState([])
   const [grid, setGrid] = useState([])
   
@@ -141,4 +141,4 @@ const mapStateToProps = ({getWellPlansFromJSONDbReducer, activeWell, getWellsFro
   }
 }
 
-export default connect(mapStateToProps, {getWellPlansFromJSONDb})(ExistingWellPlans)
+export default connect(mapStateToProps, {getWellPlansFromJSONDb})(ExistingPlans)

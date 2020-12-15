@@ -88,7 +88,7 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
     // with cell (previousVal), row, col, currentVal
     // add the value of the newGrid[row#][col#] to the new value 
     changes.forEach(({ cell, row, col, value }) => {
-      gridNew[row][col] = { ...grid[row][col], value };
+      gridNew[row][col] = {...grid[row][col], value };
     });
     setGrid(gridNew)
     setInput(true)
@@ -100,8 +100,8 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
   }
 
   const handleSubmit = () => {
-    const {well, operator, rig, county, uSstate} = saveWellInfoToReduxStoreReducer.response
-    postPlansToJSONDb(operator, rig ,well, county, uSstate, grid, vsDirection)
+    const {well, operator, rig, county, uSstate, northing, easting} = saveWellInfoToReduxStoreReducer.response
+    postPlansToJSONDb(operator, rig ,well, county, uSstate, grid, vsDirection, northing, easting)
     savePlansToReduxStore(grid)
 
   }

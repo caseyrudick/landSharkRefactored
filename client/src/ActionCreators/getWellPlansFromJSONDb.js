@@ -12,7 +12,7 @@ export default (selectedWell) => {
       type: GET_WELL_PLANS_FROM_JSONDB_REQUESTED
     })
     try {
-      let result=null;
+      let result = null;
       const wellList = getState().getWellsFromJSONDbReducer.response
       const selectedWellConvertedToArray = selectedWell.split("-").map(word => word.trim())
       const selectedWellOperator = selectedWellConvertedToArray[0]
@@ -23,7 +23,6 @@ export default (selectedWell) => {
         }
       }
       dispatch({
-        
         type: GET_WELL_PLANS_FROM_JSONDB_RECEIVED,
         payload: result
       }) 

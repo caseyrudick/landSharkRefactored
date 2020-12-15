@@ -10,7 +10,8 @@ import savePlansToReduxStoreReducer from "./savePlansToReduxStoreReducer"
 import getWellPlansFromJSONDbReducer from "./getWellPlansFromJSONDbReducer"
 import saveActiveWellToReduxStoreReducer from "./saveActiveWellToReduxStoreReducer"
 import saveLeaseLinesToReduxStoreReducer from "./saveLeaseLinesToReduxStoreReducer"
-
+import postLeaseLinesToJSONDbReducer from "./postLeaseLinesToJSONDbReducer"
+import getLeaseLinesFromJSONDbReducer from "./getLeaseLinesFromJSONDbReducer"
 
 export default combineReducers({
   getWellPlansFromJSONDbReducer,
@@ -20,5 +21,7 @@ export default combineReducers({
   savePlansToReduxStoreReducer,
   postPlansToJSONDbReducer,
   activeWell: saveActiveWellToReduxStoreReducer,
-  saveLeaseLinesToReduxStoreReducer
+  saveLeaseLinesToReduxStoreReducer,
+  postLeaseLinesToJSONDbReducer,
+  getLeaseLinesFromJSONDbReducer,
 })

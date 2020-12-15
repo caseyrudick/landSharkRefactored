@@ -20,8 +20,9 @@ import postWellInfoToJSONDb from "../ActionCreators/postWellInfoToJSONDb"
 import getWellsFromJSONDb from "../ActionCreators/getWellsFromJSONDb"
 import getWellPlansFromJSONDb from "../ActionCreators/getWellPlansFromJSONDb"
 import saveActiveWellToReduxStore from "../ActionCreators/saveActiveWellToReduxStore"
+import getLeaseLinesFromJSONDb from "../ActionCreators/getLeaseLinesFromJSONDb"
 
-const Home = ({ getWellPlansFromJSONDb, saveActiveWellToReduxStore, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getWellsFromJSONDb, getWellsFromJSONDbReducer}) => {
+const Home = ({ getWellPlansFromJSONDb, saveActiveWellToReduxStore, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getWellsFromJSONDb, getWellsFromJSONDbReducer, getLeaseLinesFromJSONDb}) => {
   const [activeWell, setActiveWell] = useState('None');
   const [operator, setOperator] = useState('');
   const [rig, setRig] = useState('');
@@ -95,13 +96,13 @@ const Home = ({ getWellPlansFromJSONDb, saveActiveWellToReduxStore, postWellInfo
   }
 
   const handleFetchData = () => {
+    console.log("data fetched")
 
-
-    getWellPlansFromJSONDb(activeWell)
-    // setTimeout(getWellHardLinesFromDynamoDb(selectedWell), 1000);
-    // setTimeout(getWellLeaseLinesFromDynamoDb(selectedWell), 1500);
-    // setTimeout(getWellSurveysFromDynamoDb(selectedWell), 2000);
-    // setTimeout(getOffsets(selectedWell), 2500);
+    setTimeout(getWellPlansFromJSONDb, 500, activeWell);
+    setTimeout(getLeaseLinesFromJSONDb, 1000, activeWell);
+  //   // setTimeout(getWellHardLinesFromDynamoDb(selectedWell), 1000);
+  //   // setTimeout(getWellSurveysFromDynamoDb(selectedWell), 2000);
+  //   // setTimeout(getOffsets(selectedWell), 2500);
   }
 
 
@@ -116,27 +117,11 @@ const Home = ({ getWellPlansFromJSONDb, saveActiveWellToReduxStore, postWellInfo
         </Dropdown.Toggle>
         {renderWellNames()}
       </Dropdown>
-      <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={()=>handleFetchData()}>Fetch well data</Button>
+      <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={handleFetchData}>Fetch well data</Button>
       </Col>
     )
   }
 
-
-
-  const renderSelectWell = () => {
-    return (
-      <Col>
-        <h3 className="my-4">Select existing well</h3>
-        <Dropdown>
-          <Dropdown.Toggle variant="primary" id="dropdown-basic">
-            Selected Well: <strong>{activeWell}</strong>
-          </Dropdown.Toggle>
-          {/* // {renderWellNames()} */}
-        </Dropdown>
-        
-      </Col>
-    )
-  }
 
 
   
@@ -159,4 +144,4 @@ const mapStateToProps = ({ saveActiveWellToReduxStoreReducer ,saveWellInfoToRedu
   };
 };
 
-export default connect(mapStateToProps, {saveActiveWellToReduxStore, getWellPlansFromJSONDb, saveWellInfoToReduxStore, postWellInfoToJSONDb, getWellsFromJSONDb })(Home);
+export default connect(mapStateToProps, {saveActiveWellToReduxStore, getWellPlansFromJSONDb, saveWellInfoToReduxStore, postWellInfoToJSONDb, getWellsFromJSONDb, getLeaseLinesFromJSONDb })(Home);
