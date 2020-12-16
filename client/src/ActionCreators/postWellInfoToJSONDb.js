@@ -10,7 +10,7 @@ import { POST_WELLINFO_TO_JSONDB_REQUESTED,
       // let wellList = getState().getWellsFromJSONDbReducer.response
       // console.log('should get wellList next')
       // console.log(wellList)
-      const response = await wells.post("/wells", wellInfo)
+      const response = await wells.post("wells", wellInfo)
       dispatch({
         type: POST_WELLINFO_TO_JSONDB_REQUESTED,
       });

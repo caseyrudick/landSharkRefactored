@@ -53,9 +53,9 @@ const App = ({activeWell, saveWellInfoToReduxStoreReducer, getWellPlansFromJSOND
             {saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.response && saveLeaseLinesToReduxStoreReducer.status === "received"  && saveLeaseLinesToReduxStoreReducer.response ? <PVA/> : "TBD" }
           </Container>
         </Tab>
-        <Tab eventKey="ExistingPVA" title="ExistingPVA" disabled={false}>
+        <Tab eventKey="ExistingPVA" title="ExistingPVA" disabled={activeWell.status === "received" ? false : true}>
           <Container>
-             {/* {activeWell.status === "received" ? <ExistingPVA/>: "Keep Trying" } */}
+             {activeWell.status === "received" ? <ExistingPVA/>: "Keep Trying" }
           </Container>
         </Tab>
       </Tabs>

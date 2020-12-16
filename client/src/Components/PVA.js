@@ -8,95 +8,85 @@ import saveLeaseLinesToReduxStore from "../ActionCreators/saveLeaseLinesToReduxS
 import saveWellInfoToReduxStore from "../ActionCreators/saveWellInfoToReduxStore"
 
 const PVA = ({savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer, activeWell}) => {
-  // const createEastingCoordinates = (data, polyLine = false) => {
-  //   if (polyLine) {
-  //     if (Object.keys(data).length === 0) {
-  //       return []
-  //     } else {
-  //       const eastingCoordinates = []
-  //       data.map((row, index) => {
-  //         if (index === 0 || index === 1) {
-
-  //         } else {
-  //           const x = data[index][2].value
-  //           eastingCoordinates.push(x)
-  //         }
-  //       })
-  //       return eastingCoordinates
-  //     }
-  //   } else {
-  //     if (Object.keys(data).length === 0) {
-  //       return []
-  //     } else {
-  //       const eastingCoordinates = []
-  //       data.map((row, index) => {
-  //         if (index === 0) {
-
-  //         } else {
-  //           const x = data[index][6].value
-  //           eastingCoordinates.push(x)
-  //         }
-  //       })
-  //       return eastingCoordinates
-  //     }
-  //   }
-  // }  
-  
-  // const createNorthingCoordinates = (data, polyLine = false) => {
-  //   if (polyLine) {
-  //     if (Object.keys(data).length === 0) {
-  //       return []
-  //     } else {
-  //       const northingCoordinates = []
-  //       northingCoordinates = data.map((row, index) => {
-  //         if (index === 0 || index === 1) {
-
-  //         } else {
-  //           return data[index][5]
-            
-  //         }
-  //       })
-  //       return northingCoordinates
-  //     }
-  //   }
-  // }
-
-  const createEastingCoordinates = (polyLine = false, data) => {
+  const createEastingCoordinates = (data, polyLine = false) => {
     if (polyLine) {
-      if (data.length === 0) {
+      if (Object.keys(data).length === 0) {
+        console.log("nada")
         return []
       } else {
-        return data.slice(1).filter((row, index) => index !== 0)
-          .map((row, index) => data[index][2])
+        let result = data.map((row, index) => data[index][2].value).slice(1)
+        console.log("easting" + result)
+        return result
       }
     } else {
-        if (data.length === 0) {
-          return []
-        } else {
-          return data.slice(1).filter((row, index) => index !== 0)
-            .map((row, index) => data[index][6])
-        }
-      }
-    } 
-
-    const createNorthingCoordinates = (polyLine = false, data) => {
-      if (polyLine) {
-        if (data.length === 0) {
-          return []
-        } else {
-          return data.slice(1).filter((row, index) => index !== 0)
-            .map((row, index) => data[index][1])
-        }
+      if (Object.keys(data).length === 0) {
+        console.log("nada")
+        return []
       } else {
-          if (data.length === 0) {
-            return []
-          } else {
-            return data.slice(1).filter((row, index) => index !== 0)
-              .map((row, index) => data[index][5])
-          }
-        }
-      } 
+        let result = data.map((row, index) => data[index][6].value).slice(1)
+        console.log("easting" + result)
+        return result
+      }
+    }
+  }  
+  
+  const createNorthingCoordinates = (data, polyLine = false) => {
+    if (polyLine) {
+      if (Object.keys(data).length === 0) {
+        return []
+      } else {
+        let result = data.map((row, index) => data[index][1].value).slice(1)
+        console.log("northing:" + result)
+        return result
+      }
+    } else {
+      if (Object.keys(data).length === 0) {
+        console.log("nada")
+        return []
+      } else {
+        let result = data.map((row, index) => data[index][5].value).slice(1)
+        console.log("northing" + result)
+        return result
+      }
+    }
+  }
 
+  // const createEastingCoordinates = (polyLine = false, data) => {
+  //   if (polyLine) {
+  //     if (data.length === 0) {
+  //       return []
+  //     } else {
+  //       return data.slice(1).filter((row, index) => index !== 0)
+  //         .map((row, index) => data[index][2])
+  //     }
+  //   } else {
+  //       if (data.length === 0) {
+  //         return []
+  //       } else {
+  //         return data.slice(1).filter((row, index) => index !== 0)
+  //           .map((row, index) => data[index][6])
+  //       }
+  //     }
+  //   } 
+
+  //   const createNorthingCoordinates = (polyLine = false, data) => {
+  //     if (polyLine) {
+  //       if (data.length === 0) {
+  //         return []
+  //       } else {
+  //         return data.slice(1).filter((row, index) => index !== 0)
+  //           .map((row, index) => data[index][1])
+  //       }
+  //     } else {
+  //         if (data.length === 0) {
+  //           return []
+  //         } else {
+  //           return data.slice(1).filter((row, index) => index !== 0)
+  //             .map((row, index) => data[index][5])
+  //         }
+  //       }
+  //     } 
+console.log(saveLeaseLinesToReduxStoreReducer.response.grid)
   const renderPlanView = () => {
     // if (
     //   Object.keys(savePlansToReduxStoreReducer.response).length === 0 && Object.keys(save)
@@ -113,11 +103,11 @@ const PVA = ({savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer, a
             name: "Plan"
           },
           {
-            x: createEastingCoordinates(true, saveLeaseLinesToReduxStoreReducer.response),
-            y: createNorthingCoordinates(true, saveLeaseLinesToReduxStoreReducer.response),
+            x: createEastingCoordinates(saveLeaseLinesToReduxStoreReducer.response.grid, true),
+            y: createNorthingCoordinates(saveLeaseLinesToReduxStoreReducer.response.grid, true),
             type: "scatter",
             mode: "lines+markers",
-            marker: {color: "blue"},
+            marker: {color: "red"},
             name: "Lease Lines"
           }
         ]}
