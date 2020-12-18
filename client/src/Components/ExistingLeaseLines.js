@@ -27,7 +27,7 @@ const ExistingLeaseLines = ({getLeaseLinesFromJSONDbReducer, activeWell}) => {
       const {operator, rig, well } = activeWell.response
       return (
         <React.Fragment>
-          <h3 className="my-4">{operator} - {rig} - {well}</h3>
+          {/* <h3 className="my-4">{operator} - {rig} - {well}</h3> */}
           <ReactDataSheet data = {getLeaseLinesFromJSONDbReducer.response} valueRenderer = {cell => cell.value} width></ReactDataSheet>
         </React.Fragment>
       )

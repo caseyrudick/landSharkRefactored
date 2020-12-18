@@ -12,16 +12,41 @@ import saveActiveWellToReduxStoreReducer from "./saveActiveWellToReduxStoreReduc
 import saveLeaseLinesToReduxStoreReducer from "./saveLeaseLinesToReduxStoreReducer"
 import postLeaseLinesToJSONDbReducer from "./postLeaseLinesToJSONDbReducer"
 import getLeaseLinesFromJSONDbReducer from "./getLeaseLinesFromJSONDbReducer"
+import getWellsWithLeaseLinesFromJSONDbReducer from "./getWellsWithLeaseLinesFromJSONDbReducer"
+import saveSurveysToReduxStoreReducer from "./saveSurveysToReduxStoreReducer"
+import postSurveysToJSONDbReducer from "./postSurveysToJSONDbReducer"
+import getWellsWithSurveysFromJSONDbReducer from "./getWellsWithSurveysFromJSONDbReducer"
+import getSurveysFromJSONDbReducer from "./getSurveysFromJSONDbReducer"
+import postHardLinesToJSONDbReducer from "./postHardLinesToJSONDbReducer"
+import saveHardLinesToReduxStoreReducer from "./saveHardLinesToReduxStoreReducer"
+import getWellsWithHardLinesFromJSONDbReducer from "./getWellsWithHardLinesFromJSONDbReducer"
+import getHardLinesFromJSONDbReducer from "./getHardLinesFromJSONDbReducer"
+
 
 export default combineReducers({
-  getWellPlansFromJSONDbReducer,
-  saveWellInfoToReduxStoreReducer,  
-  postWellInfoToJSONDbReducer,
   getWellsFromJSONDbReducer,
-  savePlansToReduxStoreReducer,
-  postPlansToJSONDbReducer,
-  activeWell: saveActiveWellToReduxStoreReducer,
-  saveLeaseLinesToReduxStoreReducer,
-  postLeaseLinesToJSONDbReducer,
+  getWellsWithLeaseLinesFromJSONDbReducer,
+  getWellsWithSurveysFromJSONDbReducer,
+  getWellsWithHardLinesFromJSONDbReducer,
+
+  getWellPlansFromJSONDbReducer,
   getLeaseLinesFromJSONDbReducer,
+  getSurveysFromJSONDbReducer,
+  getHardLinesFromJSONDbReducer,
+  
+  postWellInfoToJSONDbReducer,
+  postPlansToJSONDbReducer,
+  postLeaseLinesToJSONDbReducer,
+  postSurveysToJSONDbReducer,
+  postHardLinesToJSONDbReducer,
+
+  saveWellInfoToReduxStoreReducer,  
+  savePlansToReduxStoreReducer,
+  saveLeaseLinesToReduxStoreReducer,
+  saveSurveysToReduxStoreReducer,
+  saveHardLinesToReduxStoreReducer,
+
+
+  activeWell: saveActiveWellToReduxStoreReducer,
+  
 })

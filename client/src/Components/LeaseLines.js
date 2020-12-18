@@ -118,7 +118,7 @@ const LeaseLines = ({activeWell, saveLeaseLinesToReduxStore, postLeaseLinesToJSO
     <Container>
       <Row>
         <Col xs={10}>
-          {renderWellHeader()}
+          {/* {renderWellHeader()} */}
           <ReactDataSheet data={grid} valueRenderer={(cell)=> cell.value} onCellsChanged={onCellsChanged}/>
           {renderRowsButtons()}
         </Col>
