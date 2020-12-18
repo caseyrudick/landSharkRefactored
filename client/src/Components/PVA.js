@@ -56,7 +56,7 @@ const PVA = ({saveSurveysToReduxStoreReducer, saveHardLinesToReduxStoreReducer, 
     if (data.length === 0) {
       return []
     } else {
-      return data.map((row, index) => data[index][4].value).slice(1)
+      return data.map((row, index) => data[index][4].value * -1 ).slice(1)
     }
   } 
 
@@ -143,8 +143,8 @@ console.log(saveLeaseLinesToReduxStoreReducer.response.grid)
 
   return (
     <Container>
-      {renderPlanView()}
       {renderSectionView()}
+      {renderPlanView()}
     </Container>
   )
 

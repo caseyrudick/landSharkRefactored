@@ -70,11 +70,8 @@ const HardLines = ({activeWell, saveHardLinesToReduxStore, postHardLinesToJSONDb
     }
     // const activeWell
     // saveLeaseLinesToJSON 
-    checkTest()
     postHardLinesToJSONDb(wellInfoAndLeaseLines)
     saveHardLinesToReduxStore(wellInfoAndLeaseLines)
-
-    
   }
 
   const checkTest = () => {

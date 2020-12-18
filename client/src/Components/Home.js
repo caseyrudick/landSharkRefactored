@@ -48,14 +48,13 @@ const Home = ({ getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWell
 
 
   const renderWellNames = () => {
-    let renderedWells;
     if (getWellsFromJSONDbReducer.status === "received") {
       let wells = getWellsFromJSONDbReducer.response
       return (
         <Dropdown.Menu>
           {wells.map(well => {
             return (
-              <Dropdown.Item href="" key={well.well} key={`${well.operator}${well.well}`} onClick={()=> {
+              <Dropdown.Item href="" key={`${well.operator}${well.well}`} onClick={()=> {
                 setActiveWell(`${well.operator} - ${well.rig} - ${well.well}`)
                 saveActiveWellToReduxStore(well)
               } }>

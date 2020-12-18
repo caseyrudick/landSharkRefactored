@@ -24,7 +24,7 @@ import ExistingPolyLines from './ExistingPolyLines'
 import PolyLines from './PolyLines'
 import getHardLinesFromJSONDb from '../ActionCreators/getHardLinesFromJSONDb'
 
-const App = ({getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSurveysToReduxStoreReducer, activeWell, saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, getLeaseLinesFromJSONDbReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
+const App = ({saveHardLinesToReduxStoreReducer, getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSurveysToReduxStoreReducer, activeWell, saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, getLeaseLinesFromJSONDbReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
   
   return (
     <React.Fragment>
@@ -49,9 +49,9 @@ const App = ({getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSu
             {getLeaseLinesFromJSONDbReducer.status === "received" && getHardLinesFromJSONDbReducer.status === "received" ? <ExistingPolyLines/> : <PolyLines/> }
           </Container>
         </Tab>
-        <Tab eventKey="PVA" title="PVA" disabled={(saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received") || activeWell.status === "received" ? false : true}>
+        <Tab eventKey="PVA" title="PVA" disabled={(saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received")|| activeWell.status === "received" ? false : true}>
           <Container>
-            {saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.response && saveLeaseLinesToReduxStoreReducer.status === "received"  && saveLeaseLinesToReduxStoreReducer.response ? <PVA/> : <ExistingPVA/> }
+            {saveSurveysToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.response && saveLeaseLinesToReduxStoreReducer.status === "received"  && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received" ? <PVA/> : <ExistingPVA/> }
           </Container>
         </Tab>
         <Tab eventKey="Surveys" title="Surveys" disabled={(saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received") || activeWell.status === "received" ? false : true}>
@@ -64,7 +64,7 @@ const App = ({getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSu
   );
 }
 
-const mapStateToProps = ({ getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSurveysToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, activeWell, getLeaseLinesFromJSONDbReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
+const mapStateToProps = ({ saveHardLinesToReduxStoreReducer,getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSurveysToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, activeWell, getLeaseLinesFromJSONDbReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
   return {
     saveWellInfoToReduxStoreReducer, 
     getWellPlansFromJSONDbReducer,
@@ -74,7 +74,8 @@ const mapStateToProps = ({ getHardLinesFromJSONDbReducer, getSurveysFromJSONDbRe
     getLeaseLinesFromJSONDbReducer,
     savePlansToReduxStoreReducer,
     saveLeaseLinesToReduxStoreReducer,
-    saveSurveysToReduxStoreReducer
+    saveSurveysToReduxStoreReducer,
+    saveHardLinesToReduxStoreReducer,
   }
 }
 
