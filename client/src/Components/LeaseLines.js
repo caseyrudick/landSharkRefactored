@@ -11,120 +11,127 @@ import { connect } from "react-redux"
 import ReactDataSheet from 'react-datasheet';
 
 // actionCreators
-import saveWellPlansToJSONDb from "../ActionCreators/saveWellPlansToJSONDb"
+import saveLeaseLinesToReduxStore from "../ActionCreators/saveLeaseLinesToReduxStore"
+import postLeaseLinesToJSONDb from "../ActionCreators/postLeaseLinesToJSONDb"
 
-const LeaseLines = ({currentWell, currentWellId, saveWellPlansToJSONDb}) => {
-  const [editGrid, setEditGrid] = useState(true)
+
+const LeaseLines = ({activeWell, saveLeaseLinesToReduxStore, postLeaseLinesToJSONDb}) => {
+  const {operator, rig, well, county, usState, northing, easting} = activeWell.response
+  // set up initial grid
+  // create local state to setGrid
+  // renderWellHeader {if (either activeWell or saveWellInfoToRedux)} then destructure out the rig, wellname, operator
+  // render out ReactData sheet data = {grid} valueRenderer={cell=> cell.value} onCellsChanged={onCellsChanged}
+  // render submit button return row col xs={10} className = "my-4" button variant="info' onClick = handleSubmit
+  // handlesubmit = postLeaseLinesToJSONDb saveHardLinesToRedux
+  // addRows: newGrid =  [...grid, addedRow] setGrid(newGrid)
+
   const initialGrid = [
-    [{value: '', readOnly: true, width: '7rem'}, {value:"Measured Depth", readOnly: true, width: '7rem'}, {value:"Inclination", readOnly: true, width: '7rem'}, {value:"Azimuth", readOnly: true, width: '7rem'}, {value:"TVD", readOnly: true, width: '7rem'}, {value:"Northing", readOnly: true, width: '7rem'}, {value:"Easting", readOnly: true, width: '7rem'}],
-    [{value: 1, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
-    [{value: 2, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
-    [{value: 3, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
-    [{value: 4, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
-    [{value: 5, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
-    [{value: 6, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
-    ];
+    [{value: "", readOnly: true, width: "7rem"}, {value: "Northing", readOnly: true, width: "7rem"}, {value:"Easting", readOnly: true, width: "7rem"}],
+    [{value: 1, readOnly: true}, {value: 0}, {value: 0}],
+    [{value: 2, readOnly: true}, {value: 0}, {value: 0}],
+    [{value: 3, readOnly: true}, {value: 0}, {value: 0}],
+    [{value: 4, readOnly: true}, {value: 0}, {value: 0}],
+    [{value: 5, readOnly: true}, {value: 0}, {value: 0}],
+    [{value: 6, readOnly: true}, {value: 0}, {value: 0}],
+    [{value: 7, readOnly: true}, {value: 0}, {value: 0}],
+    [{value: 8, readOnly: true}, {value: 0}, {value: 0}],
+    [{value: 9, readOnly: true}, {value: 0}, {value: 0}],
+  ]
+  const [grid, setGrid] = useState(initialGrid)
 
-  const [grid, setGrid] = useState(initialGrid);
+  const renderWellHeader = () => {
+    if (activeWell.status === "received") {
+      // const {operator, rig, well} = activeWell.response
+      return <h3 className="my-4">{operator} - {rig} - {well}</h3>
+    } else {
+      return "No Well Data"
+    }
+  }
 
   const onCellsChanged = changes => {
-    // iterate through existing grid to get a copy and not mutate current as we iterate over
-    const gridNew = grid.map(row => [...row]);
-    // iterate through the changes.  Each change is a cell, each cell is an object
-    // with cell (previousVal), row, col, currentVal
-    // mutate the value of the newGrid[row#][col#] to the new value 
-    changes.forEach(({ cell, row, col, value }) => {
-      gridNew[row][col] = { ...grid[row][col], value };
+    const gridNew = grid.map(row => [...row])
+    changes.forEach(({cell, row, col, value}) => {
+      gridNew[row][col] = {...grid[row][col], value}
     });
-    setGrid(gridNew)
-  };
-
-  const addNewRow = () => {
-    const localGrid = [{value: grid.length + 1, readOnly: true}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}]
-    setGrid([...grid, localGrid])
-  };
-
-  const editPlans = () => {
-    setEditGrid(!editGrid)
-    const gridNew = grid.map(row => [...row]);
-    for (let row = 1; row < gridNew.length; row ++) {
-      for (let col = 1; col < gridNew[row].length; col ++) {
-        gridNew[row][col].readOnly = editGrid;
-      }
-    }
     setGrid(gridNew);
-  };
+    
+  }
+
+  const handleSubmit = () => {
+    const wellInfoAndLeaseLines = {
+      operator,
+      rig, 
+      well, 
+      county,
+      usState, 
+      northing,
+      easting,
+      grid
+    }
+    // const activeWell
+    // saveLeaseLinesToJSON 
+    checkTest()
+    postLeaseLinesToJSONDb(wellInfoAndLeaseLines)
+    saveLeaseLinesToReduxStore(wellInfoAndLeaseLines)
+
+    
+  }
+
+  const checkTest = () => {
+    console.log("whyyy")
+  }
+
+  const renderRowsButtons = () => {
+    return (
+      <Row>
+        <Col xs={10} className="my-4">
+          <Button variant="success" className="my-4" onClick={handleSubmit}> 
+            Submit
+          </Button>
+          <Button variant="primary" className="ml-4" onClick={addRow}>
+            Add a Row
+          </Button>
+          <Button variant="primary" className="ml-4" onClick={removeRow}>
+            Remove a Row
+          </Button>
+
+        </Col>
+      </Row>
+    )
+  }
+
+  const addRow = () => {
+    const gridLength = grid.length
+    const newRow = [{value: gridLength, readOnly: true}, {value: 0}, {value: 0}]
+    const newGrid = [...grid, newRow]
+    setGrid(newGrid)
+  }
 
   const removeRow = () => {
-    const newGrid = [...grid];
-    newGrid.pop();
-    setGrid(newGrid);
-  };
-
-  const createNewPlan = () => {
-      let wellPlans = currentWell.plans
-      let wellPlanCount = wellPlans.length;
-      let newWellPlanNumberAndPlan = {
-        "id": wellPlanCount += 1,
-        "planDetails": grid
-      };
-      const activeWellCopy = {...currentWell};
-      activeWellCopy.plans.push(newWellPlanNumberAndPlan);
-      console.log(activeWellCopy)
-      saveWellPlansToJSONDb(activeWellCopy, currentWellId)
-      // saveNewPlanToReduxStore(activeWellCopy);
-      // postPlansToJSONdb(activeWellCopy)
-  };
-
-
+    const newGrid = [...grid]
+    newGrid.pop()
+    setGrid(newGrid)
+  }
+  
 
   return (
     <Container>
-      <Col xs={30}>{`${currentWell.operator} - ${currentWell.rig} - ${currentWell.well}`}</Col>
-      <Col xs={30}>
-    <ReactDataSheet
-        data={grid}
-        valueRenderer={(cell) => cell.value}
-        onCellsChanged={onCellsChanged}
-       
-    />
-    </Col>
-    <Button variant="primary" className="mt-4 mb-4" onClick={()=>addNewRow()}>Add a Row</Button>
-    <Button variant="danger" className="my-4 ml-4" onClick={()=>removeRow()}>Remove a Row</Button>
-    <Button variant="info" className="my-4 ml-4" onClick={()=>editPlans()}>Edit Plans</Button>
-    <Button variant="info" className="my-4 ml-4" onClick={()=>createNewPlan()}>Create New Plan</Button>
-    
+      <Row>
+        <Col xs={10}>
+          {/* {renderWellHeader()} */}
+          <ReactDataSheet data={grid} valueRenderer={(cell)=> cell.value} onCellsChanged={onCellsChanged}/>
+          {renderRowsButtons()}
+        </Col>
+      </Row>
     </Container>
   )
 }
 
-const mapStateToProps = ({postWellInfoToJSONDbReducer, getWellsFromJSONDbReducer}) => {
-  const currentWell = postWellInfoToJSONDbReducer.response
-  let currentWellId = ""
-  for (let well in getWellsFromJSONDbReducer.response) {
-    let wellInfo = getWellsFromJSONDbReducer.response[well]
-    if (wellInfo.operator === currentWell.operator && wellInfo.well === currentWell.well) {
-      currentWellId = wellInfo.id
-    }
-  }
-  
+const mapStateToProps = ({activeWell, postLeaseLinesToJSONDbReducer}) => {
   return {
-    currentWellId,
-    currentWell
+    activeWell,
+    postLeaseLinesToJSONDbReducer,
   }
 }
 
-export default connect(mapStateToProps, {/*saveNewPlanToReduxStore,*/saveWellPlansToJSONDb})(LeaseLines)
-
-
-// const mapStateToProps = ({activeWell}) => {
-//   console.log(activeWell.payload)
-//   const currentlyActiveWell = Object.values(activeWell.payload[0])
-//   const wellInfo = `${activeWell.operator} - ${activeWell.rig} - ${activeWell.well}`;
-//   const wellPlans= activeWell.plans
-//   return {
-//     currentlyActiveWell,
-//     wellInfo,
-//     wellPlans
-//   }
-// }
+export default connect(mapStateToProps, {saveLeaseLinesToReduxStore, postLeaseLinesToJSONDb})(LeaseLines)

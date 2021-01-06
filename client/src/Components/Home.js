@@ -18,10 +18,17 @@ import saveWellInfoToReduxStore from "../ActionCreators/saveWellInfoToReduxStore
 // import getWellPlansFromDynamoDb from 'ActionCreators/getWellPlansFromDynamoDb';
 import postWellInfoToJSONDb from "../ActionCreators/postWellInfoToJSONDb"
 import getWellsFromJSONDb from "../ActionCreators/getWellsFromJSONDb"
-import {saveSelectedAsActiveWell} from "../ActionCreators/saveActiveWellToReduxStore"
+import getWellPlansFromJSONDb from "../ActionCreators/getWellPlansFromJSONDb"
+import saveActiveWellToReduxStore from "../ActionCreators/saveActiveWellToReduxStore"
+import getLeaseLinesFromJSONDb from "../ActionCreators/getLeaseLinesFromJSONDb"
+import getWellsWithLeaseLinesFromJSONDb from "../ActionCreators/getWellsWithLeaseLinesFromJSONDb"
+import getSurveysFromJSONDb from "../ActionCreators/getSurveysFromJSONDb"
+import getWellsWithSurveysFromJSONDb from "../ActionCreators/getWellsWithSurveysFromJSONDb"
+import getWellsWithHardLinesFromJSONDb from "../ActionCreators/getWellsWithHardLinesFromJSONDb"
+import getHardLinesFromJSONDb from "../ActionCreators/getHardLinesFromJSONDb"
 
 
-const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, wells, getWellsFromJSONDb}) => {
+const Home = ({ getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWellsWithSurveysFromJSONDb, getSurveysFromJSONDb, getWellsWithLeaseLinesFromJSONDb ,getWellPlansFromJSONDb, saveActiveWellToReduxStore, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getWellsFromJSONDb, getWellsFromJSONDbReducer, getLeaseLinesFromJSONDb}) => {
   const [activeWell, setActiveWell] = useState('None');
   const [operator, setOperator] = useState('');
   const [rig, setRig] = useState('');
@@ -31,10 +38,37 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
   const [northing, setNorthing] = useState('');
   const [easting, setEasting] = useState('');
 
+
   useEffect(() => {
-    
-    setTimeout(getWellsFromJSONDb, 1000);
+    getWellsFromJSONDb()
+    getWellsWithLeaseLinesFromJSONDb()
+    getWellsWithSurveysFromJSONDb()
+    getWellsWithHardLinesFromJSONDb()
   }, []);
+
+
+  const renderWellNames = () => {
+    if (getWellsFromJSONDbReducer.status === "received") {
+      let wells = getWellsFromJSONDbReducer.response
+      return (
+        <Dropdown.Menu>
+          {wells.map(well => {
+            return (
+              <Dropdown.Item href="" key={`${well.operator}${well.well}`} onClick={()=> {
+                setActiveWell(`${well.operator} - ${well.rig} - ${well.well}`)
+                saveActiveWellToReduxStore(well)
+              } }>
+                {well.operator} - {well.rig} - {well.well}
+              </Dropdown.Item>
+            )
+          })}
+        </Dropdown.Menu>
+      )
+    }
+    else {
+      return "Data loading"
+    }
+  }
 
   const createNewWell = () => {
     return (
@@ -47,35 +81,40 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
         <Form.Control className="mt-3" placeholder="State" onChange={event => setUSstate(event.target.value)} />
         <Form.Control className="mt-3" placeholder="Northing" onChange={event => setNorthing(event.target.value)} />
         <Form.Control className="mt-3" placeholder="Easting" onChange={event => setEasting(event.target.value)} />
-        <Button className="mt-4" variant="info" disabled={ operator === "" || rig === "" || well === "" || county === "" || uSstate === "" ? true : false } onClick={handleNewWellSubmit}>Submit and begin adding well data</Button>
+        <Button className="mt-4" variant="info" disabled={ operator === "" || rig === "" || well === "" || county === "" || uSstate === "" ? true : false } onClick={()=>handleNewWellSubmit()}>Submit and begin adding well data</Button>
       </Col>
     )
   }
 
-  const renderWellNames = () => {
-    let renderedWells;
-    if (wells.status === "received") {
-      renderedWells = Object.values(wells)[0].map((well) => {
-        let wellFormat = `${well.operator} - ${well.rig} - ${well.well}`
-        return (
-          <Dropdown.Item
-            href=""
-            key={`${well.rig} + ${well.well}`}
-            onClick={()=> {
-              saveSelectedAsActiveWell(well)
-              setActiveWell(wellFormat)
-            }}
-            > {wellFormat}
-          </Dropdown.Item>
-        )
-      })
+  const handleNewWellSubmit = () => {
+    const wellInfo = {
+      operator,
+      rig,
+      well,
+      county,
+      uSstate,
+      northing,
+      easting
     }
-    return (
-      <Dropdown.Menu>
-        {renderedWells}
-      </Dropdown.Menu>
-    )
+    // postWellInfoToJSONDb(wellInfo)
+    saveWellInfoToReduxStore(wellInfo)
+    getWellsFromJSONDb()
+    saveActiveWellToReduxStore(wellInfo)
   }
+
+  const handleFetchData = () => {
+    getWellPlansFromJSONDb(activeWell)
+    getSurveysFromJSONDb(activeWell)
+    // setTimeout(getWellPlansFromJSONDb, 500, activeWell);
+    setTimeout(getLeaseLinesFromJSONDb, 1000, activeWell);
+    // setTimeout(getSurveysFromJSONDb, 1500, activeWell)
+    getHardLinesFromJSONDb(activeWell)
+  //   // setTimeout(getWellHardLinesFromDynamoDb(selectedWell), 1000);
+  //   // setTimeout(getWellSurveysFromDynamoDb(selectedWell), 2000);
+  //   // setTimeout(getOffsets(selectedWell), 2500);
+  }
+
+
 
   const selectExistingWell = () => {
     return (
@@ -87,52 +126,11 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
         </Dropdown.Toggle>
         {renderWellNames()}
       </Dropdown>
-      <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={handleFetchData()}>Fetch well data</Button>
+      <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={handleFetchData}>Fetch well data</Button>
       </Col>
     )
   }
 
-
-  const handleNewWellSubmit = () => {
-    const wellInfo = {
-      operator,
-      rig,
-      well,
-      plans: [],
-      county,
-      uSstate,
-      northing,
-      easting
-    }
-    postWellInfoToJSONDb(wellInfo)
-    saveWellInfoToReduxStore(wellInfo)
-    getWellsFromJSONDb()
-  }
-
-  const handleFetchData = () => {
-
-
-    // setTimeout(getWellPlansFromDynamoDb(selectedWell), 500);
-    // setTimeout(getWellHardLinesFromDynamoDb(selectedWell), 1000);
-    // setTimeout(getWellLeaseLinesFromDynamoDb(selectedWell), 1500);
-    // setTimeout(getWellSurveysFromDynamoDb(selectedWell), 2000);
-    // setTimeout(getOffsets(selectedWell), 2500);
-  }
-
-  const renderSelectWell = () => {
-    return (
-      <Col>
-        <h3 className="my-4">Select existing well</h3>
-        <Dropdown>
-          <Dropdown.Toggle variant="primary" id="dropdown-basic">
-            Selected Well: <strong>{activeWell}</strong>
-          </Dropdown.Toggle>
-          {/* // {renderWellNames()} */}
-        </Dropdown>
-        
-      </Col>
-    )
-  }
 
 
   
@@ -147,13 +145,12 @@ const Home = ({ saveSelectedAsActiveWell, postWellInfoToJSONDb, saveWellInfoToRe
 //  }
 }
 
-const mapStateToProps = ({ saveActiveWellToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, postWellInfoToJSONDbReducer, getWellsFromJSONDbReducer }) => {
+const mapStateToProps = ({ getHardLinesFromJSONDb, saveActiveWellToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, postWellInfoToJSONDbReducer, getWellsFromJSONDbReducer }) => {
   return {
     saveWellInfoToReduxStoreReducer,
     postWellInfoToJSONDbReducer,
-    wells: getWellsFromJSONDbReducer,
-    activeWell: saveActiveWellToReduxStoreReducer.response
+    getWellsFromJSONDbReducer,
   };
 };
 
-export default connect(mapStateToProps, { saveSelectedAsActiveWell, saveWellInfoToReduxStore, postWellInfoToJSONDb, getWellsFromJSONDb })(Home);
+export default connect(mapStateToProps, {getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb, getWellsWithSurveysFromJSONDb, getSurveysFromJSONDb, getWellsWithLeaseLinesFromJSONDb ,saveActiveWellToReduxStore, getWellPlansFromJSONDb, saveWellInfoToReduxStore, postWellInfoToJSONDb, getWellsFromJSONDb, getLeaseLinesFromJSONDb })(Home);

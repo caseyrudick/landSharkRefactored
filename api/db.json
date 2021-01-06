@@ -1,100 +1,845 @@
 {
   "wells": [
     {
-      "operator": "COG",
-      "rig": "Ensign 56",
-      "well": "Yienglign",
-      "county": "Eddy",
-      "state": "NM",
-      "SHL_Northing": "45",
-      "SHL_Easting": "56",
-      "plans": [],
-      "id": 1
-    },
-    {
-      "operator": "EOG",
-      "rig": "H&P 456",
-      "well": "Hiatus 22",
-      "county": "Eddy",
-      "state": "NM",
-      "SHL_Northing": "20",
-      "SHL_Easting": "55",
-      "plans": [],
-      "id": 2
-    },
-    {
-      "operator": "Encana",
-      "rig": "H&P 33",
-      "well": "Rylee 5",
-      "county": "Midland",
-      "state": "TX",
-      "SHL_Northing": "55",
-      "SHL_Easting": "23",
-      "plans": [],
+      "operator": "Cimarex",
+      "rig": "2543",
+      "well": "Roni",
+      "county": "NM",
+      "uSstate": "NM",
+      "vsDirection": 0,
+      "grid": [
+        [
+          {
+            "value": "",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Measured Depth",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Inclination",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Azimuth",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "TVD",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Northing",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Easting",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "VS",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "DLS",
+            "readOnly": true,
+            "width": "7rem"
+          }
+        ],
+        [
+          {
+            "value": 1,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 2
+          },
+          {
+            "value": "56"
+          },
+          {
+            "value": "56"
+          },
+          {
+            "value": "56"
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": "65"
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 3
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": "65"
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 4
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 5
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": 0
+          }
+        ]
+      ],
+      "date": "2020-12-10T09:58:14-06:00",
       "id": 3
     },
     {
-      "operator": "COG",
-      "rig": "123",
-      "well": "123",
-      "county": "123",
-      "state": "123",
-      "SHL_Northing": "123",
-      "SHL_Easting": "123",
-      "plans": [],
+      "operator": "4656545466`",
+      "rig": "6645",
+      "well": "456",
+      "county": "6",
+      "uSstate": "645",
+      "vsDirection": 0,
+      "grid": [
+        [
+          {
+            "value": "",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Measured Depth",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Inclination",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Azimuth",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "TVD",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Northing",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Easting",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "VS",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "DLS",
+            "readOnly": true,
+            "width": "7rem"
+          }
+        ],
+        [
+          {
+            "value": 1,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 2
+          },
+          {
+            "value": "5"
+          },
+          {
+            "value": "5"
+          },
+          {
+            "value": "5"
+          },
+          {
+            "value": "5"
+          },
+          {
+            "value": "5"
+          },
+          {
+            "value": "5"
+          },
+          {
+            "value": "5"
+          },
+          {
+            "value": "5"
+          }
+        ]
+      ],
+      "date": "2020-12-10T10:55:52-06:00",
       "id": 4
     },
     {
-      "operator": "345",
-      "rig": "345",
-      "well": "345",
-      "county": "345",
-      "state": "345",
-      "SHL_Northing": "345",
-      "SHL_Easting": "345",
-      "plans": [],
+      "operator": "Cimarex",
+      "rig": "H&P 345",
+      "well": "Rylee",
+      "county": "Eddy",
+      "uSstate": "NM",
+      "vsDirection": 0,
+      "grid": [
+        [
+          {
+            "value": "",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Measured Depth",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Inclination",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Azimuth",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "TVD",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Northing",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Easting",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "VS",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "DLS",
+            "readOnly": true,
+            "width": "7rem"
+          }
+        ],
+        [
+          {
+            "value": 1,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 2
+          },
+          {
+            "value": "5"
+          },
+          {
+            "value": "456"
+          },
+          {
+            "value": "32"
+          },
+          {
+            "value": "23"
+          },
+          {
+            "value": "9875"
+          },
+          {
+            "value": "9"
+          },
+          {
+            "value": "7451"
+          },
+          {
+            "value": "5"
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 3
+          },
+          {
+            "value": "75"
+          },
+          {
+            "value": "65"
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "1362"
+          },
+          {
+            "value": "6"
+          },
+          {
+            "value": "2310"
+          },
+          {
+            "value": "1563"
+          },
+          {
+            "value": "4"
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 4
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": "11"
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": 0
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 5
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "31"
+          },
+          {
+            "value": "232"
+          },
+          {
+            "value": "3"
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": "123"
+          },
+          {
+            "value": "564"
+          },
+          {
+            "value": "654"
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 6
+          },
+          {
+            "value": "6"
+          },
+          {
+            "value": "1521"
+          },
+          {
+            "value": "654"
+          },
+          {
+            "value": "86476"
+          },
+          {
+            "value": "5465"
+          },
+          {
+            "value": "645"
+          },
+          {
+            "value": 0
+          },
+          {
+            "value": "321312"
+          }
+        ]
+      ],
+      "date": "2020-12-10T14:04:38-06:00",
       "id": 5
     },
     {
-      "operator": "5",
-      "rig": "5",
-      "well": "5",
-      "county": "5",
-      "uSstate": "5",
-      "northing": "5",
-      "easting": "5",
-      "id": 6
-    },
-    {
-      "operator": "Diamondback",
-      "rig": "H&P 342",
-      "well": "Pepp 40",
-      "county": "Midland",
-      "uSstate": "TX",
-      "northing": "23",
-      "easting": "45",
-      "id": 7
-    },
-    {
-      "operator": "Vine",
-      "rig": "Ensign 420",
+      "operator": "COG",
+      "rig": "H&P 09",
       "well": "Pepperita 12",
-      "county": "Eddy",
+      "county": "Lea",
       "uSstate": "NM",
-      "northing": "50",
-      "easting": "470",
-      "id": 8
-    },
-    {
-      "operator": "Chevron",
-      "rig": "H&P 980",
-      "well": "Rylee 12",
-      "plans": [],
-      "county": "Eddy",
-      "uSstate": "NM",
-      "northing": "67",
-      "easting": "84",
-      "id": 9
+      "vsDirection": "359.58",
+      "grid": [
+        [
+          {
+            "value": "",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Measured Depth",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Inclination",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Azimuth",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "TVD",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Northing",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "Easting",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "VS",
+            "readOnly": true,
+            "width": "7rem"
+          },
+          {
+            "value": "DLS",
+            "readOnly": true,
+            "width": "7rem"
+          }
+        ],
+        [
+          {
+            "value": 1,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          },
+          {
+            "value": 0,
+            "readOnly": true
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 2
+          },
+          {
+            "value": "3300.00"
+          },
+          {
+            "value": "1.00"
+          },
+          {
+            "value": "139.51"
+          },
+          {
+            "value": "3300.00"
+          },
+          {
+            "value": "-0.33"
+          },
+          {
+            "value": "0.28"
+          },
+          {
+            "value": "-0.32"
+          },
+          {
+            "value": "2.00"
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 3
+          },
+          {
+            "value": "3400.00"
+          },
+          {
+            "value": "3.00"
+          },
+          {
+            "value": "139.51"
+          },
+          {
+            "value": "3399.93"
+          },
+          {
+            "value": "-2.99"
+          },
+          {
+            "value": "2.55"
+          },
+          {
+            "value": "-2.89"
+          },
+          {
+            "value": "2.00"
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 4
+          },
+          {
+            "value": "3500.00"
+          },
+          {
+            "value": "5.00"
+          },
+          {
+            "value": "139.51"
+          },
+          {
+            "value": "3499.68"
+          },
+          {
+            "value": "-8.29"
+          },
+          {
+            "value": "7.08"
+          },
+          {
+            "value": "-8.02"
+          },
+          {
+            "value": "2.00"
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 5
+          },
+          {
+            "value": "3549.81"
+          },
+          {
+            "value": "6.00"
+          },
+          {
+            "value": "139.51"
+          },
+          {
+            "value": "3549.26"
+          },
+          {
+            "value": "-11.92"
+          },
+          {
+            "value": "10.18"
+          },
+          {
+            "value": "-11.53"
+          },
+          {
+            "value": "2.00"
+          }
+        ],
+        [
+          {
+            "readOnly": true,
+            "value": 6
+          },
+          {
+            "value": "3600.00"
+          },
+          {
+            "value": "6.00"
+          },
+          {
+            "value": "139.51"
+          },
+          {
+            "value": "3599.18"
+          },
+          {
+            "value": "-15.91"
+          },
+          {
+            "value": "13.58"
+          },
+          {
+            "value": "-15.38"
+          },
+          {
+            "value": "0.00"
+          }
+        ]
+      ],
+      "date": "2020-12-10T18:49:26-06:00",
+      "id": 6
     }
+  ],
+  "LeaseLines": [
+    
   ]
 }
