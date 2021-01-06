@@ -14,9 +14,6 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [userSubmittedCredentials, setSubmittedCreds] = useState(false)
   const [verificationCode, setVerificationCode] = useState(null)
-  const [signInEmail, setSignInEmail] = useState('');
-  const [signInPassword, setSignInPassword] = useState('');
-
 
   const submitNewUser = event => {
     event.preventDefault();
@@ -30,51 +27,6 @@ const SignUp = () => {
       }
     })
   }
-
-  const submitCredentialsForSignIn = (event) => {
-    event.preventDefault();
-    const userCredentials = {
-      Username: signInEmail,
-      Password: signInPassword
-    }
-    const userData = {
-      Username: signInEmail, 
-      Pool: UserPool
-    }
-    const authDetails = new AuthenticationDetails(userCredentials);
-    const user = new CognitoUser(userData)
-
-    user.authenticateUser(authDetails, {
-      onSuccess: data => {
-        console.log("onSuccess", data)
-      },
-
-      onFailure: err => {
-        console.log("error", err)
-      }
-
-    })
-  }
-
-  const renderSignIn = () => {
-    return (
-      <Col xs={5}>
-      <Row className="justify-content-md-center">
-        <h3>Sign In</h3>
-      </Row>
-      <Form.Group>
-        <Form.Control /*className="mt-3"*/ placeholder="Enter Email" onChange={event => setEmail(event.target.value)} />
-      </Form.Group>
-      <Form.Group>
-        <Form.Control /*className="mt-3"*/ placeholder="Enter Password" onChange={event => setPassword(event.target.value)} />
-      </Form.Group>
-        <Button className="mt-4" variant="info" disabled={ signInEmail === "" && signInPassword === "" ? true : false } onClick={(e)=>submitCredentialsForSignIn(e)}>Submit</Button>
-
-    </Col>
-    )
-  }
-
-
 
   const renderSignUp = () => {
     return (
@@ -124,9 +76,6 @@ const SignUp = () => {
 
   return (
     <Container className="mt-4">
-      <Col>
-      {renderSignIn()}
-      </Col>
       <Col >
         {renderSignUp()}
         {userSubmittedCredentials ? renderConfirmationCodeForm() : null }
