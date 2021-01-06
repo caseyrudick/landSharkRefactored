@@ -23,7 +23,7 @@ import ExistingSurveys from "../Components/ExistingSurveys"
 import ExistingPolyLines from './ExistingPolyLines'
 import PolyLines from './PolyLines'
 import getHardLinesFromJSONDb from '../ActionCreators/getHardLinesFromJSONDb'
-import SignUp from "./SignUp"
+import SignIn from "./SignInSignUp/SignIn"
 const App = ({saveHardLinesToReduxStoreReducer, getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSurveysToReduxStoreReducer, activeWell, saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, getLeaseLinesFromJSONDbReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
   
   return (
@@ -34,9 +34,9 @@ const App = ({saveHardLinesToReduxStoreReducer, getHardLinesFromJSONDbReducer, g
         </Container>
       </Jumbotron>
       <Tabs>
-      <Tab eventKey="SignUp" title="Sign Up">
+      <Tab eventKey="SignIn" title="Sign In">
           <Container>
-            <SignUp/>
+            <SignIn/>
           </Container>
         </Tab>
         <Tab eventKey="Home" title="Home">

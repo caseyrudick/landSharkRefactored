@@ -10,17 +10,17 @@ import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
 
 
 const SignIn = () => {
-  const [signInEmail, setSignInEmail] = useState('');
-  const [signInPassword, setSignInPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const submitCredentialsForSignIn = (event) => {
     event.preventDefault();
     const userCredentials = {
-      Username: signInEmail,
-      Password: signInPassword
+      Username: email,
+      Password: password
     }
     const userData = {
-      Username: signInEmail, 
+      Username: email, 
       Pool: UserPool
     }
     const authDetails = new AuthenticationDetails(userCredentials);
@@ -50,7 +50,7 @@ const SignIn = () => {
         <Form.Group>
           <Form.Control /*className="mt-3"*/ placeholder="Enter Password" onChange={event => setPassword(event.target.value)} />
         </Form.Group>
-        <Button className="mt-4" variant="info" disabled={ signInEmail === "" && signInPassword === "" ? true : false } onClick={(e)=>submitCredentialsForSignIn(e)}>Submit</Button>
+        <Button className="mt-4" variant="info" disabled={ email === "" && password === "" ? true : false } onClick={(e)=>submitCredentialsForSignIn(e)}>Submit</Button>
       </Col>
     )
   }

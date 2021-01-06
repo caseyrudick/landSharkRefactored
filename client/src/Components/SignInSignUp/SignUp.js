@@ -35,10 +35,10 @@ const SignUp = () => {
           <h3>Sign Up</h3>
         </Row>
         <Form.Group>
-          <Form.Control /*className="mt-3"*/ placeholder="Enter Email" onChange={event => setSignInEmail(event.target.value)} />
+          <Form.Control /*className="mt-3"*/ placeholder="Enter Email" onChange={event => setEmail(event.target.value)} />
         </Form.Group>
         <Form.Group>
-          <Form.Control /*className="mt-3"*/ placeholder="Create Password" onChange={event => setSignInPassword(event.target.value)} />
+          <Form.Control /*className="mt-3"*/ placeholder="Create Password" onChange={event => setPassword(event.target.value)} />
         </Form.Group>
           <Button className="mt-4" variant="info" disabled={ email === "" && password === "" && userSubmittedCredentials === false ? true : false } onClick={(e)=>submitNewUser(e)}>Submit</Button>
 
