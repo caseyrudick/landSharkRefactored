@@ -23,7 +23,7 @@ import ExistingSurveys from "../Components/ExistingSurveys"
 import ExistingPolyLines from './ExistingPolyLines'
 import PolyLines from './PolyLines'
 import getHardLinesFromJSONDb from '../ActionCreators/getHardLinesFromJSONDb'
-import SignIn from "./SignInSignUp/SignIn"
+import SignInHome from "./UserVerification/SignInHome"
 const App = ({saveHardLinesToReduxStoreReducer, getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSurveysToReduxStoreReducer, activeWell, saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, getLeaseLinesFromJSONDbReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
   
   return (
@@ -36,7 +36,7 @@ const App = ({saveHardLinesToReduxStoreReducer, getHardLinesFromJSONDbReducer, g
       <Tabs>
       <Tab eventKey="SignIn" title="Sign In">
           <Container>
-            <SignIn/>
+            <SignInHome/>
           </Container>
         </Tab>
         <Tab eventKey="Home" title="Home">

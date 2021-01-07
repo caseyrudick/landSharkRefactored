@@ -21,9 +21,11 @@ import postHardLinesToJSONDbReducer from "./postHardLinesToJSONDbReducer"
 import saveHardLinesToReduxStoreReducer from "./saveHardLinesToReduxStoreReducer"
 import getWellsWithHardLinesFromJSONDbReducer from "./getWellsWithHardLinesFromJSONDbReducer"
 import getHardLinesFromJSONDbReducer from "./getHardLinesFromJSONDbReducer"
-
+import userNeedsToCreateAccountReducer from "./userNeedsToCreateAccountReducer"
 
 export default combineReducers({
+  userNeedsToCreateAccountReducer,
+
   getWellsFromJSONDbReducer,
   getWellsWithLeaseLinesFromJSONDbReducer,
   getWellsWithSurveysFromJSONDbReducer,
@@ -46,7 +48,6 @@ export default combineReducers({
   saveSurveysToReduxStoreReducer,
   saveHardLinesToReduxStoreReducer,
 
-
   activeWell: saveActiveWellToReduxStoreReducer,
-  
+
 })
