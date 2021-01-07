@@ -11,15 +11,11 @@ const SignInHome = ({userNeedsToCreateAccountReducer}) => {
     if (userNeedsToCreateAccountReducer.response) {
       console.log("user needs an account -sent from Home")
       return (
-        <Container>
-          <SignUp/>
-        </Container>
+        <SignUp/>
       )
     }
     return (
-      <Container>
-        <SignIn/>
-      </Container>
+      <SignIn/>
     )
   }
   return (
