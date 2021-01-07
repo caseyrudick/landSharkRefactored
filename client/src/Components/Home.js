@@ -119,14 +119,14 @@ const Home = ({ getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWell
   const selectExistingWell = () => {
     return (
       <Col>
-      <h3 className="my-4">Select Existing Well</h3>
-      <Dropdown>
-        <Dropdown.Toggle variant="primary" id="dropdown-basic">
-          {activeWell ? activeWell : `Select Well:`}
-        </Dropdown.Toggle>
-        {renderWellNames()}
-      </Dropdown>
-      <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={handleFetchData}>Fetch well data</Button>
+        <h3 className="my-4">Select Existing Well</h3>
+        <Dropdown>
+          <Dropdown.Toggle variant="primary" id="dropdown-basic">
+            {activeWell ? activeWell : `Select Well:`}
+          </Dropdown.Toggle>
+          {renderWellNames()}
+        </Dropdown>
+        <Button className="mt-4" variant="success" disabled={ activeWell === "None" ? true : false } onClick={handleFetchData}>Fetch well data</Button>
       </Col>
     )
   }
