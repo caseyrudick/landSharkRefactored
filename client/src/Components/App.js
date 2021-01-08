@@ -1,88 +1,32 @@
 import React from 'react'
+import {Router, Route} from "react-router-dom"
 // react-boostrap
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from "react-bootstrap/Tab"
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/Col'
 // redux
 import { connect } from 'react-redux'
-// styling 
-import 'bootstrap/dist/css/bootstrap.min.css';
-//import 'custom.scss'
 // components
-import Home from "./Home"
-import Plans from "./Plans"
-import ExistingPlans from './ExistingPlans'
-import LeaseLines from "./PolyLines"
-import ExistingLeaseLines from "./ExistingPolyLines"
-import savePlansToReduxStore from '../ActionCreators/savePlansToReduxStore'
-import PVA from "../Components/PVA"
-import ExistingPVA from "../Components/ExistingPVA"
-import Surveys from "../Components/Surveys"
-import ExistingSurveys from "../Components/ExistingSurveys"
-import ExistingPolyLines from './ExistingPolyLines'
-import PolyLines from './PolyLines'
-import getHardLinesFromJSONDb from '../ActionCreators/getHardLinesFromJSONDb'
-import SignInHome from "./UserVerification/SignInHome"
-const App = ({saveHardLinesToReduxStoreReducer, getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSurveysToReduxStoreReducer, activeWell, saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, getLeaseLinesFromJSONDbReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
-  
+import History from "./History"
+//import SignInHome from "./UserVerification/SignInHome"
+import SignUp from "./UserVerification/SignUp"
+import SignIn from "./UserVerification/SignIn"
+import Dashboard from "./Dashboard"
+
+const App = () => {
   return (
-    <React.Fragment>
-      <Jumbotron fluid className="bg-dark text-white">
-        <Container>
-          <h1>LandShark App (Employee Portal)</h1>
-        </Container>
-      </Jumbotron>
-      <Tabs>
-      <Tab eventKey="SignIn" title="Sign In">
-          <Container>
-            <SignInHome/>
-          </Container>
-        </Tab>
-        <Tab eventKey="Home" title="Home">
-          <Container>
-            <Home/>
-          </Container>
-        </Tab>
-        <Tab eventKey="Plans" title="Plans" disabled={getWellPlansFromJSONDbReducer.status === "received" || saveWellInfoToReduxStoreReducer.status === "received" ? false : true}>
-          <Container>
-          {getWellPlansFromJSONDbReducer.status === "received" && getWellPlansFromJSONDbReducer.response ? <ExistingPlans/> : <Plans/>}
-          </Container>
-        </Tab>
-        <Tab eventKey="PolyLines" title="PolyLines" disabled={getLeaseLinesFromJSONDbReducer.status === "received" || getHardLinesFromJSONDbReducer.status === "received"|| saveWellInfoToReduxStoreReducer.status === "received" ? false : true}>
-          <Container>
-            {getLeaseLinesFromJSONDbReducer.status === "received" && getHardLinesFromJSONDbReducer.status === "received" ? <ExistingPolyLines/> : <PolyLines/> }
-          </Container>
-        </Tab>
-        <Tab eventKey="PVA" title="PVA" disabled={(saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received")|| activeWell.status === "received" ? false : true}>
-          <Container>
-            {saveSurveysToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.response && saveLeaseLinesToReduxStoreReducer.status === "received"  && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received" ? <PVA/> : <ExistingPVA/> }
-          </Container>
-        </Tab>
-        <Tab eventKey="Surveys" title="Surveys" disabled={(saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received") || activeWell.status === "received" ? false : true}>
-          <Container>
-            {getSurveysFromJSONDbReducer.status === "received" ? <ExistingSurveys/> : <Surveys/> }
-          </Container>
-        </Tab>
-      </Tabs>
-    </React.Fragment>
-  );
+      <Router history={History}>
+        <div>
+          <Route path="/" exact component={SignIn}/>
+          <Route path="/signup" exact component ={SignUp}/>
+          <Route path="/signin" exact component ={SignIn}/>
+          <Route path="/dashboard" exact component ={Dashboard}/>
+        </div>
+      </Router>
+  )
 }
 
-const mapStateToProps = ({ saveHardLinesToReduxStoreReducer,getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSurveysToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, activeWell, getLeaseLinesFromJSONDbReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
-  return {
-    saveWellInfoToReduxStoreReducer, 
-    getWellPlansFromJSONDbReducer,
-    getHardLinesFromJSONDbReducer,
-    getSurveysFromJSONDbReducer,
-    activeWell,
-    getLeaseLinesFromJSONDbReducer,
-    savePlansToReduxStoreReducer,
-    saveLeaseLinesToReduxStoreReducer,
-    saveSurveysToReduxStoreReducer,
-    saveHardLinesToReduxStoreReducer,
-  }
-}
-
-export default connect(mapStateToProps, { })(App);
-
+export default App;
