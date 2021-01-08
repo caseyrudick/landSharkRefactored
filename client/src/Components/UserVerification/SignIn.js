@@ -8,6 +8,8 @@ import Form from 'react-bootstrap/Form';
 import Nav from "react-bootstrap/Nav"
 import Jumbotron from 'react-bootstrap/esm/Jumbotron';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from "react-bootstrap/Tab"
 // AWS Cognito
 import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
 import UserPool from "./UserPool"
@@ -63,11 +65,16 @@ const SignIn = ({ userNeedsToCreateAccount }) => {
   const renderSignIn = () => {
     return (
       <React.Fragment>
-      <Jumbotron fluid className="bg-dark text-white">
+      <Jumbotron fluid className="bg-dark text-white mb-0">
         <Container>
           <h1>LandShark App (Employee Portal)</h1>
         </Container>
       </Jumbotron>
+      <Row className="justify-content-end">
+      <Link to="/scratch"className="item pr-4" style={{color:"whitesmoke"}}>
+        Scratch
+        </Link>
+      </Row>
       <Form>
         <Container fluid className="h-100">
             <Row className="justify-content-center align-self-center">
@@ -83,12 +90,12 @@ const SignIn = ({ userNeedsToCreateAccount }) => {
                   <Form.Control placeholder="Enter Password" onChange={event => setPassword(event.target.value)} />
                 </Form.Group>
                 <Form.Group>
-                  <Row> 
+                  <Row style={{alignItems: "flex-end"}}> 
                     <Col>
                       <Button variant="info" disabled={ email === "" && password === "" ? true : false } onClick={(e)=>submitCredentialsForSignIn(e)}>Submit</Button>
                     </Col>
-                    <Col>
-                      <Link to="/signup" className="item">
+                    <Col className="d-flex flex-row-reverse">
+                      <Link to="/signup" className="item" style={{alignSelf: "flex-end"}}>
                         Create an account
                       </Link>
                     </Col>
@@ -101,6 +108,7 @@ const SignIn = ({ userNeedsToCreateAccount }) => {
 
         </Container>
         </Form> 
+        
       </React.Fragment>
     )
   }

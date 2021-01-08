@@ -18,7 +18,8 @@ const SignUp = () => {
   const [userSubmittedCredentials, setSubmittedCreds] = useState(false)
   const [verificationCode, setVerificationCode] = useState(null)
   const [verficationSuccess, setVerificationSucess] = useState(false)
-  
+
+
   const submitNewUser = event => {
     event.preventDefault();
     UserPool.signUp(email, password, [], null, (err, data) => {
@@ -43,10 +44,16 @@ const SignUp = () => {
           <Form.Group>
             <Form.Control placeholder="Create Password" onChange={event => setPassword(event.target.value)} />
           </Form.Group>
-            <Button variant="info" disabled={ email === "" && password === "" && userSubmittedCredentials === false ? true : false } onClick={(e)=>submitNewUser(e)}>Submit</Button>
-          <Link to="/signin" className="item">
-            Already have an account?
-          </Link>
+          <Row style={{alignItems: "baseline"}}>
+            <Col>
+              <Button variant="info" disabled={ email === "" && password === "" && userSubmittedCredentials === false ? true : false } onClick={(e)=>submitNewUser(e)}>Submit</Button>
+            </Col>
+            <Col className="text-right">
+              <Link to="/signin" className="item">
+                Already have an account?
+              </Link>
+            </Col>
+          </Row>
         </Col>
     )
   }
