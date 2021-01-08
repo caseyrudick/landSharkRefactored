@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+//boostrap
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -6,17 +7,23 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Nav from "react-bootstrap/Nav"
 import Jumbotron from 'react-bootstrap/esm/Jumbotron';
-import UserPool from "./UserPool"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { connect } from "react-redux"
+// AWS Cognito
 import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
-
+import UserPool from "./UserPool"
+//redux & router
+import { connect } from "react-redux"
+import { Link, Redirect } from "react-router-dom"
+import History from "../History"
+// action Creator
 import userNeedsToCreateAccount from "../../ActionCreators/UserVerification/userNeedsToCreateAccount"
 
 
 const SignIn = ({ userNeedsToCreateAccount }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+
 
   const submitCredentialsForSignIn = (event) => {
     event.preventDefault();
@@ -33,7 +40,10 @@ const SignIn = ({ userNeedsToCreateAccount }) => {
 
     user.authenticateUser(authDetails, {
       onSuccess: data => {
-        console.log("onSuccess", data)
+        console.log(data);
+        History.push("/dashboard")
+        console.log(History)
+        
       },
 
       onFailure: err => {
@@ -60,31 +70,31 @@ const SignIn = ({ userNeedsToCreateAccount }) => {
       </Jumbotron>
       <Form>
         <Container fluid className="h-100">
-          <Row> 
-          </Row>
             <Row className="justify-content-center align-self-center">
               <Col md="auto"></Col>
-                <Col md={3}>
-                  <Row className="justify-content-md-center">
-                    <h3>Sign In</h3>
+              <Col md={3}>
+                <Row className="justify-content-md-center">
+                  <h3>Sign In</h3>
+                </Row>
+                <Form.Group>
+                  <Form.Control placeholder="Enter Email" onChange={event => setEmail(event.target.value)} />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Control placeholder="Enter Password" onChange={event => setPassword(event.target.value)} />
+                </Form.Group>
+                <Form.Group>
+                  <Row> 
+                    <Col>
+                      <Button variant="info" disabled={ email === "" && password === "" ? true : false } onClick={(e)=>submitCredentialsForSignIn(e)}>Submit</Button>
+                    </Col>
+                    <Col>
+                      <Link to="/signup" className="item">
+                        Create an account
+                      </Link>
+                    </Col>
                   </Row>
-                  <Form.Group>
-                    <Form.Control placeholder="Enter Email" onChange={event => setEmail(event.target.value)} />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Control placeholder="Enter Password" onChange={event => setPassword(event.target.value)} />
-                  </Form.Group>
-                  <Form.Group>
-                    <Row> 
-                      <Col>
-                        <Button variant="info" disabled={ email === "" && password === "" ? true : false } onClick={(e)=>submitCredentialsForSignIn(e)}>Submit</Button>
-                      </Col>
-                      <Col>
-                        <Button variant="info" onClick={(e) => createAccount(e)}>Create An Account</Button>
-                      </Col>
-                    </Row>
-                  </Form.Group>       
-                </Col>
+                </Form.Group>       
+              </Col>
               <Col md="auto"></Col>
 
             </Row>

@@ -11,18 +11,21 @@ import Col from 'react-bootstrap/Col'
 import { connect } from 'react-redux'
 // components
 import History from "./History"
-import SignInHome from "./UserVerification/SignInHome"
-
+//import SignInHome from "./UserVerification/SignInHome"
+import SignUp from "./UserVerification/SignUp"
+import SignIn from "./UserVerification/SignIn"
+import Dashboard from "./Dashboard"
 
 const App = () => {
   return (
-
-        <Router history={History}>
-          <div>
-            <Route path="/" exact component={SignInHome}/>
-          </div>
-        </Router>
-
+      <Router history={History}>
+        <div>
+          <Route path="/" exact component={SignIn}/>
+          <Route path="/signup" exact component ={SignUp}/>
+          <Route path="/signin" exact component ={SignIn}/>
+          <Route path="/dashboard" exact component ={Dashboard}/>
+        </div>
+      </Router>
   )
 }
 

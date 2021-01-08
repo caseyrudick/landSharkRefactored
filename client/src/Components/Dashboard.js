@@ -23,6 +23,7 @@ import ExistingSurveys from "./ExistingSurveys"
 import ExistingPolyLines from './ExistingPolyLines'
 import PolyLines from './PolyLines'
 import SignInHome from "./UserVerification/SignInHome"
+import { Link } from "react-router-dom"
 
 // action creators
 import getHardLinesFromJSONDb from '../ActionCreators/getHardLinesFromJSONDb'
@@ -37,11 +38,6 @@ const Dashboard = ({saveHardLinesToReduxStoreReducer, getHardLinesFromJSONDbRedu
         </Container>
       </Jumbotron>
       <Tabs>
-      <Tab eventKey="SignIn" title="Sign In">
-
-            <SignInHome/>
-
-        </Tab>
         <Tab eventKey="Home" title="Home">
           <Container>
             <Home/>

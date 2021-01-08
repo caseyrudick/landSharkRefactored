@@ -4,10 +4,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
+import Jumbotron from 'react-bootstrap/Jumbotron';
+// AWS Cognito
 import UserPool from "./UserPool"
 import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
-
+//redux & router
+import { connect } from "react-redux"
+import { Link } from "react-router-dom"
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -30,18 +33,21 @@ const SignUp = () => {
 
   const renderSignUp = () => {
     return (
-      <Col xs={5}>
-        <Row className="justify-content-md-center">
-          <h3>Sign Up</h3>
-        </Row>
-        <Form.Group>
-          <Form.Control /*className="mt-3"*/ placeholder="Enter Email" onChange={event => setEmail(event.target.value)} />
-        </Form.Group>
-        <Form.Group>
-          <Form.Control /*className="mt-3"*/ placeholder="Create Password" onChange={event => setPassword(event.target.value)} />
-        </Form.Group>
-          <Button className="mt-2" variant="info" disabled={ email === "" && password === "" && userSubmittedCredentials === false ? true : false } onClick={(e)=>submitNewUser(e)}>Submit</Button>
-      </Col>
+        <Col>
+          <Row className="justify-content-md-center">
+            <h3>Sign Up</h3>
+          </Row>
+          <Form.Group>
+            <Form.Control placeholder="Enter Email" onChange={event => setEmail(event.target.value)} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Control placeholder="Create Password" onChange={event => setPassword(event.target.value)} />
+          </Form.Group>
+            <Button variant="info" disabled={ email === "" && password === "" && userSubmittedCredentials === false ? true : false } onClick={(e)=>submitNewUser(e)}>Submit</Button>
+          <Link to="/signin" className="item">
+            Already have an account?
+          </Link>
+        </Col>
     )
   }
 
@@ -71,10 +77,8 @@ const SignUp = () => {
     )
   }
 
-
   const renderConfirmationCodeForm = () => {
      return (
-       <Col xs={5}>
         <Form.Group>
           <Row className="justify-content-md-center">
             <h3 className="mt-4">Confirmation Code</h3>
@@ -82,20 +86,29 @@ const SignUp = () => {
           <Form.Control className="mt-3" placeholder="Enter Verification Code" onChange={event => setVerificationCode(event.target.value)} />
           <Button className="mt-4" variant="primary" disabled={ verificationCode === "" ? true : false } onClick={(event) => verifyConfirmationCode(event)}>Submit</Button>
         </Form.Group>
-      </Col>
      )
   }
 
   return (
-    <Container className="mt-4">
-      <Col >
-        {renderSignUp()}
-        {userSubmittedCredentials ? renderConfirmationCodeForm() : null }
-        {verficationSuccess ? "Registration Successful" : ""}
-      </Col>
-    </Container>
+    <React.Fragment>
+      <Jumbotron fluid className="bg-dark text-white">
+        <Container>
+          <h1>LandShark App (Employee Portal)</h1>
+        </Container>
+      </Jumbotron>
+      <Form>
+        <Row className="justify-content-center align-self-center">
+            <Col md="auto"/>
+            <Col md={3}>
+              {renderSignUp()}
+              {userSubmittedCredentials ? renderConfirmationCodeForm() : null }
+              {verficationSuccess ? "Registration Successful" : ""}
+            </Col>
+            <Col md="auto"></Col>
+          </Row>
+      </Form>
+    </React.Fragment>
   )
-
 }
 
 export default SignUp
