@@ -21,10 +21,11 @@ import postHardLinesToJSONDbReducer from "./postHardLinesToJSONDbReducer"
 import saveHardLinesToReduxStoreReducer from "./saveHardLinesToReduxStoreReducer"
 import getWellsWithHardLinesFromJSONDbReducer from "./getWellsWithHardLinesFromJSONDbReducer"
 import getHardLinesFromJSONDbReducer from "./getHardLinesFromJSONDbReducer"
-import userNeedsToCreateAccountReducer from "./userNeedsToCreateAccountReducer"
+import postWellInfoToDynamoDbReducer from "./postWellInfoToDynamoDbReducer"
+import postPlansToDynamoDbReducer from "./postPlansToDynamoDbReducer"
+
 
 export default combineReducers({
-  userNeedsToCreateAccountReducer,
 
   getWellsFromJSONDbReducer,
   getWellsWithLeaseLinesFromJSONDbReducer,
@@ -41,6 +42,9 @@ export default combineReducers({
   postLeaseLinesToJSONDbReducer,
   postSurveysToJSONDbReducer,
   postHardLinesToJSONDbReducer,
+  postPlansToDynamoDbReducer,
+
+  postWellInfoToDynamoDbReducer,
 
   saveWellInfoToReduxStoreReducer,  
   savePlansToReduxStoreReducer,

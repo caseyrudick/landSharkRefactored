@@ -19,10 +19,11 @@ import calculateEW from "../HelperFunctions/Calculations/EW"
 import calculateSECT from "../HelperFunctions/Calculations/SECT"
 import calculateDLS from "../HelperFunctions/Calculations/DLS"
 import postPlansToJSONDb from "../ActionCreators/postPlansToJSONDb";
+import postPlansToDynamoDb from "../ActionCreators/postPlansToDynamoDb";
 
 
 
-const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlansToReduxStoreReducer, postPlansToJSONDb}) => {
+const Plans = ({postPlansToDynamoDb, savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlansToReduxStoreReducer, postPlansToJSONDb}) => {
   
   const [editGrid, setEditGrid] = useState(true)
   const [input, setInput] = useState(false)
@@ -100,9 +101,11 @@ const Plans = ({savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlans
   }
 
   const handleSubmit = () => {
+    const planRecords = grid
     const {well, operator, rig, county, uSstate, northing, easting} = saveWellInfoToReduxStoreReducer.response
-    postPlansToJSONDb(operator, rig ,well, county, uSstate, grid, vsDirection, northing, easting)
-    savePlansToReduxStore(grid)
+    postPlansToJSONDb(operator, rig ,well, county, uSstate, planRecords, vsDirection, northing, easting)
+    postPlansToDynamoDb(operator, rig ,well, county, uSstate, planRecords, vsDirection, northing, easting)
+    savePlansToReduxStore(planRecords)
 
   }
 
@@ -212,6 +215,6 @@ const mapStateToProps = ({saveWellInfoToReduxStoreReducer}) => {
   }
 }
 
-export default connect(mapStateToProps, { savePlansToReduxStore, postPlansToJSONDb})(Plans)
+export default connect(mapStateToProps, { postPlansToDynamoDb, savePlansToReduxStore, postPlansToJSONDb})(Plans)
 
 
