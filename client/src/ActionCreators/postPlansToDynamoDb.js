@@ -1,4 +1,4 @@
-import wells from "../APIs/wells"
+import axios from "axios"
 import { 
   POST_PLANS_TO_DYNAMODB_REQUESTED,
   POST_PLANS_TO_DYNAMODB_RECEIVED,
@@ -6,27 +6,30 @@ import {
 } from "./types"
 import moment from "moment"
 
-export default (operator, rig ,well, county, uSstate, grid, vsDirection) => {
+export default (operator, rig ,well, county, usState, planRecords, northing, easting,vsDirection = 0) => {
   return async (dispatch, getState) => {
 
     dispatch({
       type: POST_PLANS_TO_DYNAMODB_REQUESTED
     })
     try {
-      const wellData = {
+      const wellInfo = {
         operator,
         rig,
         well,
         county,
-        uSstate,
+        usState,
         vsDirection,
-        grid, 
+        planRecords,
+        northing, 
+        easting, 
         date: moment().format()
       }
-      const response = await wells.post(`wells`, wellData)
+      const response = await axios.post(`https://0vpisbh32h.execute-api.us-east-2.amazonaws.com/dev/postplans`, wellInfo)
+      console.log(response.data)
       dispatch({
         type: POST_PLANS_TO_DYNAMODB_RECEIVED,
-        payload: response.data
+        payload: response
       })
     } catch (error) {
 

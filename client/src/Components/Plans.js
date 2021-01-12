@@ -102,9 +102,9 @@ const Plans = ({postPlansToDynamoDb, savePlansToReduxStore, saveWellInfoToReduxS
 
   const handleSubmit = () => {
     const planRecords = grid
-    const {well, operator, rig, county, uSstate, northing, easting} = saveWellInfoToReduxStoreReducer.response
-    postPlansToJSONDb(operator, rig ,well, county, uSstate, planRecords, vsDirection, northing, easting)
-    postPlansToDynamoDb(operator, rig ,well, county, uSstate, planRecords, vsDirection, northing, easting)
+    const {well, operator, rig, county, usState, northing, easting} = saveWellInfoToReduxStoreReducer.response
+    // postPlansToJSONDb(operator, rig ,well, county, uSstate, planRecords, vsDirection, northing, easting)
+    postPlansToDynamoDb(operator, rig ,well, county, usState, planRecords, vsDirection, northing, easting)
     savePlansToReduxStore(planRecords)
 
   }
