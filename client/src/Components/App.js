@@ -15,6 +15,8 @@ import History from "./History"
 import SignUp from "./UserVerification/SignUp"
 import SignIn from "./UserVerification/SignIn"
 import Dashboard from "./Dashboard"
+import scratch from "./scratch"
+
 
 const App = () => {
   return (
@@ -23,6 +25,7 @@ const App = () => {
           <Route path="/" exact component={SignIn}/>
           <Route path="/signup" exact component ={SignUp}/>
           <Route path="/signin" exact component ={SignIn}/>
+          <Route path="/scratch" exact component ={scratch}/>
           <Route path="/dashboard" exact component ={Dashboard}/>
         </div>
       </Router>

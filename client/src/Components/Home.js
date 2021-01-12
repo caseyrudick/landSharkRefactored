@@ -26,15 +26,17 @@ import getSurveysFromJSONDb from "../ActionCreators/getSurveysFromJSONDb"
 import getWellsWithSurveysFromJSONDb from "../ActionCreators/getWellsWithSurveysFromJSONDb"
 import getWellsWithHardLinesFromJSONDb from "../ActionCreators/getWellsWithHardLinesFromJSONDb"
 import getHardLinesFromJSONDb from "../ActionCreators/getHardLinesFromJSONDb"
+import postWellInfoToDynamoDb from "../ActionCreators/postWellInfoToDynamoDb"
+import getWellsFromDynamoDb from "../ActionCreators/getWellsFromDynamoDb"
 
 
-const Home = ({ getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWellsWithSurveysFromJSONDb, getSurveysFromJSONDb, getWellsWithLeaseLinesFromJSONDb ,getWellPlansFromJSONDb, saveActiveWellToReduxStore, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getWellsFromJSONDb, getWellsFromJSONDbReducer, getLeaseLinesFromJSONDb}) => {
+const Home = ({ getWellsFromDynamoDbReducer, getWellsFromDynamoDb, postWellInfoToDynamoDb, getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWellsWithSurveysFromJSONDb, getSurveysFromJSONDb, getWellsWithLeaseLinesFromJSONDb ,getWellPlansFromJSONDb, saveActiveWellToReduxStore, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getWellsFromJSONDb, getWellsFromJSONDbReducer, getLeaseLinesFromJSONDb}) => {
   const [activeWell, setActiveWell] = useState('None');
   const [operator, setOperator] = useState('');
   const [rig, setRig] = useState('');
   const [well, setWell] = useState('');
   const [county, setCounty] = useState('');
-  const [uSstate, setUSstate] = useState('');
+  const [usState, setUSstate] = useState('');
   const [northing, setNorthing] = useState('');
   const [easting, setEasting] = useState('');
 
@@ -44,21 +46,22 @@ const Home = ({ getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWell
     getWellsWithLeaseLinesFromJSONDb()
     getWellsWithSurveysFromJSONDb()
     getWellsWithHardLinesFromJSONDb()
+    getWellsFromDynamoDb()
   }, []);
 
 
   const renderWellNames = () => {
-    if (getWellsFromJSONDbReducer.status === "received") {
-      let wells = getWellsFromJSONDbReducer.response
+    if (getWellsFromDynamoDbReducer.status === "received") {
+      let wells = getWellsFromDynamoDbReducer.response.Items
       return (
         <Dropdown.Menu>
           {wells.map(well => {
             return (
-              <Dropdown.Item href="" key={`${well.operator}${well.well}`} onClick={()=> {
-                setActiveWell(`${well.operator} - ${well.rig} - ${well.well}`)
-                saveActiveWellToReduxStore(well)
+              <Dropdown.Item href="" key={`${well.Operator.S}${well.Well_Name.S}`} onClick={()=> {
+                // setActiveWell(`${well.Operator} - ${well.Rig} - ${well.Well_Name}`)
+                // saveActiveWellToReduxStore(well)
               } }>
-                {well.operator} - {well.rig} - {well.well}
+                {well.Operator.S} - {well.Rig.S} - {well.Well_Name.S}
               </Dropdown.Item>
             )
           })}
@@ -81,7 +84,7 @@ const Home = ({ getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWell
         <Form.Control className="mt-3" placeholder="State" onChange={event => setUSstate(event.target.value)} />
         <Form.Control className="mt-3" placeholder="Northing" onChange={event => setNorthing(event.target.value)} />
         <Form.Control className="mt-3" placeholder="Easting" onChange={event => setEasting(event.target.value)} />
-        <Button className="mt-4" variant="info" disabled={ operator === "" || rig === "" || well === "" || county === "" || uSstate === "" ? true : false } onClick={()=>handleNewWellSubmit()}>Submit and begin adding well data</Button>
+        <Button className="mt-4" variant="info" disabled={ operator === "" || rig === "" || well === "" || county === "" || usState === "" ? true : false } onClick={()=>handleNewWellSubmit()}>Submit and begin adding well data</Button>
       </Col>
     )
   }
@@ -92,11 +95,12 @@ const Home = ({ getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWell
       rig,
       well,
       county,
-      uSstate,
+      usState,
       northing,
       easting
     }
     // postWellInfoToJSONDb(wellInfo)
+    postWellInfoToDynamoDb(wellInfo)
     saveWellInfoToReduxStore(wellInfo)
     getWellsFromJSONDb()
     saveActiveWellToReduxStore(wellInfo)
@@ -132,8 +136,6 @@ const Home = ({ getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWell
   }
 
 
-
-  
   return (
       <Container>
         <Row>
@@ -145,12 +147,14 @@ const Home = ({ getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWell
 //  }
 }
 
-const mapStateToProps = ({ getHardLinesFromJSONDb, saveActiveWellToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, postWellInfoToJSONDbReducer, getWellsFromJSONDbReducer }) => {
+const mapStateToProps = ({ getWellsFromDynamoDbReducer, postWellInfoToDynamoDbReducer, getHardLinesFromJSONDb, saveActiveWellToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, postWellInfoToJSONDbReducer, getWellsFromJSONDbReducer }) => {
   return {
     saveWellInfoToReduxStoreReducer,
     postWellInfoToJSONDbReducer,
     getWellsFromJSONDbReducer,
+    postWellInfoToDynamoDbReducer,
+    getWellsFromDynamoDbReducer
   };
 };
 
-export default connect(mapStateToProps, {getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb, getWellsWithSurveysFromJSONDb, getSurveysFromJSONDb, getWellsWithLeaseLinesFromJSONDb ,saveActiveWellToReduxStore, getWellPlansFromJSONDb, saveWellInfoToReduxStore, postWellInfoToJSONDb, getWellsFromJSONDb, getLeaseLinesFromJSONDb })(Home);
+export default connect(mapStateToProps, {getWellsFromDynamoDb, postWellInfoToDynamoDb, getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb, getWellsWithSurveysFromJSONDb, getSurveysFromJSONDb, getWellsWithLeaseLinesFromJSONDb ,saveActiveWellToReduxStore, getWellPlansFromJSONDb, saveWellInfoToReduxStore, postWellInfoToJSONDb, getWellsFromJSONDb, getLeaseLinesFromJSONDb })(Home);
