@@ -24,6 +24,8 @@ import getHardLinesFromJSONDbReducer from "./getHardLinesFromJSONDbReducer"
 import postWellInfoToDynamoDbReducer from "./postWellInfoToDynamoDbReducer"
 import postPlansToDynamoDbReducer from "./postPlansToDynamoDbReducer"
 import getWellsFromDynamoDbReducer from "./getWellsFromDynamoDbReducer"
+import getWellPlansFromDynamoDbReducer from "./getWellPlansFromDynamoDbReducer"
+
 
 export default combineReducers({
 
@@ -33,7 +35,8 @@ export default combineReducers({
   getWellsWithHardLinesFromJSONDbReducer,
 
   getWellsFromDynamoDbReducer,
-
+  getWellPlansFromDynamoDbReducer, 
+  
   getWellPlansFromJSONDbReducer,
   getLeaseLinesFromJSONDbReducer,
   getSurveysFromJSONDbReducer,
