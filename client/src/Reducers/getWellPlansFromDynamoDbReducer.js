@@ -18,6 +18,6 @@ export default (state = INITIAL_STATE, {type, payload}) => {
     case GET_WELL_PLANS_FROM_DYNAMODB_FAILED:
       return {...state, response: payload, status: "failed"}
     default:
-      state
+      return state
   }
 }

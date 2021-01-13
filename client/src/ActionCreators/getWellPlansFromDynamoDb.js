@@ -11,7 +11,7 @@ export default (selectedWell) => {
       type: GET_WELL_PLANS_FROM_DYNAMODB_REQUESTED
     })
     try {
-      const response = await axios.get("", selectedWell)
+      const response = await axios.get("https://0vpisbh32h.execute-api.us-east-2.amazonaws.com/dev/getplans", selectedWell)
       dispatch({
         type: GET_WELL_PLANS_FROM_DYNAMODB_RECEIVED,
         payload: response.data
