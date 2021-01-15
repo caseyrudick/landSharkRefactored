@@ -16,11 +16,15 @@ const ExistingPlans = ({getWellPlansFromDynamoDbReducer, activeWell}) => {
   let [grid, setGrid] = useState([]);
   
   useEffect(()=> {
-    // console.log("received alert of change in status")
     if (getWellPlansFromDynamoDbReducer.status === "received") {
       createCopies();
     }
-  },[getWellPlansFromDynamoDbReducer.status]);
+  },[getWellPlansFromDynamoDbReducer.response.Items]);
+
+  useEffect(() => {
+    createReactDataSheetGridFromPlans();
+  }, [plans])
+
 
   const createCopies = () => {
     setPlans([...getWellPlansFromDynamoDbReducer.response.Items])
