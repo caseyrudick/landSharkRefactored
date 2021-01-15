@@ -41,9 +41,9 @@ const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsF
 
 
   useEffect(() => {
-    getWellsWithLeaseLinesFromJSONDb()
-    getWellsWithSurveysFromJSONDb()
-    getWellsWithHardLinesFromJSONDb()
+    // getWellsWithLeaseLinesFromJSONDb()
+    // getWellsWithSurveysFromJSONDb()
+    // getWellsWithHardLinesFromJSONDb()
     getWellsFromDynamoDb()
   }, []);
 
@@ -55,9 +55,13 @@ const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsF
         <Dropdown.Menu>
           {wells.map(well => {
             return (
-              <Dropdown.Item href="" key={`${well.Operator.S}${well.Well_Name.S}`} onClick={()=> {
-                setActiveWell(`${well.Operator} - ${well.Rig} - ${well.Well_Name}`)
-                saveActiveWellToReduxStore(well)
+              <Dropdown.Item 
+                href="" 
+                key={`${well.Operator.S}${well.Well_Name.S}`} 
+                onClick={()=> {
+                  setActiveWell(`${well.Operator.S} - ${well.Rig.S} - ${well.Well_Name.S}`)
+                  saveActiveWellToReduxStore(well)
+                  console.log()
               } }>
                 {well.Operator.S} - {well.Rig.S} - {well.Well_Name.S}
               </Dropdown.Item>
@@ -105,11 +109,11 @@ const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsF
 
   const handleFetchData = () => {
     getWellPlansFromDynamoDb(activeWell)
-    getSurveysFromJSONDb(activeWell)
+    //getSurveysFromJSONDb(activeWell)
     // setTimeout(getWellPlansFromJSONDb, 500, activeWell);
-    setTimeout(getLeaseLinesFromJSONDb, 1000, activeWell);
+    //setTimeout(getLeaseLinesFromJSONDb, 1000, activeWell);
     // setTimeout(getSurveysFromJSONDb, 1500, activeWell)
-    getHardLinesFromJSONDb(activeWell)
+    //getHardLinesFromJSONDb(activeWell)
   //   // setTimeout(getWellHardLinesFromDynamoDb(selectedWell), 1000);
   //   // setTimeout(getWellSurveysFromDynamoDb(selectedWell), 2000);
   //   // setTimeout(getOffsets(selectedWell), 2500);
