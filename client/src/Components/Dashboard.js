@@ -43,9 +43,9 @@ const Dashboard = ({getWellPlansFromDynamoDbReducer, saveHardLinesToReduxStoreRe
             <Home/>
           </Container>
         </Tab>
-        <Tab eventKey="Plans" title="Plans" disabled={getWellPlansFromJSONDbReducer.status === "received" || saveWellInfoToReduxStoreReducer.status === "received" ? false : true}>
+        <Tab eventKey="Plans" title="Plans" disabled={getWellPlansFromDynamoDbReducer.status === "received" || saveWellInfoToReduxStoreReducer.status === "received" ? false : true}>
           <Container>
-          {getWellPlansFromJSONDbReducer.status === "received" && getWellPlansFromJSONDbReducer.response ? <ExistingPlans/> : <Plans/>}
+          {getWellPlansFromDynamoDbReducer.status === "received" && getWellPlansFromDynamoDbReducer.response ? <ExistingPlans/> : <Plans/>}
           </Container>
         </Tab>
         {/* <Tab eventKey="PolyLines" title="PolyLines" disabled={getLeaseLinesFromJSONDbReducer.status === "received" || getHardLinesFromJSONDbReducer.status === "received"|| saveWellInfoToReduxStoreReducer.status === "received" ? false : true}>
