@@ -25,31 +25,32 @@ import postWellInfoToDynamoDbReducer from "./postWellInfoToDynamoDbReducer"
 import postPlansToDynamoDbReducer from "./postPlansToDynamoDbReducer"
 import getWellsFromDynamoDbReducer from "./getWellsFromDynamoDbReducer"
 import getWellPlansFromDynamoDbReducer from "./getWellPlansFromDynamoDbReducer"
-
-
+import postHardLinesToDynamoDbReducer from "./postHardLinesToDynamoDbReducer"
+import postLeaseLinesToDynamoDbReducer from "./postLeaseLinesToDynamoDbReducer"
 export default combineReducers({
 
-  getWellsFromJSONDbReducer,
-  getWellsWithLeaseLinesFromJSONDbReducer,
-  getWellsWithSurveysFromJSONDbReducer,
-  getWellsWithHardLinesFromJSONDbReducer,
+  // getWellsFromJSONDbReducer,
+  // getWellsWithLeaseLinesFromJSONDbReducer,
+  // getWellsWithSurveysFromJSONDbReducer,
+  // getWellsWithHardLinesFromJSONDbReducer,
 
   getWellsFromDynamoDbReducer,
   getWellPlansFromDynamoDbReducer, 
   
-  getWellPlansFromJSONDbReducer,
-  getLeaseLinesFromJSONDbReducer,
-  getSurveysFromJSONDbReducer,
-  getHardLinesFromJSONDbReducer,
+  // getWellPlansFromJSONDbReducer,
+  // getLeaseLinesFromJSONDbReducer,
+  // getSurveysFromJSONDbReducer,
+  // getHardLinesFromJSONDbReducer,
   
-  postWellInfoToJSONDbReducer,
-  postPlansToJSONDbReducer,
-  postLeaseLinesToJSONDbReducer,
-  postSurveysToJSONDbReducer,
-  postHardLinesToJSONDbReducer,
+  // postWellInfoToJSONDbReducer,
+  // postPlansToJSONDbReducer,
+  // postLeaseLinesToJSONDbReducer,
+  // postSurveysToJSONDbReducer,
+  // postHardLinesToJSONDbReducer,
   postPlansToDynamoDbReducer,
-
+  postHardLinesToDynamoDbReducer,
   postWellInfoToDynamoDbReducer,
+  postLeaseLinesToDynamoDbReducer,
 
   saveWellInfoToReduxStoreReducer,  
   savePlansToReduxStoreReducer,

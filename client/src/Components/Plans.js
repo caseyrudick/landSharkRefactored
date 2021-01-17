@@ -23,14 +23,14 @@ import postPlansToDynamoDb from "../ActionCreators/postPlansToDynamoDb";
 
 
 
-const Plans = ({postPlansToDynamoDb, savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlansToReduxStoreReducer, postPlansToJSONDb}) => {
+const Plans = ({activeWell, postPlansToDynamoDb, savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlansToReduxStoreReducer, postPlansToJSONDb}) => {
   
   const [editGrid, setEditGrid] = useState(true)
   const [input, setInput] = useState(false)
   const [vsDirection, setVSDirection] = useState(0)
   
   const initialGrid = [
-    [{value: '', readOnly: true, width: '7rem'}, {value:"Measured Depth", readOnly: true, width: '7rem'}, {value:"Inclination", readOnly: true, width: '7rem'}, {value:"Azimuth", readOnly: true, width: '7rem'}, {value:"TVD", readOnly: true, width: '7rem'}, {value:"Northing", readOnly: true, width: '7rem'}, {value:"Easting", readOnly: true, width: '7rem'}, {value:"VS", readOnly: true, width: '7rem'},{value:"DLS", readOnly: true, width: '7rem'}],
+    [{value: "", readOnly: true, width: '7rem'}, {value:"Measured Depth", readOnly: true, width: '7rem'}, {value:"Inclination", readOnly: true, width: '7rem'}, {value:"Azimuth", readOnly: true, width: '7rem'}, {value:"TVD", readOnly: true, width: '7rem'}, {value:"Northing", readOnly: true, width: '7rem'}, {value:"Easting", readOnly: true, width: '7rem'}, {value:"VS", readOnly: true, width: '7rem'},{value:"DLS", readOnly: true, width: '7rem'}],
     
     [{value: 1, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
     
@@ -89,6 +89,8 @@ const Plans = ({postPlansToDynamoDb, savePlansToReduxStore, saveWellInfoToReduxS
     // with cell (previousVal), row, col, currentVal
     // add the value of the newGrid[row#][col#] to the new value 
     changes.forEach(({ cell, row, col, value }) => {
+      console.log(value)
+      console.log(typeof value)
       gridNew[row][col] = {...grid[row][col], value };
     });
     setGrid(gridNew)
@@ -176,6 +178,10 @@ const Plans = ({postPlansToDynamoDb, savePlansToReduxStore, saveWellInfoToReduxS
     if (saveWellInfoToReduxStoreReducer.status === "received") {
       const { well, rig, operator} = saveWellInfoToReduxStoreReducer.response
       return <h3 className="hy-4"> {operator} - {rig} - {well}</h3>
+    }
+    else if (activeWell.status === "received") {
+      const { Well_Name, Rig, Operator} = activeWell.response
+      return <h3 className="hy-4"> {Operator.S} - {Rig.S} - {Well_Name.S}</h3>
     } else {
       return "No well data"
     }
@@ -183,6 +189,7 @@ const Plans = ({postPlansToDynamoDb, savePlansToReduxStore, saveWellInfoToReduxS
 
   return (
     <Container>
+      Plans
       <Row>
         <Col xs={10}>
           {renderWellData()}
@@ -209,9 +216,10 @@ const Plans = ({postPlansToDynamoDb, savePlansToReduxStore, saveWellInfoToReduxS
   )
 }
 
-const mapStateToProps = ({saveWellInfoToReduxStoreReducer}) => {
+const mapStateToProps = ({activeWell, saveWellInfoToReduxStoreReducer}) => {
   return {
-    saveWellInfoToReduxStoreReducer
+    saveWellInfoToReduxStoreReducer,
+    activeWell
   }
 }
 

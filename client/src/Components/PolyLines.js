@@ -14,28 +14,34 @@ import ExistingHardLines from "./ExistingHardLines"
 import LeaseLines from "./LeaseLines"
 import HardLines from "./HardLines"
 
-const PolyLines = ({activeWell, getLeaseLinesFromJSONDbReducer, getHardLinesFromJSONDbReducer,}) => {
+const PolyLines = ({saveWellInfoToReduxStoreReducer, activeWell, getLeaseLinesFromJSONDbReducer, getHardLinesFromJSONDbReducer,}) => {
   const renderWellData = () => {
-      const {operator, rig, well } = activeWell.response
-      return (
-          <h3 className="my-4">{operator} - {rig} - {well}</h3>
-      )
+    if (saveWellInfoToReduxStoreReducer.status === "received") {
+      const { well, rig, operator} = saveWellInfoToReduxStoreReducer.response
+      return <h3 className="hy-4"> {operator} - {rig} - {well}</h3>
     }
+    else if (activeWell.status === "received") {
+      const { Well_Name, Rig, Operator} = activeWell.response
+      return <h3 className="hy-4"> {Operator.S} - {Rig.S} - {Well_Name.S}</h3>
+    } else {
+      return "No well data"
+    }
+  }
   
   const renderLeaseLines = () => {
-    if (getLeaseLinesFromJSONDbReducer.status === "received" && getLeaseLinesFromJSONDbReducer.response) {
-      return <ExistingLeaseLines/>
-    } else {
+    // if (getLeaseLinesFromJSONDbReducer.status === "received" && getLeaseLinesFromJSONDbReducer.response) {
+    //   return <ExistingLeaseLines/>
+    // } else {
       return <LeaseLines/>
-    }
+    // }
   }
 
   const renderHardLines = () => {
-    if (getHardLinesFromJSONDbReducer.status === "received" && getHardLinesFromJSONDbReducer.response) {
-      return <ExistingHardLines/>
-    } else {
+    // if (getHardLinesFromDynamoDbReducer.status === "received" && getHardLinesFromDynamoDbReducer.response) {
+    //   return <ExistingHardLines/>
+    // } else {
       return <HardLines/>
-    }
+    // }
   }
 
   return (
@@ -55,10 +61,12 @@ const PolyLines = ({activeWell, getLeaseLinesFromJSONDbReducer, getHardLinesFrom
   )
 }
 
-const mapStateToProps = ({activeWell, getLeaseLinesFromJSONDbReducer, getHardLinesFromJSONDbReducer}) => {
+const mapStateToProps = ({saveWellInfoToReduxStoreReducer, getHardLinesFromDynamoDbReducer, activeWell, getLeaseLinesFromJSONDbReducer, getHardLinesFromJSONDbReducer}) => {
  return {
-  getLeaseLinesFromJSONDbReducer,
-  getHardLinesFromJSONDbReducer,
+  saveWellInfoToReduxStoreReducer,
+  getHardLinesFromDynamoDbReducer,
+  // getLeaseLinesFromJSONDbReducer,
+  // getHardLinesFromJSONDbReducer,
   activeWell, 
  }
 }

@@ -12,10 +12,10 @@ import ReactDataSheet from 'react-datasheet';
 
 // actionCreators
 import saveLeaseLinesToReduxStore from "../ActionCreators/saveLeaseLinesToReduxStore"
-import postLeaseLinesToJSONDb from "../ActionCreators/postLeaseLinesToJSONDb"
+import postLeaseLinesToDynamoDb from "../ActionCreators/postLeaseLinesToDynamoDb"
 
 
-const LeaseLines = ({activeWell, saveLeaseLinesToReduxStore, postLeaseLinesToJSONDb}) => {
+const LeaseLines = ({postLeaseLinesToDynamoDb, activeWell, saveLeaseLinesToReduxStore, postLeaseLinesToJSONDb}) => {
   const {operator, rig, well, county, usState, northing, easting} = activeWell.response
   // set up initial grid
   // create local state to setGrid
@@ -25,7 +25,7 @@ const LeaseLines = ({activeWell, saveLeaseLinesToReduxStore, postLeaseLinesToJSO
   // handlesubmit = postLeaseLinesToJSONDb saveHardLinesToRedux
   // addRows: newGrid =  [...grid, addedRow] setGrid(newGrid)
 
-  const initialGrid = [
+  const initialLeaseLines = [
     [{value: "", readOnly: true, width: "7rem"}, {value: "Northing", readOnly: true, width: "7rem"}, {value:"Easting", readOnly: true, width: "7rem"}],
     [{value: 1, readOnly: true}, {value: 0}, {value: 0}],
     [{value: 2, readOnly: true}, {value: 0}, {value: 0}],
@@ -37,23 +37,23 @@ const LeaseLines = ({activeWell, saveLeaseLinesToReduxStore, postLeaseLinesToJSO
     [{value: 8, readOnly: true}, {value: 0}, {value: 0}],
     [{value: 9, readOnly: true}, {value: 0}, {value: 0}],
   ]
-  const [grid, setGrid] = useState(initialGrid)
+  const [leaseLines, setLeaseLines] = useState(initialLeaseLines)
 
-  const renderWellHeader = () => {
-    if (activeWell.status === "received") {
-      // const {operator, rig, well} = activeWell.response
-      return <h3 className="my-4">{operator} - {rig} - {well}</h3>
-    } else {
-      return "No Well Data"
-    }
-  }
+  // const renderWellHeader = () => {
+  //   if (activeWell.status === "received") {
+  //     // const {operator, rig, well} = activeWell.response
+  //     return <h3 className="my-4">{operator} - {rig} - {well}</h3>
+  //   } else {
+  //     return "No Well Data"
+  //   }
+  // }
 
   const onCellsChanged = changes => {
-    const gridNew = grid.map(row => [...row])
+    const gridNew = leaseLines.map(row => [...row])
     changes.forEach(({cell, row, col, value}) => {
-      gridNew[row][col] = {...grid[row][col], value}
+      gridNew[row][col] = {...leaseLines[row][col], value}
     });
-    setGrid(gridNew);
+    setLeaseLines(gridNew);
     
   }
 
@@ -66,19 +66,13 @@ const LeaseLines = ({activeWell, saveLeaseLinesToReduxStore, postLeaseLinesToJSO
       usState, 
       northing,
       easting,
-      grid
+      leaseLines
     }
-    // const activeWell
-    // saveLeaseLinesToJSON 
-    checkTest()
-    postLeaseLinesToJSONDb(wellInfoAndLeaseLines)
+
+    postLeaseLinesToDynamoDb(wellInfoAndLeaseLines)
     saveLeaseLinesToReduxStore(wellInfoAndLeaseLines)
 
     
-  }
-
-  const checkTest = () => {
-    console.log("whyyy")
   }
 
   const renderRowsButtons = () => {
@@ -101,16 +95,16 @@ const LeaseLines = ({activeWell, saveLeaseLinesToReduxStore, postLeaseLinesToJSO
   }
 
   const addRow = () => {
-    const gridLength = grid.length
+    const gridLength = leaseLines.length
     const newRow = [{value: gridLength, readOnly: true}, {value: 0}, {value: 0}]
-    const newGrid = [...grid, newRow]
-    setGrid(newGrid)
+    const newGrid = [...leaseLines, newRow]
+    setLeaseLines(newGrid)
   }
 
   const removeRow = () => {
-    const newGrid = [...grid]
+    const newGrid = [...leaseLines]
     newGrid.pop()
-    setGrid(newGrid)
+    setLeaseLines(newGrid)
   }
   
 
@@ -119,7 +113,7 @@ const LeaseLines = ({activeWell, saveLeaseLinesToReduxStore, postLeaseLinesToJSO
       <Row>
         <Col xs={10}>
           {/* {renderWellHeader()} */}
-          <ReactDataSheet data={grid} valueRenderer={(cell)=> cell.value} onCellsChanged={onCellsChanged}/>
+          <ReactDataSheet data={leaseLines} valueRenderer={(cell)=> cell.value} onCellsChanged={onCellsChanged}/>
           {renderRowsButtons()}
         </Col>
       </Row>
@@ -134,4 +128,4 @@ const mapStateToProps = ({activeWell, postLeaseLinesToJSONDbReducer}) => {
   }
 }
 
-export default connect(mapStateToProps, {saveLeaseLinesToReduxStore, postLeaseLinesToJSONDb})(LeaseLines)
+export default connect(mapStateToProps, {saveLeaseLinesToReduxStore, postLeaseLinesToDynamoDb})(LeaseLines)

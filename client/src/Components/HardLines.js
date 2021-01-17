@@ -12,20 +12,20 @@ import ReactDataSheet from 'react-datasheet';
 
 // actionCreators
 import saveHardLinesToReduxStore from "../ActionCreators/saveHardLinesToReduxStore"
-import postHardLinesToJSONDb from "../ActionCreators/postHardLinesToJSONDb"
+import postHardLinesToDynamoDb from "../ActionCreators/postHardLinesToDynamoDb"
 
 
-const HardLines = ({activeWell, saveHardLinesToReduxStore, postHardLinesToJSONDb}) => {
+const HardLines = ({saveWellInfoToReduxStoreReducer, activeWell, saveHardLinesToReduxStore, postHardLinesToDynamoDb}) => {
   const {operator, rig, well, county, usState, northing, easting} = activeWell.response
-  // set up initial grid
-  // create local state to setGrid
+  // set up initial hardLineRecords
+  // create local state to setHardLineRecords
   // renderWellHeader {if (either activeWell or saveWellInfoToRedux)} then destructure out the rig, wellname, operator
-  // render out ReactData sheet data = {grid} valueRenderer={cell=> cell.value} onCellsChanged={onCellsChanged}
+  // render out ReactData sheet data = {hardLineRecords} valueRenderer={cell=> cell.value} onCellsChanged={onCellsChanged}
   // render submit button return row col xs={10} className = "my-4" button variant="info' onClick = handleSubmit
-  // handlesubmit = postHardLinesToJSONDb saveHardLinesToRedux
-  // addRows: newGrid =  [...grid, addedRow] setGrid(newGrid)
+  // handlesubmit = postHardLinesToDynamoDb saveHardLinesToRedux
+  // addRows: newhardLineRecords =  [...hardLineRecords, addedRow] setHardLineRecords(newhardLineRecords)
 
-  const initialGrid = [
+  const initialHardLineRecords = [
     [{value: "", readOnly: true, width: "7rem"}, {value: "Northing", readOnly: true, width: "7rem"}, {value:"Easting", readOnly: true, width: "7rem"}],
     [{value: 1, readOnly: true}, {value: 0}, {value: 0}],
     [{value: 2, readOnly: true}, {value: 0}, {value: 0}],
@@ -37,23 +37,15 @@ const HardLines = ({activeWell, saveHardLinesToReduxStore, postHardLinesToJSONDb
     [{value: 8, readOnly: true}, {value: 0}, {value: 0}],
     [{value: 9, readOnly: true}, {value: 0}, {value: 0}],
   ]
-  const [grid, setGrid] = useState(initialGrid)
+  const [hardLineRecords, setHardLineRecords] = useState(initialHardLineRecords)
 
-  const renderWellHeader = () => {
-    if (activeWell.status === "received") {
-      // const {operator, rig, well} = activeWell.response
-      return <h3 className="my-4">{operator} - {rig} - {well}</h3>
-    } else {
-      return "No Well Data"
-    }
-  }
 
   const onCellsChanged = changes => {
-    const gridNew = grid.map(row => [...row])
+    const hardLineRecordsNew = hardLineRecords.map(row => [...row])
     changes.forEach(({cell, row, col, value}) => {
-      gridNew[row][col] = {...grid[row][col], value}
+      hardLineRecordsNew[row][col] = {...hardLineRecords[row][col], value}
     });
-    setGrid(gridNew);
+    setHardLineRecords(hardLineRecordsNew);
     
   }
 
@@ -66,11 +58,11 @@ const HardLines = ({activeWell, saveHardLinesToReduxStore, postHardLinesToJSONDb
       usState, 
       northing,
       easting,
-      grid
+      hardLineRecords
     }
     // const activeWell
     // saveLeaseLinesToJSON 
-    postHardLinesToJSONDb(wellInfoAndLeaseLines)
+    postHardLinesToDynamoDb(wellInfoAndLeaseLines)
     saveHardLinesToReduxStore(wellInfoAndLeaseLines)
   }
 
@@ -98,16 +90,16 @@ const HardLines = ({activeWell, saveHardLinesToReduxStore, postHardLinesToJSONDb
   }
 
   const addRow = () => {
-    const gridLength = grid.length
-    const newRow = [{value: gridLength, readOnly: true}, {value: 0}, {value: 0}]
-    const newGrid = [...grid, newRow]
-    setGrid(newGrid)
+    const hardLineRecordsLength = hardLineRecords.length
+    const newRow = [{value: hardLineRecordsLength, readOnly: true}, {value: 0}, {value: 0}]
+    const newhardLineRecords = [...hardLineRecords, newRow]
+    setHardLineRecords(newhardLineRecords)
   }
 
   const removeRow = () => {
-    const newGrid = [...grid]
-    newGrid.pop()
-    setGrid(newGrid)
+    const newhardLineRecords = [...hardLineRecords]
+    newhardLineRecords.pop()
+    setHardLineRecords(newhardLineRecords)
   }
   
 
@@ -116,7 +108,7 @@ const HardLines = ({activeWell, saveHardLinesToReduxStore, postHardLinesToJSONDb
       <Row>
         <Col xs={10}>
           {/* {renderWellHeader()} */}
-          <ReactDataSheet data={grid} valueRenderer={(cell)=> cell.value} onCellsChanged={onCellsChanged}/>
+          <ReactDataSheet data={hardLineRecords} valueRenderer={(cell)=> cell.value} onCellsChanged={onCellsChanged}/>
           {renderRowsButtons()}
         </Col>
       </Row>
@@ -124,11 +116,12 @@ const HardLines = ({activeWell, saveHardLinesToReduxStore, postHardLinesToJSONDb
   )
 }
 
-const mapStateToProps = ({activeWell, postHardLinesToJSONDbReducer}) => {
+const mapStateToProps = ({saveWellInfoToReduxStoreReducer, activeWell, postHardLinesToDynamoDbReducer}) => {
   return {
+    saveWellInfoToReduxStoreReducer,
     activeWell,
-    postHardLinesToJSONDbReducer,
+    postHardLinesToDynamoDbReducer,
   }
 }
 
-export default connect(mapStateToProps, {saveHardLinesToReduxStore, postHardLinesToJSONDb})(HardLines)
+export default connect(mapStateToProps, {saveHardLinesToReduxStore, postHardLinesToDynamoDb})(HardLines)
