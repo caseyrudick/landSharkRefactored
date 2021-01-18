@@ -109,12 +109,6 @@ const Surveys = ({ postSurveysToDynamoDb, activeWell, saveSurveysToReduxStore ,s
 
   }
 
-  const handleRemoveRow = () => {
-    const newsurveys = [...surveys];
-    newsurveys.pop();
-    setSurveys(newsurveys);
-  };
-
   const createRows = (numberOfRowsToAdd) => {
     let createdRows = []
     for (let i = 0; i < numberOfRowsToAdd; i++) {
@@ -125,10 +119,20 @@ const Surveys = ({ postSurveysToDynamoDb, activeWell, saveSurveysToReduxStore ,s
     return createdRows
   };
 
+  const handleRemoveRow = (rows) => {
+    const newsurveys = [...surveys];
+    while (rows > 0) {
+      newsurveys.pop();
+      rows -= 1;
+    }
+    setSurveys(newsurveys);
+  };
+
   const handleAddRows = (rows) => {
     const newsurveys = [...surveys, ...createRows(rows)]
     setSurveys(newsurveys)
   }
+
 
   const renderSetRowsButtons = () => {
     return (
@@ -146,7 +150,7 @@ const Surveys = ({ postSurveysToDynamoDb, activeWell, saveSurveysToReduxStore ,s
           <Button variant="success" className="ml-4" value={1} onClick={(event) => handleAddRows(event.target.value)}>
             Add a row
           </Button>
-          <Button variant="danger" className="ml-4" onClick={handleRemoveRow}>
+          <Button variant="success" className="ml-4" value={1} onClick={(event) => handleRemoveRow(event.target.value)}>
             Remove a row
           </Button>
         </Col>

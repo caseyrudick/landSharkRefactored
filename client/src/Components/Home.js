@@ -30,7 +30,7 @@ import getWellsFromDynamoDb from "../ActionCreators/getWellsFromDynamoDb"
 import getLeaseLinesFromDynamoDb from '../ActionCreators/getLeaseLinesFromDynamoDb';
 
 
-const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsFromDynamoDb, postWellInfoToDynamoDb, saveActiveWellToReduxStore, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getLeaseLinesFromDynamoDb}) => {
+const Home = ({ getHardLinesFromDynamoDb, getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsFromDynamoDb, postWellInfoToDynamoDb, saveActiveWellToReduxStore, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getLeaseLinesFromDynamoDb}) => {
   const [activeWell, setActiveWell] = useState('None');
   const [operator, setOperator] = useState('');
   const [rig, setRig] = useState('');
@@ -45,7 +45,7 @@ const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsF
     // getWellsWithLeaseLinesFromJSONDb()
     // getWellsWithSurveysFromJSONDb()
     // getWellsWithHardLinesFromJSONDb()
-    // getWellsFromDynamoDb()
+    getWellsFromDynamoDb()
   }, []);
 
 
@@ -111,6 +111,7 @@ const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsF
   const handleFetchData = () => {
     getWellPlansFromDynamoDb(activeWell)
     getLeaseLinesFromDynamoDb(activeWell)
+    getHardLinesFromDynamoDb(activeWell)
     //getSurveysFromJSONDb(activeWell)
     // setTimeout(getWellPlansFromJSONDb, 500, activeWell);
     //setTimeout(getLeaseLinesFromJSONDb, 1000, activeWell);

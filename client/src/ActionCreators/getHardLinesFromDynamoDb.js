@@ -18,7 +18,7 @@ export default (selectedWell) => {
       console.log(response)
       dispatch({
         type: GET_HARD_LINES_FROM_DYNAMODB_RECEIVED,
-        payload: response.data
+        payload: response
       })
     } catch (error) {
       dispatch({

@@ -15,7 +15,7 @@ export default (selectedWell) => {
     console.log(well)
     try {
       const response = await axios.post("https://vjdgrewf2h.execute-api.us-east-2.amazonaws.com/dev/getleaselines", well)
-      console.log(response)
+      console.log(response.data)
       dispatch({
         type: GET_LEASE_LINES_FROM_DYNAMODB_RECEIVED,
         payload: response.data

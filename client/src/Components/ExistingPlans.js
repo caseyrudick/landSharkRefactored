@@ -28,21 +28,15 @@ const ExistingPlans = ({getWellPlansFromDynamoDbReducer, activeWell}) => {
 
   const createCopies = () => {
     setPlans([...getWellPlansFromDynamoDbReducer.response.Items])
-    console.log(getWellPlansFromDynamoDbReducer.response.Items)
-    console.log(plans)
     createReactDataSheetGridFromPlans();
   }
   
   const createReactDataSheetGridFromPlans = () => {
-    // console.log("Creating grid")
     let dataSheetHeader = [[{value: '', readOnly: true, width: '3rem'}, {value: 'Measured Depth', readOnly: true, width: '10rem'}, {value: 'Inclination', readOnly: true, width: '7rem'}, {value: 'Azimuth', readOnly: true, width: '7rem'}, {value: 'TVD', readOnly: true, width: '7rem'}, {value: 'NS', readOnly: true, width: '7rem'}, {value: 'EW', readOnly: true, width: '7rem'}, {value: 'SECT', readOnly: true, width: '7rem'}, {value: 'DLS', readOnly: true, width: '7rem'}]]
     let plansCopy = [...plans];
-
-    // console.log(`plansCopy: ${plansCopy}`);
     plansCopy.forEach((planLineItem, idx) => {
-      console.log(planLineItem);
       let newRow = [];
-      newRow[0] = {value: "", width: "3rem"}
+      newRow[0] = {value: idx+1, width: "4rem", readOnly: true}
       newRow[1] = {value: parseInt(planLineItem.MD), width: "10rem"}
       newRow[2] = {value: parseInt(planLineItem.INC), width: "7rem"}
       newRow[3] = {value: parseInt(planLineItem.AZM), width: "7rem"}
@@ -51,7 +45,6 @@ const ExistingPlans = ({getWellPlansFromDynamoDbReducer, activeWell}) => {
       newRow[6] = {value: parseInt(planLineItem.Easting), width: "7rem"}
       newRow[7] = {value: parseInt(planLineItem.VS), width: "7rem"}
       newRow[8] = {value: parseInt(planLineItem.DLS), width: "7rem"}
-      console.log(newRow)
       dataSheetHeader.push(newRow)      
     })
     setGrid(dataSheetHeader);

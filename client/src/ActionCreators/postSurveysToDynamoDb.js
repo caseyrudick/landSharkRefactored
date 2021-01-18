@@ -29,7 +29,9 @@ export default ({operator, rig ,well, county, usState, surveys, northing, eastin
       console.log(response.data)
       dispatch({
         type: POST_SURVEYS_TO_DYNAMODB_RECEIVED,
-        payload: response
+        payload: response,
+        surveys: wellInfo.surveys 
+
       })
     } catch (error) {
 

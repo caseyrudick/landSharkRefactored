@@ -17,10 +17,31 @@ const ExistingLeaseLines = ({getLeaseLinesFromDynamoDbReducer, activeWell}) => {
 
   useEffect(()=>{
     if (getLeaseLinesFromDynamoDbReducer.status === "received") {
-      let leaseLinesFromReducerCopy = [...getLeaseLinesFromDynamoDbReducer.response]
-      setLeaseLines(leaseLinesFromReducerCopy)
+      createCopy()
     }
-  },[getLeaseLinesFromDynamoDbReducer.status])
+  },[getLeaseLinesFromDynamoDbReducer.response.Items])
+
+  useEffect(() => {
+    createReactDataSheetGridFromLeaseLines()
+  }, [leaseLines])
+
+  const createCopy = () => {
+    let leaseLinesFromReducerCopy = [...getLeaseLinesFromDynamoDbReducer.response.Items]
+    setLeaseLines(leaseLinesFromReducerCopy)
+  }
+
+  const createReactDataSheetGridFromLeaseLines = () => {
+    let dataSheetHeader = [[{value: '', readOnly: true, width: '3rem'},  {value: 'Northing', readOnly: true, width: '7rem'}, {value: 'Easting', readOnly: true, width: '7rem'}]]
+    let leaseLinesCopy = [...leaseLines];
+    leaseLinesCopy.forEach((leaseLineItem, idx) => {
+      let newRow = [];
+      newRow[0] = {value: idx + 1, width: "4rem", readOnly: true}
+      newRow[1] = {value: parseInt(leaseLineItem.Northing), width: "7rem"}
+      newRow[2] = {value: parseInt(leaseLineItem.Easting), width: "7rem"}
+      dataSheetHeader.push(newRow)
+    })
+    setGrid(dataSheetHeader)
+  }
 
   const renderMain = () => {
     if (getLeaseLinesFromDynamoDbReducer.status === "received") {
@@ -28,7 +49,7 @@ const ExistingLeaseLines = ({getLeaseLinesFromDynamoDbReducer, activeWell}) => {
       return (
         <React.Fragment>
           {/* <h3 className="my-4">{operator} - {rig} - {well}</h3> */}
-          <ReactDataSheet data = {getLeaseLinesFromDynamoDbReducer.response} valueRenderer = {cell => cell.value} width></ReactDataSheet>
+          <ReactDataSheet data = {grid} valueRenderer = {cell => cell.value} width></ReactDataSheet>
         </React.Fragment>
       )
     }

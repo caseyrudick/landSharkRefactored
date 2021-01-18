@@ -17,10 +17,31 @@ const ExistingHardLines = ({getHardLinesFromDynamoDbReducer, activeWell}) => {
 
   useEffect(()=>{
     if (getHardLinesFromDynamoDbReducer.status === "received") {
-      let hardLinesFromReducerCopy = [...getHardLinesFromDynamoDbReducer.response]
-      setHardLines(hardLinesFromReducerCopy)
+      createCopy()
     }
-  },[getHardLinesFromDynamoDbReducer.status])
+  },[getHardLinesFromDynamoDbReducer.response.Items])
+
+  useEffect(() => {
+    createReactDataSheetGridFromHardLines()
+  }, [hardLines])
+
+  const createCopy = () => {
+    let hardLinesFromReducerCopy = [...getHardLinesFromDynamoDbReducer.response.Items]
+    setHardLines(hardLinesFromReducerCopy)
+  }
+
+  const createReactDataSheetGridFromHardLines = () => {
+    let dataSheetHeader = [[{value: '', readOnly: true, width: '3rem'},  {value: 'Northing', readOnly: true, width: '7rem'}, {value: 'Easting', readOnly: true, width: '7rem'}]]
+    let hardLinesCopy = [...hardLines];
+    hardLinesCopy.forEach((hardLineItem, idx) => {
+      let newRow = [];
+      newRow[0] = {value: idx + 1, width: "4rem", readOnly: true}
+      newRow[1] = {value: parseInt(hardLineItem.Northing), width: "7rem"}
+      newRow[2] = {value: parseInt(hardLineItem.Easting), width: "7rem"}
+      dataSheetHeader.push(newRow)
+    })
+    setGrid(dataSheetHeader)
+  }
 
   const renderMain = () => {
     if (getHardLinesFromDynamoDbReducer.status === "received") {
@@ -28,7 +49,7 @@ const ExistingHardLines = ({getHardLinesFromDynamoDbReducer, activeWell}) => {
       return (
         <React.Fragment>
           {/* <h3 className="my-4">{operator} - {rig} - {well}</h3> */}
-          <ReactDataSheet data = {getHardLinesFromDynamoDbReducer.response} valueRenderer = {cell => cell.value} width></ReactDataSheet>
+          <ReactDataSheet data = {grid} valueRenderer = {cell => cell.value} width></ReactDataSheet>
         </React.Fragment>
       )
     }
