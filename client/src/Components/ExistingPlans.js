@@ -9,7 +9,7 @@ import Button from "react-bootstrap/Button"
 
 import 'react-datasheet/lib/react-datasheet.css'
 import ReactDataSheet from "react-datasheet"
-import getWellPlansFromJSONDb from "../ActionCreators/getWellPlansFromJSONDb"
+
 
 const ExistingPlans = ({getWellPlansFromDynamoDbReducer, activeWell}) => {
   let [plans, setPlans] = useState([]);

@@ -21,7 +21,7 @@ export default ({operator, rig ,well, county, usState, leaseLines}) => {
         leaseLines,
         date: moment().format()
       }
-      const response = await axios.post("https://hb6hj6zn5h.execute-api.us-east-2.amazonaws.com/dev/postleaselines", LeaseLinesInfo)
+      const response = await axios.post("https://vjdgrewf2h.execute-api.us-east-2.amazonaws.com/dev/postleaselines", LeaseLinesInfo)
       console.log(response)
       dispatch({
         type: POST_LEASE_LINES_TO_DYNAMODB_RECEIVED,

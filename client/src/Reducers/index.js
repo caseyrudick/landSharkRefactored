@@ -3,40 +3,33 @@ import { combineReducers } from "redux"
 // import selectWellFromReduxStoreReducer from "./selectWellFromReduxStoreReducer"
 // import postPlansToJSONdb from "./postPlansToJSONdb"
 import saveWellInfoToReduxStoreReducer from "./saveWellInfoToReduxStoreReducer"
-import postWellInfoToJSONDbReducer from "./postWellInfoToJSONDbReducer"
-import getWellsFromJSONDbReducer from "./getWellsFromJSONDbReducer"
-import postPlansToJSONDbReducer from "./postPlansToJSONDbReducer"
 import savePlansToReduxStoreReducer from "./savePlansToReduxStoreReducer"
-import getWellPlansFromJSONDbReducer from "./getWellPlansFromJSONDbReducer"
 import saveActiveWellToReduxStoreReducer from "./saveActiveWellToReduxStoreReducer"
 import saveLeaseLinesToReduxStoreReducer from "./saveLeaseLinesToReduxStoreReducer"
-import postLeaseLinesToJSONDbReducer from "./postLeaseLinesToJSONDbReducer"
-import getLeaseLinesFromJSONDbReducer from "./getLeaseLinesFromJSONDbReducer"
-import getWellsWithLeaseLinesFromJSONDbReducer from "./getWellsWithLeaseLinesFromJSONDbReducer"
 import saveSurveysToReduxStoreReducer from "./saveSurveysToReduxStoreReducer"
-import postSurveysToJSONDbReducer from "./postSurveysToJSONDbReducer"
-import getWellsWithSurveysFromJSONDbReducer from "./getWellsWithSurveysFromJSONDbReducer"
-import getSurveysFromJSONDbReducer from "./getSurveysFromJSONDbReducer"
-import postHardLinesToJSONDbReducer from "./postHardLinesToJSONDbReducer"
 import saveHardLinesToReduxStoreReducer from "./saveHardLinesToReduxStoreReducer"
-import getWellsWithHardLinesFromJSONDbReducer from "./getWellsWithHardLinesFromJSONDbReducer"
-import getHardLinesFromJSONDbReducer from "./getHardLinesFromJSONDbReducer"
 import postWellInfoToDynamoDbReducer from "./postWellInfoToDynamoDbReducer"
 import postPlansToDynamoDbReducer from "./postPlansToDynamoDbReducer"
 import getWellsFromDynamoDbReducer from "./getWellsFromDynamoDbReducer"
 import getWellPlansFromDynamoDbReducer from "./getWellPlansFromDynamoDbReducer"
 import postHardLinesToDynamoDbReducer from "./postHardLinesToDynamoDbReducer"
 import postLeaseLinesToDynamoDbReducer from "./postLeaseLinesToDynamoDbReducer"
+import postSurveysToDynamoDbReducer from "./postSurveysToDynamoDbReducer"
+import getLeaseLinesFromDynamoDbReducer from "./getLeaseLinesFromDynamoDbReducer"
+import getHardLinesFromDynamoDbReducer from "./getHardLinesFromDynamoDbReducer"
+
+
 export default combineReducers({
 
-  // getWellsFromJSONDbReducer,
+
   // getWellsWithLeaseLinesFromJSONDbReducer,
   // getWellsWithSurveysFromJSONDbReducer,
   // getWellsWithHardLinesFromJSONDbReducer,
 
   getWellsFromDynamoDbReducer,
   getWellPlansFromDynamoDbReducer, 
-  
+  getLeaseLinesFromDynamoDbReducer,
+  getHardLinesFromDynamoDbReducer,
   // getWellPlansFromJSONDbReducer,
   // getLeaseLinesFromJSONDbReducer,
   // getSurveysFromJSONDbReducer,
@@ -51,6 +44,7 @@ export default combineReducers({
   postHardLinesToDynamoDbReducer,
   postWellInfoToDynamoDbReducer,
   postLeaseLinesToDynamoDbReducer,
+  postSurveysToDynamoDbReducer,
 
   saveWellInfoToReduxStoreReducer,  
   savePlansToReduxStoreReducer,

@@ -22,7 +22,7 @@ export default ({operator, rig ,well, county, usState, hardLineRecords}) => {
         date: moment().format()
       }
       console.log(hardLineRecords)
-      const response = await axios.post("https://35q1yjn9z6.execute-api.us-east-2.amazonaws.com/dev/posthardlines", hardLineInfo)
+      const response = await axios.post("https://u1o49kujsh.execute-api.us-east-2.amazonaws.com/dev/posthardlines", hardLineInfo)
       console.log(response)
       dispatch({
         type: POST_HARD_LINES_TO_DYNAMODB_RECEIVED,

@@ -25,7 +25,7 @@ import PolyLines from './PolyLines'
 import SignInHome from "./UserVerification/SignInHome"
 import { Link } from "react-router-dom"
 
-const Dashboard = ({getWellPlansFromDynamoDbReducer, saveHardLinesToReduxStoreReducer, getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSurveysToReduxStoreReducer, activeWell, saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, getLeaseLinesFromJSONDbReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
+const Dashboard = ({getHardLinesFromDynamoDbReducer, getLeaseLinesFromDynamoDbReducer, getWellPlansFromDynamoDbReducer, saveHardLinesToReduxStoreReducer, saveSurveysToReduxStoreReducer, activeWell, saveWellInfoToReduxStoreReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
   
   return (
     <React.Fragment>
@@ -45,39 +45,40 @@ const Dashboard = ({getWellPlansFromDynamoDbReducer, saveHardLinesToReduxStoreRe
           {getWellPlansFromDynamoDbReducer.status === "received" && getWellPlansFromDynamoDbReducer.response.Count > 0 ? <ExistingPlans/> : <Plans/>}
           </Container>
         </Tab>
-        <Tab eventKey="PolyLines" title="PolyLines" disabled={false/*getLeaseLinesFromDynamoDbReducer.status === "received" || getHardLinesFromDynamoDbReducer.status === "received"|| saveWellInfoToReduxStoreReducer.status === "received" ? false : true}*/} >
+        <Tab eventKey="PolyLines" title="PolyLines" disabled={getLeaseLinesFromDynamoDbReducer.status === "received" || getHardLinesFromDynamoDbReducer.status === "received"|| saveWellInfoToReduxStoreReducer.status === "received" ? false : true} >
           <Container>
-            {<PolyLines/>/* {getLeaseLinesFromDynamoDbReducer.status === "received" && getHardLinesFromDynamoDbReducer.status === "received" ? <ExistingPolyLines/> : <PolyLines/> } */}
+            <PolyLines/>
           </Container>
         </Tab>
         {/* <Tab eventKey="PVA" title="PVA" disabled={(saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received")|| activeWell.status === "received" ? false : true}>
           <Container>
             {saveSurveysToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.response && saveLeaseLinesToReduxStoreReducer.status === "received"  && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received" ? <PVA/> : <ExistingPVA/> }
           </Container>
-        </Tab>
-        <Tab eventKey="Surveys" title="Surveys" disabled={(saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received") || activeWell.status === "received" ? false : true}>
-          <Container>
-            {getSurveysFromJSONDbReducer.status === "received" ? <ExistingSurveys/> : <Surveys/> }
-          </Container>
         </Tab> */}
+        <Tab eventKey="Surveys" title="Surveys" disabled={false/*(saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received") || activeWell.status === "received" ? false : true*/}>
+          <Container>
+            {<Surveys/>/*getSurveysFromJSONDbReducer.status === "received" ? <ExistingSurveys/> : <Surveys/> */}
+          </Container>
+        </Tab>
       </Tabs>
     </React.Fragment>
   );
 }
 
-const mapStateToProps = ({ postHardLinesToDynamoDbReducer, getWellPlansFromDynamoDbReducer, saveHardLinesToReduxStoreReducer,getHardLinesFromJSONDbReducer, getSurveysFromJSONDbReducer, saveSurveysToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, getWellPlansFromJSONDbReducer, activeWell, getLeaseLinesFromJSONDbReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
+const mapStateToProps = ({ getHardLinesFromDynamoDbReducer, getLeaseLinesFromDynamoDbReducer, postHardLinesToDynamoDbReducer, getWellPlansFromDynamoDbReducer, saveHardLinesToReduxStoreReducer, saveSurveysToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, activeWell, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
   return {
     saveWellInfoToReduxStoreReducer,
     getWellPlansFromDynamoDbReducer, 
-    getWellPlansFromJSONDbReducer,
-    getHardLinesFromJSONDbReducer,
-    getSurveysFromJSONDbReducer,
+    getLeaseLinesFromDynamoDbReducer,
+
     activeWell,
-    getLeaseLinesFromJSONDbReducer,
+    getLeaseLinesFromDynamoDbReducer,
     savePlansToReduxStoreReducer,
     saveLeaseLinesToReduxStoreReducer,
     saveSurveysToReduxStoreReducer,
     saveHardLinesToReduxStoreReducer,
+    postHardLinesToDynamoDbReducer,
+    getHardLinesFromDynamoDbReducer
   }
 }
 

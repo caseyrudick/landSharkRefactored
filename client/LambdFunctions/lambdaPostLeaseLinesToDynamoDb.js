@@ -35,7 +35,7 @@ exports.handler = (event, context, callback) => {
          })
     }
     
-    return dynamodb.batchWriteItem({RequestItems: {"LeaseLines": putItemsArray}}, function(err, data) {
+    return docClient.batchWrite({RequestItems: {"LeaseLines": putItemsArray}}, function(err, data) {
         if (err) {
             console.log(err)
             callback(err)

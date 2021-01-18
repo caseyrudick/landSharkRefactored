@@ -11,30 +11,30 @@ import 'react-datasheet/lib/react-datasheet.css'
 import ReactDataSheet from "react-datasheet"
 import { get } from "lodash"
 
-const ExistingLeaseLines = ({getLeaseLinesFromJSONDbReducer, activeWell}) => {
+const ExistingLeaseLines = ({getLeaseLinesFromDynamoDbReducer, activeWell}) => {
   const [leaseLines, setLeaseLines] = useState([])
   const [grid, setGrid] = useState([])
 
   useEffect(()=>{
-    if (getLeaseLinesFromJSONDbReducer.status === "received") {
-      let leaseLinesFromReducerCopy = [...getLeaseLinesFromJSONDbReducer.response]
+    if (getLeaseLinesFromDynamoDbReducer.status === "received") {
+      let leaseLinesFromReducerCopy = [...getLeaseLinesFromDynamoDbReducer.response]
       setLeaseLines(leaseLinesFromReducerCopy)
     }
-  },[getLeaseLinesFromJSONDbReducer.status])
+  },[getLeaseLinesFromDynamoDbReducer.status])
 
   const renderMain = () => {
-    if (getLeaseLinesFromJSONDbReducer.status === "received") {
+    if (getLeaseLinesFromDynamoDbReducer.status === "received") {
       const {operator, rig, well } = activeWell.response
       return (
         <React.Fragment>
           {/* <h3 className="my-4">{operator} - {rig} - {well}</h3> */}
-          <ReactDataSheet data = {getLeaseLinesFromJSONDbReducer.response} valueRenderer = {cell => cell.value} width></ReactDataSheet>
+          <ReactDataSheet data = {getLeaseLinesFromDynamoDbReducer.response} valueRenderer = {cell => cell.value} width></ReactDataSheet>
         </React.Fragment>
       )
     }
   }
 
-  if (getLeaseLinesFromJSONDbReducer.status === "received") {
+  if (getLeaseLinesFromDynamoDbReducer.status === "received") {
     return (
       <Container>
         {renderMain()}
@@ -45,10 +45,10 @@ const ExistingLeaseLines = ({getLeaseLinesFromJSONDbReducer, activeWell}) => {
     }
 }
 
-const mapStateToProps = ({activeWell, getLeaseLinesFromJSONDbReducer}) => {
+const mapStateToProps = ({activeWell, getLeaseLinesFromDynamoDbReducer}) => {
  return {
   activeWell, 
-  getLeaseLinesFromJSONDbReducer
+  getLeaseLinesFromDynamoDbReducer
  }
 }
 

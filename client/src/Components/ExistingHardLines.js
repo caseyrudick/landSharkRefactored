@@ -11,30 +11,30 @@ import 'react-datasheet/lib/react-datasheet.css'
 import ReactDataSheet from "react-datasheet"
 import { get } from "lodash"
 
-const ExistingHardLines = ({getHardLinesFromJSONDbReducer, activeWell}) => {
+const ExistingHardLines = ({getHardLinesFromDynamoDbReducer, activeWell}) => {
   const [hardLines, setHardLines] = useState([])
   const [grid, setGrid] = useState([])
 
   useEffect(()=>{
-    if (getHardLinesFromJSONDbReducer.status === "received") {
-      let hardLinesFromReducerCopy = [...getHardLinesFromJSONDbReducer.response]
+    if (getHardLinesFromDynamoDbReducer.status === "received") {
+      let hardLinesFromReducerCopy = [...getHardLinesFromDynamoDbReducer.response]
       setHardLines(hardLinesFromReducerCopy)
     }
-  },[getHardLinesFromJSONDbReducer.status])
+  },[getHardLinesFromDynamoDbReducer.status])
 
   const renderMain = () => {
-    if (getHardLinesFromJSONDbReducer.status === "received") {
+    if (getHardLinesFromDynamoDbReducer.status === "received") {
       const {operator, rig, well } = activeWell.response
       return (
         <React.Fragment>
           {/* <h3 className="my-4">{operator} - {rig} - {well}</h3> */}
-          <ReactDataSheet data = {getHardLinesFromJSONDbReducer.response} valueRenderer = {cell => cell.value} width></ReactDataSheet>
+          <ReactDataSheet data = {getHardLinesFromDynamoDbReducer.response} valueRenderer = {cell => cell.value} width></ReactDataSheet>
         </React.Fragment>
       )
     }
   }
 
-  if (getHardLinesFromJSONDbReducer.status === "received") {
+  if (getHardLinesFromDynamoDbReducer.status === "received") {
     return (
       <Container>
         {renderMain()}
@@ -45,10 +45,10 @@ const ExistingHardLines = ({getHardLinesFromJSONDbReducer, activeWell}) => {
     }
 }
 
-const mapStateToProps = ({activeWell, getHardLinesFromJSONDbReducer}) => {
+const mapStateToProps = ({activeWell, getHardLinesFromDynamoDbReducer}) => {
  return {
   activeWell, 
-  getHardLinesFromJSONDbReducer
+  getHardLinesFromDynamoDbReducer
  }
 }
 

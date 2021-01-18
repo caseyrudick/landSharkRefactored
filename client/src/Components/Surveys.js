@@ -20,15 +20,15 @@ import calculateSECT from "../HelperFunctions/Calculations/SECT"
 import calculateDLS from "../HelperFunctions/Calculations/DLS"
 import postPlansToJSONDb from "../ActionCreators/postPlansToJSONDb";
 import saveSurveysToReduxStore from "../ActionCreators/saveSurveysToReduxStore"
-import postSurveysToJSONDb from "../ActionCreators/postSurveysToJSONDb"
+import postSurveysToDynamoDb from "../ActionCreators/postSurveysToDynamoDb"
 
-const Surveys = ({ postSurveysToJSONDb, activeWell, saveSurveysToReduxStore ,savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlansToReduxStoreReducer, postPlansToJSONDb}) => {
+const Surveys = ({ postSurveysToDynamoDb, activeWell, saveSurveysToReduxStore ,savePlansToReduxStore, saveWellInfoToReduxStoreReducer,savePlansToReduxStoreReducer, postPlansToJSONDb}) => {
   
-  const [editGrid, setEditGrid] = useState(true)
+  const [editsurveys, setEditsurveys] = useState(true)
   const [input, setInput] = useState(false)
   const [vsDirection, setVSDirection] = useState(0)
   
-  const initialGrid = [
+  const initialSurveys = [
     [{value: '', readOnly: true, width: '7rem'}, {value:"Measured Depth", readOnly: true, width: '7rem'}, {value:"Inclination", readOnly: true, width: '7rem'}, {value:"Azimuth", readOnly: true, width: '7rem'}, {value:"TVD", readOnly: true, width: '7rem'}, {value:"Northing", readOnly: true, width: '7rem'}, {value:"Easting", readOnly: true, width: '7rem'}, {value:"VS", readOnly: true, width: '7rem'},{value:"DLS", readOnly: true, width: '7rem'}],
     
     [{value: 1, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
@@ -39,7 +39,7 @@ const Surveys = ({ postSurveysToJSONDb, activeWell, saveSurveysToReduxStore ,sav
     // [{readOnly: true, value: 5}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
   ];
 
-  const [grid, setGrid] = useState(initialGrid);
+  const [surveys, setSurveys] = useState(initialSurveys);
 
   useEffect(()=>{
     if (input) {
@@ -52,30 +52,30 @@ const Surveys = ({ postSurveysToJSONDb, activeWell, saveSurveysToReduxStore ,sav
   }, [])
 
   const performCalculations = () => {
-    grid.map((row, index) => {
+    surveys.map((row, index) => {
       if (index === 0 || index === 1) {
         // nothing because we don't want to run calcs on the header array
       } else {
-        // for every array within grid array, want to iterate over and change the values of TVD, NS, EW, SECT, & DLS
+        // for every array within surveys array, want to iterate over and change the values of TVD, NS, EW, SECT, & DLS
         // note val after idx is column 
         // TVD order of args : (measuredDepthCurrent, inclinationCurrent, azimuthCurrent, measuredDepthPrior, inclinationPrior, azimuthPrior, calculatedTVDPrior)
         // NS order of args: (measuredDepthCurrent, inclinationCurrent, azimuthCurrent, measuredDepthPrior, inclinationPrior, azimuthPrior, calculatedNorthingPrior)
 
-        const calculatedTVD = calculateTVD(grid[index][1].value, grid[index][2].value, grid[index][3].value, grid[index - 1][1].value, grid[index - 1][2].value, grid[index - 1][3].value, grid[index - 1][4].value)
-        const calculatedNS = calculateNS(grid[index][1].value, grid[index][2].value, grid[index][3].value, grid[index - 1][1].value, grid[index - 1][2].value, grid[index - 1][3].value, grid[index - 1][5].value)
-        const calculatedEW = calculateEW(grid[index][1].value, grid[index][2].value, grid[index][3].value, grid[index - 1][1].value, grid[index - 1][2].value, grid[index - 1][3].value, grid[index - 1][6].value)
-        const calculatedSECT = calculateSECT(grid[index][1].value, grid[index][2].value, grid[index][3].value, grid[index - 1][1].value, grid[index - 1][2].value, grid[index - 1][3].value, grid[index - 1][5].value, grid[index - 1][6].value, index, vsDirection)
-        const calculatedDLS = calculateDLS(grid[index][1].value, grid[index][2].value, grid[index][3].value, grid[index - 1][1].value, grid[index - 1][2].value, grid[index - 1][3].value)
+        const calculatedTVD = calculateTVD(surveys[index][1].value, surveys[index][2].value, surveys[index][3].value, surveys[index - 1][1].value, surveys[index - 1][2].value, surveys[index - 1][3].value, surveys[index - 1][4].value)
+        const calculatedNS = calculateNS(surveys[index][1].value, surveys[index][2].value, surveys[index][3].value, surveys[index - 1][1].value, surveys[index - 1][2].value, surveys[index - 1][3].value, surveys[index - 1][5].value)
+        const calculatedEW = calculateEW(surveys[index][1].value, surveys[index][2].value, surveys[index][3].value, surveys[index - 1][1].value, surveys[index - 1][2].value, surveys[index - 1][3].value, surveys[index - 1][6].value)
+        const calculatedSECT = calculateSECT(surveys[index][1].value, surveys[index][2].value, surveys[index][3].value, surveys[index - 1][1].value, surveys[index - 1][2].value, surveys[index - 1][3].value, surveys[index - 1][5].value, surveys[index - 1][6].value, index, vsDirection)
+        const calculatedDLS = calculateDLS(surveys[index][1].value, surveys[index][2].value, surveys[index][3].value, surveys[index - 1][1].value, surveys[index - 1][2].value, surveys[index - 1][3].value)
 
 
-        grid[index][4] = {...grid[index][4], readOnly: true, value: calculatedTVD}
+        surveys[index][4] = {...surveys[index][4], readOnly: true, value: calculatedTVD}
         console.log(calculatedTVD)
-        grid[index][5] = {...grid[index][5], readOnly: true, value: calculatedNS}
-        grid[index][6] = {...grid[index][6], readOnly: true, value: calculatedEW}
-        grid[index][7] = {...grid[index][7], readOnly: true, value: calculatedSECT}
-        grid[index][8] = {...grid[index][8], readOnly: true, value: calculatedDLS}
+        surveys[index][5] = {...surveys[index][5], readOnly: true, value: calculatedNS}
+        surveys[index][6] = {...surveys[index][6], readOnly: true, value: calculatedEW}
+        surveys[index][7] = {...surveys[index][7], readOnly: true, value: calculatedSECT}
+        surveys[index][8] = {...surveys[index][8], readOnly: true, value: calculatedDLS}
 
-        setGrid(grid)
+        setSurveys(surveys)
         setInput(false)
 
       }
@@ -83,15 +83,15 @@ const Surveys = ({ postSurveysToJSONDb, activeWell, saveSurveysToReduxStore ,sav
   }
 
   const onCellsChanged = changes => {
-    // iterate through existing grid to get a copy and not mutate current as we iterate over
-    const gridNew = grid.map(row => [...row]);
+    // iterate through existing surveys to get a copy and not mutate current as we iterate over
+    const surveysNew = surveys.map(row => [...row]);
     // iterate through the changes.  Each change is a cell, each cell is an object
     // with cell (previousVal), row, col, currentVal
-    // add the value of the newGrid[row#][col#] to the new value 
+    // add the value of the newsurveys[row#][col#] to the new value 
     changes.forEach(({ cell, row, col, value }) => {
-      gridNew[row][col] = {...grid[row][col], value };
+      surveysNew[row][col] = {...surveys[row][col], value };
     });
-    setGrid(gridNew)
+    setSurveys(surveysNew)
     setInput(true)
   };
 
@@ -102,31 +102,32 @@ const Surveys = ({ postSurveysToJSONDb, activeWell, saveSurveysToReduxStore ,sav
 
   const handleSubmit = () => {
     const { well, operator, rig, county, uSstate, northing, easting } = activeWell.response
-    const wellInfo = {operator, well, rig, county, uSstate, northing, easting, grid}
-    saveSurveysToReduxStore(grid)
-    postSurveysToJSONDb(wellInfo)
+    const wellInfo = {operator, well, rig, county, uSstate, northing, easting, surveys}
+    console.log(surveys)
+    saveSurveysToReduxStore(surveys)
+    postSurveysToDynamoDb(wellInfo)
 
   }
 
   const handleRemoveRow = () => {
-    const newGrid = [...grid];
-    newGrid.pop();
-    setGrid(newGrid);
+    const newsurveys = [...surveys];
+    newsurveys.pop();
+    setSurveys(newsurveys);
   };
 
   const createRows = (numberOfRowsToAdd) => {
     let createdRows = []
     for (let i = 0; i < numberOfRowsToAdd; i++) {
       createdRows.push(
-        [{readOnly: true, value: grid.length + i}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}]
+        [{readOnly: true, value: surveys.length + i}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}]
       )
     }
     return createdRows
   };
 
   const handleAddRows = (rows) => {
-    const newGrid = [...grid, ...createRows(rows)]
-    setGrid(newGrid)
+    const newsurveys = [...surveys, ...createRows(rows)]
+    setSurveys(newsurveys)
   }
 
   const renderSetRowsButtons = () => {
@@ -185,7 +186,7 @@ const Surveys = ({ postSurveysToJSONDb, activeWell, saveSurveysToReduxStore ,sav
       <Row>
         <Col xs={10}>
           {renderWellData()}
-          <ReactDataSheet data={grid} valueRenderer={(cell)=> cell.value} onCellsChanged={onCellsChanged}/>
+          <ReactDataSheet data={surveys} valueRenderer={(cell)=> cell.value} onCellsChanged={onCellsChanged}/>
         </Col>
         <Col xs={2}>
           <Form className="mt-7">
@@ -215,6 +216,6 @@ const mapStateToProps = ({activeWell, saveWellInfoToReduxStoreReducer}) => {
   }
 }
 
-export default connect(mapStateToProps, { postSurveysToJSONDb, saveSurveysToReduxStore, savePlansToReduxStore, postPlansToJSONDb})(Surveys)
+export default connect(mapStateToProps, { postSurveysToDynamoDb, saveSurveysToReduxStore, savePlansToReduxStore, postPlansToJSONDb})(Surveys)
 
 

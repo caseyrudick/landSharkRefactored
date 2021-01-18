@@ -40,12 +40,3 @@ export default (operator, rig ,well, county, usState, planRecords, northing, eas
     }
   }
 }
-
-
-// wellData = {
-//   "operator": "EOG"
-//   "rig": "H&P425"
-//   "well": "RyPepp"
-//   "county": "Lea"
-//   "uSstate": "NM"
-// }

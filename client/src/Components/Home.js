@@ -16,20 +16,21 @@ import _ from 'lodash'
 // import getWellNamesFromDynamoDb from 'ActionCreators/getWellNamesFromDynamoDb';
 import saveWellInfoToReduxStore from "../ActionCreators/saveWellInfoToReduxStore"
 import getWellPlansFromDynamoDb from '../ActionCreators/getWellPlansFromDynamoDb';
-import postWellInfoToJSONDb from "../ActionCreators/postWellInfoToJSONDb"
-import getWellPlansFromJSONDb from "../ActionCreators/getWellPlansFromJSONDb"
+// import postWellInfoToJSONDb from "../ActionCreators/postWellInfoToJSONDb"
+// import getWellPlansFromJSONDb from "../ActionCreators/getWellPlansFromJSONDb"
 import saveActiveWellToReduxStore from "../ActionCreators/saveActiveWellToReduxStore"
-import getLeaseLinesFromJSONDb from "../ActionCreators/getLeaseLinesFromJSONDb"
-import getWellsWithLeaseLinesFromJSONDb from "../ActionCreators/getWellsWithLeaseLinesFromJSONDb"
-import getSurveysFromJSONDb from "../ActionCreators/getSurveysFromJSONDb"
-import getWellsWithSurveysFromJSONDb from "../ActionCreators/getWellsWithSurveysFromJSONDb"
-import getWellsWithHardLinesFromJSONDb from "../ActionCreators/getWellsWithHardLinesFromJSONDb"
-import getHardLinesFromJSONDb from "../ActionCreators/getHardLinesFromJSONDb"
+// import getLeaseLinesFromJSONDb from "../ActionCreators/getLeaseLinesFromJSONDb"
+// import getWellsWithLeaseLinesFromJSONDb from "../ActionCreators/getWellsWithLeaseLinesFromJSONDb"
+// import getSurveysFromJSONDb from "../ActionCreators/getSurveysFromJSONDb"
+//import getWellsWithSurveysFromJSONDb from "../ActionCreators/getWellsWithSurveysFromJSONDb"
+//import getWellsWithHardLinesFromJSONDb from "../ActionCreators/getWellsWithHardLinesFromJSONDb"
+import getHardLinesFromDynamoDb from "../ActionCreators/getHardLinesFromDynamoDb"
 import postWellInfoToDynamoDb from "../ActionCreators/postWellInfoToDynamoDb"
 import getWellsFromDynamoDb from "../ActionCreators/getWellsFromDynamoDb"
+import getLeaseLinesFromDynamoDb from '../ActionCreators/getLeaseLinesFromDynamoDb';
 
 
-const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsFromDynamoDb, postWellInfoToDynamoDb, getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb ,getWellsWithSurveysFromJSONDb, getSurveysFromJSONDb, getWellsWithLeaseLinesFromJSONDb ,getWellPlansFromJSONDb, saveActiveWellToReduxStore, postWellInfoToJSONDb, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getLeaseLinesFromJSONDb}) => {
+const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsFromDynamoDb, postWellInfoToDynamoDb, saveActiveWellToReduxStore, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getLeaseLinesFromDynamoDb}) => {
   const [activeWell, setActiveWell] = useState('None');
   const [operator, setOperator] = useState('');
   const [rig, setRig] = useState('');
@@ -44,7 +45,7 @@ const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsF
     // getWellsWithLeaseLinesFromJSONDb()
     // getWellsWithSurveysFromJSONDb()
     // getWellsWithHardLinesFromJSONDb()
-    getWellsFromDynamoDb()
+    // getWellsFromDynamoDb()
   }, []);
 
 
@@ -109,6 +110,7 @@ const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsF
 
   const handleFetchData = () => {
     getWellPlansFromDynamoDb(activeWell)
+    getLeaseLinesFromDynamoDb(activeWell)
     //getSurveysFromJSONDb(activeWell)
     // setTimeout(getWellPlansFromJSONDb, 500, activeWell);
     //setTimeout(getLeaseLinesFromJSONDb, 1000, activeWell);
@@ -145,16 +147,15 @@ const Home = ({ getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsF
         </Row>
       </Container>
     )
-//  }
+
 }
 
-const mapStateToProps = ({ getWellsFromDynamoDbReducer, postWellInfoToDynamoDbReducer, getHardLinesFromJSONDb, saveActiveWellToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, postWellInfoToJSONDbReducer, getWellsFromJSONDbReducer }) => {
+const mapStateToProps = ({ getWellsFromDynamoDbReducer, postWellInfoToDynamoDbReducer, saveActiveWellToReduxStoreReducer ,saveWellInfoToReduxStoreReducer }) => {
   return {
     saveWellInfoToReduxStoreReducer,
-    postWellInfoToJSONDbReducer,
     postWellInfoToDynamoDbReducer,
     getWellsFromDynamoDbReducer
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps, {getWellPlansFromDynamoDb, getWellsFromDynamoDb, postWellInfoToDynamoDb, getHardLinesFromJSONDb, getWellsWithHardLinesFromJSONDb, getWellsWithSurveysFromJSONDb, getSurveysFromJSONDb, getWellsWithLeaseLinesFromJSONDb ,saveActiveWellToReduxStore, getWellPlansFromJSONDb, saveWellInfoToReduxStore, postWellInfoToJSONDb, getLeaseLinesFromJSONDb })(Home);
+export default connect(mapStateToProps, {getLeaseLinesFromDynamoDb, getWellPlansFromDynamoDb, getWellsFromDynamoDb, postWellInfoToDynamoDb, getHardLinesFromDynamoDb, saveActiveWellToReduxStore, saveWellInfoToReduxStore })(Home);
