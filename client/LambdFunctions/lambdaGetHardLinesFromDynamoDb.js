@@ -5,7 +5,6 @@ const docClient = new AWS.DynamoDB.DocumentClient()
 exports.handler = (event, context, callback) => {
     const operator = event.item.split("-").map(word => word.trim())[0]
     const well = event.item.split("-").map(word => word.trim())[2]
-
     
     const params = {
         TableName: "HardLines",
@@ -16,15 +15,16 @@ exports.handler = (event, context, callback) => {
         },
         ExpressionAttributeValues: {
             ":operator": `${operator}`,
-            ":well": `${operator}`
+            ":well": `${well}`
         }
     }
     
-    docClient.scan(params, function(err, data) {
+    return docClient.scan(params, function(err, data) {
         if (err) {
             console.log(err)
             callback(err)
         } else {
+            console.log(data)
             console.log("successfully pulled hardLines")
             callback(null, data)
         }

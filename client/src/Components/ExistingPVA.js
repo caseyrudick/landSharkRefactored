@@ -13,7 +13,14 @@ import Plot from "react-plotly.js"
 import { isNumber } from "lodash"
 import saveSurveysToReduxStore from "../ActionCreators/saveSurveysToReduxStore"
 
-const ExistingPVA = ({savePlansToReduxStoreReducer, getHardLinesFromJSONDbReducer, saveSurveysToReduxStoreReducer, getSurveysFromJSONDbReducer, getWellPlansFromJSONDbReducer, activeWell, getLeaseLinesFromJSONDbReducer}) => {
+const ExistingPVA = ({ 
+  savePlansToReduxStoreReducer, 
+  getHardLinesFromDynamoDbReducer, 
+  saveSurveysToReduxStoreReducer, 
+  getSurveysFromDynamoDbReducer, 
+  getWellPlansFromDynamoDbReducer, 
+  activeWell, 
+  getLeaseLinesFromDynamoDbReducer }) => {
 
   const createEastingCoordinates = (data, polyLine = false) => {
     if (polyLine) {
@@ -63,6 +70,7 @@ const ExistingPVA = ({savePlansToReduxStoreReducer, getHardLinesFromJSONDbReduce
   } 
 
   const createSectCoordinates = (data) => {
+    console.log(data)
     if (data.length === 0) {
       return []
     } else {
@@ -77,16 +85,16 @@ const ExistingPVA = ({savePlansToReduxStoreReducer, getHardLinesFromJSONDbReduce
       <Plot
       data={[
         {
-          x: createSectCoordinates(getWellPlansFromJSONDbReducer.response),
-          y: createTVDCoordinates(getWellPlansFromJSONDbReducer.response),
+          x: createSectCoordinates(getWellPlansFromDynamoDbReducer.response.Items),
+          y: createTVDCoordinates(getWellPlansFromDynamoDbReducer.response.Items),
           type: "scatter",
           mode: "lines+markers",
           marker: {color: "blue"},
           name: "Plan"
         },
         {
-          x: createSectCoordinates(getSurveysFromJSONDbReducer.response),
-          y: createTVDCoordinates(getSurveysFromJSONDbReducer.response),
+          x: createSectCoordinates(getSurveysFromDynamoDbReducer.response.Items),
+          y: createTVDCoordinates(getSurveysFromDynamoDbReducer.response.Items),
           type: "scatter",
           mode: "lines+markers",
           marker: {color: "Red"},
@@ -112,32 +120,32 @@ const ExistingPVA = ({savePlansToReduxStoreReducer, getHardLinesFromJSONDbReduce
       <Plot
         data={[
           {
-            x: createEastingCoordinates(getWellPlansFromJSONDbReducer.response),
-            y: createNorthingCoordinates(getWellPlansFromJSONDbReducer.response),
+            x: createEastingCoordinates(getWellPlansFromDynamoDbReducer.response.data),
+            y: createNorthingCoordinates(getWellPlansFromDynamoDbReducer.response.data),
             type: "scatter",
             mode: "lines+markers",
             marker: {color: "blue"},
             name: "Plan"
           },
           {
-            x: createEastingCoordinates(getSurveysFromJSONDbReducer.response),
-            y: createNorthingCoordinates(getSurveysFromJSONDbReducer.response),
+            x: createEastingCoordinates(getSurveysFromDynamoDbReducer.response.data),
+            y: createNorthingCoordinates(getSurveysFromDynamoDbReducer.response.data),
             type: "scatter",
             mode: "lines+markers",
             marker: {color: "red"},
             name: "Surveys"
           },
           {
-            x: createEastingCoordinates(getLeaseLinesFromJSONDbReducer.response, true),
-            y: createNorthingCoordinates(getLeaseLinesFromJSONDbReducer.response, true),
+            x: createEastingCoordinates(getLeaseLinesFromDynamoDbReducer.response.data, true),
+            y: createNorthingCoordinates(getLeaseLinesFromDynamoDbReducer.response.data, true),
             type: "scatter",
             mode: "lines+markers",
             marker: {color: "black"},
             name: "Lease Lines"
           },
           {
-            x: createEastingCoordinates(getHardLinesFromJSONDbReducer.response, true),
-            y: createNorthingCoordinates(getHardLinesFromJSONDbReducer.response, true),
+            x: createEastingCoordinates(getHardLinesFromDynamoDbReducer.response.data, true),
+            y: createNorthingCoordinates(getHardLinesFromDynamoDbReducer.response.data, true),
             type: "scatter",
             mode: "lines+markers",
             marker: {color: "red"},
@@ -153,12 +161,12 @@ const ExistingPVA = ({savePlansToReduxStoreReducer, getHardLinesFromJSONDbReduce
   
 
 
-  if (getLeaseLinesFromJSONDbReducer.status === "received" && getWellPlansFromJSONDbReducer.status === "received") {
+  if (getLeaseLinesFromDynamoDbReducer.status === "received" && getWellPlansFromDynamoDbReducer.status === "received") {
     return (
       <Container>
-        <h3>{activeWell.operator} - {activeWell.rig} - {activeWell.well}</h3>
+        <h3>{activeWell.response.Operator.S} - {activeWell.response.Rig.S} - {activeWell.response.Well_Name.S}</h3>
         {renderSectionView()}
-        {renderPlanView()} 
+        {/* {renderPlanView()}  */}
       </Container>
     )
       
@@ -175,14 +183,21 @@ const ExistingPVA = ({savePlansToReduxStoreReducer, getHardLinesFromJSONDbReduce
 
 }
 
-const mapStateToProps = ({savePlansToReduxStoreReducer, getHardLinesFromJSONDbReducer, saveSurveysToReduxStoreReducer,getSurveysFromJSONDbReducer, getWellPlansFromJSONDbReducer, activeWell, getLeaseLinesFromJSONDbReducer}) => {
+const mapStateToProps = ({
+  savePlansToReduxStoreReducer, 
+  getHardLinesFromDynamoDbReducer, 
+  saveSurveysToReduxStoreReducer,
+  getSurveysFromDynamoDbReducer, 
+  getWellPlansFromDynamoDbReducer, 
+  activeWell, 
+  getLeaseLinesFromDynamoDbReducer}) => {
   return {
-    getWellPlansFromJSONDbReducer, 
-    activeWell: activeWell.response, 
-    getLeaseLinesFromJSONDbReducer,
-    getSurveysFromJSONDbReducer,
+    getWellPlansFromDynamoDbReducer, 
+    activeWell,
+    getLeaseLinesFromDynamoDbReducer,
+    getSurveysFromDynamoDbReducer,
     saveSurveysToReduxStoreReducer,
-    getHardLinesFromJSONDbReducer,
+    getHardLinesFromDynamoDbReducer,
     savePlansToReduxStoreReducer
   }
 }

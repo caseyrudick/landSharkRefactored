@@ -28,7 +28,7 @@ const ExistingPlans = ({getWellPlansFromDynamoDbReducer, activeWell}) => {
 
   const createCopies = () => {
     setPlans([...getWellPlansFromDynamoDbReducer.response.Items])
-    createReactDataSheetGridFromPlans();
+    // createReactDataSheetGridFromPlans();
   }
   
   const createReactDataSheetGridFromPlans = () => {

@@ -29,6 +29,7 @@ const PolyLines = ({saveWellInfoToReduxStoreReducer, getLeaseLinesFromDynamoDbRe
     }
   }
   if (getLeaseLinesFromDynamoDbReducer.status === "received" && getHardLinesFromDynamoDbReducer.status === "received") {
+
     return (
       <Container>
         {renderWellData()}
@@ -44,53 +45,56 @@ const PolyLines = ({saveWellInfoToReduxStoreReducer, getLeaseLinesFromDynamoDbRe
         </Row>
       </Container>
     )
-  } else if (getLeaseLinesFromDynamoDbReducer.status === "received") {
-    return (
-      <Container>
-        {renderWellData()}
-        <Row className="mt-4">
-          <Col>
-            <h4>Lease Lines</h4>
-            <ExistingLeaseLines/>
-          </Col>
-          <Col>
-          <h4>Hard Lines</h4>
-            <HardLines/>
-          </Col>
-        </Row>
-      </Container>
-    )
-  } else if (getHardLinesFromDynamoDbReducer.status === "received") {
-    <Container>
-      {renderWellData()}
-      <Row className="mt-4">
-        <Col>
-          <h4>Lease Lines</h4>
-          <LeaseLines/>
-        </Col>
-        <Col>
-          <h4>Hard Lines</h4>
-          <ExistingHardLines/>
-        </Col>
-      </Row>
-  </Container>
-  } else {
-    return (
-      <Container>
-        {renderWellData()}
-        <Row className="mt-4">
-          <Col>
-            <h4>Lease Lines</h4>
-            <LeaseLines/>
-          </Col>
-          <Col>
-          <h4>Hard Lines</h4>
-            <HardLines/>
-          </Col>
-        </Row>
-      </Container>
-    )
-  }
+  }     else {
+    return "something here"
+  } 
+//   else if (getLeaseLinesFromDynamoDbReducer.status === "received") {
+//     return (
+//       <Container>
+//         {renderWellData()}
+//         <Row className="mt-4">
+//           <Col>
+//             <h4>Lease Lines</h4>
+//             <ExistingLeaseLines/>
+//           </Col>
+//           <Col>
+//           <h4>Hard Lines</h4>
+//             <HardLines/>
+//           </Col>
+//         </Row>
+//       </Container>
+//     )
+//   } else if (getHardLinesFromDynamoDbReducer.status === "received") {
+//     <Container>
+//       {renderWellData()}
+//       <Row className="mt-4">
+//         <Col>
+//           <h4>Lease Lines</h4>
+//           <LeaseLines/>
+//         </Col>
+//         <Col>
+//           <h4>Hard Lines</h4>
+//           <ExistingHardLines/>
+//         </Col>
+//       </Row>
+//   </Container>
+//   } else {
+//     return (
+//       <Container>
+//         {renderWellData()}
+//         <Row className="mt-4">
+//           <Col>
+//             <h4>Lease Lines</h4>
+//             <LeaseLines/>
+//           </Col>
+//           <Col>
+//           <h4>Hard Lines</h4>
+//             <HardLines/>
+//           </Col>
+//         </Row>
+//       </Container>
+//     )
+//   }
 
 
 }

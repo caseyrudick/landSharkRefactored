@@ -26,8 +26,8 @@ const ExistingHardLines = ({getHardLinesFromDynamoDbReducer, activeWell}) => {
   }, [hardLines])
 
   const createCopy = () => {
-    let hardLinesFromReducerCopy = [...getHardLinesFromDynamoDbReducer.response.Items]
-    setHardLines(hardLinesFromReducerCopy)
+    console.log(getHardLinesFromDynamoDbReducer.response.Items)
+    setHardLines([...getHardLinesFromDynamoDbReducer.response.Items])
   }
 
   const createReactDataSheetGridFromHardLines = () => {

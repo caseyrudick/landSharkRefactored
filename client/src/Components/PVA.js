@@ -8,51 +8,66 @@ import saveLeaseLinesToReduxStore from "../ActionCreators/saveLeaseLinesToReduxS
 import saveWellInfoToReduxStore from "../ActionCreators/saveWellInfoToReduxStore"
 
 
-const PVA = ({saveSurveysToReduxStoreReducer, saveHardLinesToReduxStoreReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer, activeWell}) => {
+const PVA = ({
+  saveSurveysToReduxStoreReducer, 
+  saveHardLinesToReduxStoreReducer, 
+  savePlansToReduxStoreReducer, 
+  saveLeaseLinesToReduxStoreReducer, 
+  getWellPlansFromDynamoDbReducer, 
+  getLeaseLinesFromDynamoDbReducer,
+  getHardLinesFromDynamoDbReducer,
+  getSurveysFromDynamoDbReducer,
+  activeWell
+}) => {
   const createEastingCoordinates = (data, polyLine = false) => {
     if (polyLine) {
-      if (Object.keys(data).length === 0) {
-        console.log("nada")
-        return []
-      } else {
-        let result = data.map((row, index) => data[index][2].value).slice(1)
-        // console.log("easting" + result)
-        return result
-      }
+      // if (Object.keys(data).length === 0) {
+      //   console.log("nada")
+      //   return []
+      // } else {
+      //   let result = data.map((row, index) => data[index][2].value).slice(1)
+      //   // console.log("easting" + result)
+      //   return result
+      return data.map((row, index) => data[index][2].value).slice(1) || []
+      // }
     } else {
-      if (Object.keys(data).length === 0) {
-        console.log("nada")
-        return []
-      } else {
-        let result = data.map((row, index) => data[index][6].value).slice(1)
-        // console.log("easting" + result)
-        return result
+      // if (Object.keys(data).length === 0) {
+      //   console.log("nada")
+      //   return []
+      // } else {
+      //   let result = data.map((row, index) => data[index][6].value).slice(1)
+      //   // console.log("easting" + result)
+      //   return result
+      return data.map((row, index) => data[index][6].value).slice(1) || []
       }
     }
-  }  
+
   
   const createNorthingCoordinates = (data, polyLine = false) => {
     if (polyLine) {
-      if (Object.keys(data).length === 0) {
-        return []
-      } else {
-        let result = data.map((row, index) => data[index][1].value).slice(1)
-        // console.log("northing:" + result)
-        return result
-      }
+      // if (Object.keys(data).length === 0) {
+      //   return []
+      // } else {
+      //   let result = data.map((row, index) => data[index][1].value).slice(1)
+      //   // console.log("northing:" + result)
+      //   return result
+      return data.map((row, index) => data[index][1].value).slice(1) || []
+      // }
     } else {
-      if (Object.keys(data).length === 0) {
-        console.log("nada")
-        return []
-      } else {
-        let result = data.map((row, index) => data[index][5].value).slice(1)
+      // if (Object.keys(data).length === 0) {
+      //   console.log("nada")
+      //   return []
+      // } else {
+        // let result = data.map((row, index) => data[index][5].value).slice(1)
         // console.log("northing" + result)
-        return result
-      }
+        // return result
+      // }
+      return data.map((row, index) => data[index][5].value).slice(1) || []
     }
   }
 
-  const createTVDCoordiantes = (data) => {
+  const createTVDCoordinates = (data) => {
+    console.log(data)
     if (data.length === 0) {
       return []
     } else {
@@ -61,6 +76,7 @@ const PVA = ({saveSurveysToReduxStoreReducer, saveHardLinesToReduxStoreReducer, 
   } 
 
   const createSectCoordinates = (data) => {
+
     if (data.length === 0) {
       return []
     } else {
@@ -69,14 +85,14 @@ const PVA = ({saveSurveysToReduxStoreReducer, saveHardLinesToReduxStoreReducer, 
   }
   
 
-console.log(saveLeaseLinesToReduxStoreReducer.response.grid)
+  
 
   const renderSectionView = () => {
     return (
       <Plot
       data={[
         {
-          x: createTVDCoordiantes(savePlansToReduxStoreReducer.response),
+          x: createTVDCoordinates(savePlansToReduxStoreReducer.response),
           y: createSectCoordinates(savePlansToReduxStoreReducer.response),
           type: "scatter",
           mode: "lines+markers",
@@ -84,7 +100,7 @@ console.log(saveLeaseLinesToReduxStoreReducer.response.grid)
           name: "Plan"
         },
         {
-          x: createTVDCoordiantes(saveSurveysToReduxStoreReducer.response),
+          x: createTVDCoordinates(saveSurveysToReduxStoreReducer.response),
           y: createSectCoordinates(saveSurveysToReduxStoreReducer.response),
           type: "scatter",
           mode: "lines+markers",
@@ -150,13 +166,27 @@ console.log(saveLeaseLinesToReduxStoreReducer.response.grid)
 
 }
 
-const mapStateToProps = ({saveHardLinesToReduxStoreReducer, saveSurveysToReduxStoreReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer, activeWell}) => {
+const mapStateToProps = ({
+  saveHardLinesToReduxStoreReducer, 
+  saveSurveysToReduxStoreReducer, 
+  savePlansToReduxStoreReducer, 
+  saveLeaseLinesToReduxStoreReducer,
+  getWellPlansFromDynamoDbReducer, 
+  getLeaseLinesFromDynamoDbReducer,
+  getHardLinesFromDynamoDbReducer,
+  getSurveysFromDynamoDbReducer, 
+  activeWell
+}) => {
   return {
     savePlansToReduxStoreReducer, 
     saveLeaseLinesToReduxStoreReducer, 
     activeWell,
     saveHardLinesToReduxStoreReducer,
     saveSurveysToReduxStoreReducer,
+    getWellPlansFromDynamoDbReducer, 
+    getLeaseLinesFromDynamoDbReducer,
+    getHardLinesFromDynamoDbReducer,
+    getSurveysFromDynamoDbReducer, 
   }
 }
 

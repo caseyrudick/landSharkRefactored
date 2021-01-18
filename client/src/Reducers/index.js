@@ -17,7 +17,7 @@ import postLeaseLinesToDynamoDbReducer from "./postLeaseLinesToDynamoDbReducer"
 import postSurveysToDynamoDbReducer from "./postSurveysToDynamoDbReducer"
 import getLeaseLinesFromDynamoDbReducer from "./getLeaseLinesFromDynamoDbReducer"
 import getHardLinesFromDynamoDbReducer from "./getHardLinesFromDynamoDbReducer"
-
+import getSurveysFromDynamoDbReducer from "./getSurveysFromDynamoDbReducer"
 
 export default combineReducers({
 

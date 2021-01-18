@@ -12,13 +12,12 @@ export default (selectedWell) => {
       type: GET_HARD_LINES_FROM_DYNAMODB_REQUESTED
     })
     let well = { "item" : selectedWell }
-    console.log(well)
     try {
       const response = await axios.post("https://u1o49kujsh.execute-api.us-east-2.amazonaws.com/dev/gethardlines", well)
       console.log(response)
       dispatch({
         type: GET_HARD_LINES_FROM_DYNAMODB_RECEIVED,
-        payload: response
+        payload: response.data
       })
     } catch (error) {
       dispatch({

@@ -50,9 +50,9 @@ const Dashboard = ({getHardLinesFromDynamoDbReducer, getLeaseLinesFromDynamoDbRe
             <PolyLines/>
           </Container>
         </Tab>
-        <Tab eventKey="PVA" title="PVA" disabled={saveWellInfoToReduxStoreReducer.status === "received" /* && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received") */ ||  activeWell.status === "received" ? false : true}>
+        <Tab eventKey="PVA" title="PVA" disabled={ (saveWellInfoToReduxStoreReducer.status === "received"  && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received")  ||  activeWell.status === "received" ? false : true}>
           <Container>
-            {/*<PVA/> saveSurveysToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.response && saveLeaseLinesToReduxStoreReducer.status === "received"  && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received" ? <PVA/> : <ExistingPVA/> */}
+            {saveSurveysToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.response && saveLeaseLinesToReduxStoreReducer.status === "received"  && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received" ? <PVA/> : <ExistingPVA/>}
           </Container>
         </Tab>
         <Tab eventKey="Surveys" title="Surveys" disabled={false/*(saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received") || activeWell.status === "received" ? false : true*/}>

@@ -28,9 +28,20 @@ import getHardLinesFromDynamoDb from "../ActionCreators/getHardLinesFromDynamoDb
 import postWellInfoToDynamoDb from "../ActionCreators/postWellInfoToDynamoDb"
 import getWellsFromDynamoDb from "../ActionCreators/getWellsFromDynamoDb"
 import getLeaseLinesFromDynamoDb from '../ActionCreators/getLeaseLinesFromDynamoDb';
+import getSurveysFromDynamoDb from "../ActionCreators/getSurveysFromDynamoDb"
 
+const Home = ({ 
+  getHardLinesFromDynamoDb, 
+  getSurveysFromDynamoDb,
+  getWellPlansFromDynamoDb, 
+  getWellsFromDynamoDbReducer, 
+  getWellsFromDynamoDb, 
+  postWellInfoToDynamoDb, 
+  saveActiveWellToReduxStore, 
+  saveWellInfoToReduxStore, 
+  saveWellInfoToReduxStoreReducer, 
+  getLeaseLinesFromDynamoDb}) => {
 
-const Home = ({ getHardLinesFromDynamoDb, getWellPlansFromDynamoDb, getWellsFromDynamoDbReducer, getWellsFromDynamoDb, postWellInfoToDynamoDb, saveActiveWellToReduxStore, saveWellInfoToReduxStore, saveWellInfoToReduxStoreReducer, getLeaseLinesFromDynamoDb}) => {
   const [activeWell, setActiveWell] = useState('None');
   const [operator, setOperator] = useState('');
   const [rig, setRig] = useState('');
@@ -112,7 +123,7 @@ const Home = ({ getHardLinesFromDynamoDb, getWellPlansFromDynamoDb, getWellsFrom
     getWellPlansFromDynamoDb(activeWell)
     getLeaseLinesFromDynamoDb(activeWell)
     getHardLinesFromDynamoDb(activeWell)
-    //getSurveysFromJSONDb(activeWell)
+    getSurveysFromDynamoDb(activeWell)
     // setTimeout(getWellPlansFromJSONDb, 500, activeWell);
     //setTimeout(getLeaseLinesFromJSONDb, 1000, activeWell);
     // setTimeout(getSurveysFromJSONDb, 1500, activeWell)
@@ -151,7 +162,13 @@ const Home = ({ getHardLinesFromDynamoDb, getWellPlansFromDynamoDb, getWellsFrom
 
 }
 
-const mapStateToProps = ({ getWellsFromDynamoDbReducer, postWellInfoToDynamoDbReducer, saveActiveWellToReduxStoreReducer ,saveWellInfoToReduxStoreReducer }) => {
+const mapStateToProps = ({
+  getSurveysFromDynamoDb, 
+  getWellsFromDynamoDbReducer, 
+  postWellInfoToDynamoDbReducer, 
+  saveActiveWellToReduxStoreReducer, 
+  saveWellInfoToReduxStoreReducer }) => {
+  
   return {
     saveWellInfoToReduxStoreReducer,
     postWellInfoToDynamoDbReducer,
