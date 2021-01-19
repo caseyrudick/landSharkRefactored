@@ -33,10 +33,10 @@ const Surveys = ({ postSurveysToDynamoDb, activeWell, saveSurveysToReduxStore ,s
     
     [{value: 1, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}, {value: 0, readOnly: true}],
     
-    // [{readOnly: true, value: 2}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
-    // [{readOnly: true, value: 3}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
-    // [{readOnly: true, value: 4}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
-    // [{readOnly: true, value: 5}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
+    [{readOnly: true, value: 2}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
+    [{readOnly: true, value: 3}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
+    [{readOnly: true, value: 4}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
+    [{readOnly: true, value: 5}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}],
   ];
 
   const [surveys, setSurveys] = useState(initialSurveys);
@@ -150,7 +150,7 @@ const Surveys = ({ postSurveysToDynamoDb, activeWell, saveSurveysToReduxStore ,s
           <Button variant="success" className="ml-4" value={1} onClick={(event) => handleAddRows(event.target.value)}>
             Add a row
           </Button>
-          <Button variant="success" className="ml-4" value={1} onClick={(event) => handleRemoveRow(event.target.value)}>
+          <Button variant="danger" className="ml-4" value={1} onClick={(event) => handleRemoveRow(event.target.value)}>
             Remove a row
           </Button>
         </Col>

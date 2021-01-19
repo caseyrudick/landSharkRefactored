@@ -8,6 +8,7 @@ import { SAVE_WELL_INFO_TO_REDUX_STORE_REQUESTED,
         type: SAVE_WELL_INFO_TO_REDUX_STORE_REQUESTED,
       });
       try {
+        console.log("actionCreator works")
         dispatch({
           type: SAVE_WELL_INFO_TO_REDUX_STORE_RECEIVED,
           payload: wellInfo,

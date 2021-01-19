@@ -89,8 +89,6 @@ const Plans = ({activeWell, postPlansToDynamoDb, savePlansToReduxStore, saveWell
     // with cell (previousVal), row, col, currentVal
     // add the value of the newGrid[row#][col#] to the new value 
     changes.forEach(({ cell, row, col, value }) => {
-      console.log(value)
-      console.log(typeof value)
       gridNew[row][col] = {...grid[row][col], value };
     });
     setGrid(gridNew)
@@ -189,7 +187,6 @@ const Plans = ({activeWell, postPlansToDynamoDb, savePlansToReduxStore, saveWell
 
   return (
     <Container>
-      Plans
       <Row>
         <Col xs={10}>
           {renderWellData()}

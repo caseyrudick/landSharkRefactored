@@ -24,8 +24,20 @@ import ExistingPolyLines from './ExistingPolyLines'
 import PolyLines from './PolyLines'
 import SignInHome from "./UserVerification/SignInHome"
 import { Link } from "react-router-dom"
+import getSurveysFromDynamoDb from '../ActionCreators/getSurveysFromDynamoDb'
+import getLeaseLinesFromDynamoDb from '../ActionCreators/getLeaseLinesFromDynamoDb'
 
-const Dashboard = ({getHardLinesFromDynamoDbReducer, getLeaseLinesFromDynamoDbReducer, getWellPlansFromDynamoDbReducer, saveHardLinesToReduxStoreReducer, saveSurveysToReduxStoreReducer, activeWell, saveWellInfoToReduxStoreReducer, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
+const Dashboard = ({
+  getHardLinesFromDynamoDbReducer, 
+  getLeaseLinesFromDynamoDbReducer, 
+  getWellPlansFromDynamoDbReducer,
+  getSurveysFromDynamoDbReducer, 
+  saveHardLinesToReduxStoreReducer, 
+  saveSurveysToReduxStoreReducer, 
+  activeWell, 
+  saveWellInfoToReduxStoreReducer, 
+  savePlansToReduxStoreReducer, 
+  saveLeaseLinesToReduxStoreReducer}) => {
   
   return (
     <React.Fragment>
@@ -42,7 +54,7 @@ const Dashboard = ({getHardLinesFromDynamoDbReducer, getLeaseLinesFromDynamoDbRe
         </Tab>
         <Tab eventKey="Plans" title="Plans" disabled={getWellPlansFromDynamoDbReducer.status === "received" || saveWellInfoToReduxStoreReducer.status === "received" ? false : true}>
           <Container>
-          {getWellPlansFromDynamoDbReducer.status === "received" && getWellPlansFromDynamoDbReducer.response.Count > 0 ? <ExistingPlans/> : <Plans/>}
+          {getWellPlansFromDynamoDbReducer.response.Count > 0 ? <ExistingPlans/> : <Plans/>}
           </Container>
         </Tab>
         <Tab eventKey="PolyLines" title="PolyLines" disabled={getLeaseLinesFromDynamoDbReducer.status === "received" || getHardLinesFromDynamoDbReducer.status === "received"|| saveWellInfoToReduxStoreReducer.status === "received" ? false : true} >
@@ -50,14 +62,14 @@ const Dashboard = ({getHardLinesFromDynamoDbReducer, getLeaseLinesFromDynamoDbRe
             <PolyLines/>
           </Container>
         </Tab>
-        <Tab eventKey="PVA" title="PVA" disabled={ (saveWellInfoToReduxStoreReducer.status === "received"  && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received")  ||  activeWell.status === "received" ? false : true}>
+        <Tab eventKey="Surveys" title="Surveys" disabled= { getSurveysFromDynamoDbReducer.status === "received" || saveWellInfoToReduxStoreReducer.status === "received"? false : true }>
           <Container>
-            {saveSurveysToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.response && saveLeaseLinesToReduxStoreReducer.status === "received"  && saveLeaseLinesToReduxStoreReducer.status === "received" && saveHardLinesToReduxStoreReducer.status === "received" ? <PVA/> : <ExistingPVA/>}
+            {getSurveysFromDynamoDbReducer.response.Count > 0 ? <ExistingSurveys/> : <Surveys/> }
           </Container>
         </Tab>
-        <Tab eventKey="Surveys" title="Surveys" disabled={false/*(saveWellInfoToReduxStoreReducer.status === "received" && savePlansToReduxStoreReducer.status === "received" && saveLeaseLinesToReduxStoreReducer.status === "received") || activeWell.status === "received" ? false : true*/}>
+        <Tab eventKey="PVA" title="PVA" disabled={(getSurveysFromDynamoDbReducer.status === "received" && getWellPlansFromDynamoDbReducer.response && getLeaseLinesFromDynamoDbReducer.status === "received"  && getHardLinesFromDynamoDbReducer.status === "received")  ||  activeWell.status === "received" ? false : true}>
           <Container>
-            {<Surveys/>/*getSurveysFromJSONDbReducer.status === "received" ? <ExistingSurveys/> : <Surveys/> */}
+            {(getSurveysFromDynamoDbReducer.status === "received" && getWellPlansFromDynamoDbReducer.status === "received" && getLeaseLinesFromDynamoDbReducer.status === "received"  && getHardLinesFromDynamoDbReducer.status === "received" ) ? <ExistingPVA/> : /*<PVA/>*/ "TBD"}
           </Container>
         </Tab>
       </Tabs>
@@ -65,14 +77,24 @@ const Dashboard = ({getHardLinesFromDynamoDbReducer, getLeaseLinesFromDynamoDbRe
   );
 }
 
-const mapStateToProps = ({ getHardLinesFromDynamoDbReducer, getLeaseLinesFromDynamoDbReducer, postHardLinesToDynamoDbReducer, getWellPlansFromDynamoDbReducer, saveHardLinesToReduxStoreReducer, saveSurveysToReduxStoreReducer ,saveWellInfoToReduxStoreReducer, activeWell, savePlansToReduxStoreReducer, saveLeaseLinesToReduxStoreReducer}) => {
+const mapStateToProps = ({ 
+  getHardLinesFromDynamoDbReducer, 
+  getSurveysFromDynamoDbReducer,
+  getLeaseLinesFromDynamoDbReducer, 
+  postHardLinesToDynamoDbReducer, 
+  getWellPlansFromDynamoDbReducer, 
+  saveHardLinesToReduxStoreReducer, 
+  saveSurveysToReduxStoreReducer,
+  saveWellInfoToReduxStoreReducer, 
+  activeWell, 
+  savePlansToReduxStoreReducer, 
+  saveLeaseLinesToReduxStoreReducer}) => {
   return {
     saveWellInfoToReduxStoreReducer,
     getWellPlansFromDynamoDbReducer, 
     getLeaseLinesFromDynamoDbReducer,
-
+    getSurveysFromDynamoDbReducer,
     activeWell,
-    getLeaseLinesFromDynamoDbReducer,
     savePlansToReduxStoreReducer,
     saveLeaseLinesToReduxStoreReducer,
     saveSurveysToReduxStoreReducer,

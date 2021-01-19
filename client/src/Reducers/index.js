@@ -30,6 +30,7 @@ export default combineReducers({
   getWellPlansFromDynamoDbReducer, 
   getLeaseLinesFromDynamoDbReducer,
   getHardLinesFromDynamoDbReducer,
+  getSurveysFromDynamoDbReducer,
   // getWellPlansFromJSONDbReducer,
   // getLeaseLinesFromJSONDbReducer,
   // getSurveysFromJSONDbReducer,

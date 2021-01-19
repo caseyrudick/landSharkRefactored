@@ -11,72 +11,110 @@ import 'react-datasheet/lib/react-datasheet.css'
 import ReactDataSheet from "react-datasheet"
 import Plot from "react-plotly.js"
 import { isNumber } from "lodash"
+import _ from 'lodash';
 import saveSurveysToReduxStore from "../ActionCreators/saveSurveysToReduxStore"
 
-const ExistingPVA = ({ 
-  savePlansToReduxStoreReducer, 
-  getHardLinesFromDynamoDbReducer, 
-  saveSurveysToReduxStoreReducer, 
-  getSurveysFromDynamoDbReducer, 
-  getWellPlansFromDynamoDbReducer, 
-  activeWell, 
+const ExistingPVA = ({
+  savePlansToReduxStoreReducer,
+  getHardLinesFromDynamoDbReducer,
+  saveSurveysToReduxStoreReducer,
+  getSurveysFromDynamoDbReducer,
+  getWellPlansFromDynamoDbReducer,
+  activeWell,
   getLeaseLinesFromDynamoDbReducer }) => {
 
-  const createEastingCoordinates = (data, polyLine = false) => {
-    if (polyLine) {
-      if (Object.keys(data).length === 0) {
-        console.log("nada")
-        return []
-      } else {
-        let result = data.map((row, index) => data[index][2].value).slice(1)
-        return result
-      }
-    } else {
-      if (Object.keys(data).length === 0) {
-        console.log("nada")
-        return []
-      } else {
-        let result = data.map((row, index) => data[index][6].value).slice(1)
-        return result
-      }
+
+    const createEastingCoordinates = (data, polyLine = false) => {
+      // if (polyLine) {
+      // //   if (data.length === 0) {
+      // //     return []
+      // //   }  else {
+      //     return data.map((line, index) => line["Easting"])
+      // //   }
+      // } else {
+      // //   if (data.length === 0) {
+      // //     return []
+      // //   } else {
+          return data.map((lineItem, index) => {
+            return parseInt(lineItem.Easting)
+            })
+      //   }
+      // }
     }
-  }  
-  
+
+
   const createNorthingCoordinates = (data, polyLine = false) => {
-    if (polyLine) {
-      if (Object.keys(data).length === 0) {
-        return []
-      } else {
-          return data.map((row, index) => data[index][1].value).slice(1)
-      }
-    } else {
-      if (Object.keys(data).length === 0) {
-        console.log("nada")
-        return []
-      } else {
-          return data.map((row, index) => data[index][5].value).slice(1)
-      }
-    }
+    // if (polyLine) {
+    //   // if (data.length === 0) {
+    //   //   return []
+    //   // }  else {
+    //     console.log(data.response.Items)
+    //     return data.map((line, index) => line.response.Items["Northing"])
+    //   // }
+    // } else {
+      // if (data.length === 0) {
+      //   return []
+      // } else {
+
+        return data.map((lineItem, index) => {
+          return parseInt(lineItem["Northing"])
+          })
+      // }
+    // }
   }
 
   const createTVDCoordinates = (data) => {
     if (data.length === 0) {
       return []
     } else {
-        return data.map((row, index) => {
-          return parseInt(data[index][4].value) * -1
-            }).slice(1)
+        return data.map((lineItem, index) => {
+          return parseInt(lineItem["TVD"]) *-1
+            })
     }
-  } 
+  }
 
   const createSectCoordinates = (data) => {
-    console.log(data)
     if (data.length === 0) {
       return []
     } else {
-      return data.map((row, index) => {
-        return parseInt(data[index][7].value)
-          }).slice(1)
+      const sectCoordinates = data.map((lineItem, index) => {
+        return parseInt(lineItem.VS)
+          })
+      return sectCoordinates
+    }
+  }
+
+  const convertNumberStringsToNumbersAndSort = (data, dataSource) => {
+    let dataCopy = [...data]
+    dataCopy.map((element, index) => {
+      switch (dataSource) {
+        case 'Plan':
+          dataCopy[index].Plan_Number = parseInt(dataCopy[index].Plan_Line_Number)
+          break;
+        case 'Survey':
+          dataCopy[index].SurveyNumber = parseInt(dataCopy[index].SurveyNumber)
+          break;
+        case 'HardLines':
+          dataCopy[index].Hard_Line_Number = parseInt(dataCopy[index].Hard_Line_Number)
+          break;
+        case 'LeaseLine':
+          dataCopy[index].Lease_Line_Number = parseInt(dataCopy[index].Lease_Line_Number)
+          break;
+        default:
+
+      }
+    })
+    switch (dataSource) {
+      case 'Plan':
+        return _.orderBy(dataCopy, ['Plan_Line_Number'], ['asc'])
+      case 'Survey':
+        return _.orderBy(dataCopy, ['SurveyNumber'], ['asc'])
+      case 'HardLines':
+        return _.orderBy(dataCopy, ['Hard_Line_Number'], ['asc'])
+      case 'LeaseLine':
+        return _.orderBy(dataCopy, ['Lease_Line_Number'], ['asc'])
+      default:
+
     }
   }
 
@@ -85,16 +123,16 @@ const ExistingPVA = ({
       <Plot
       data={[
         {
-          x: createSectCoordinates(getWellPlansFromDynamoDbReducer.response.Items),
-          y: createTVDCoordinates(getWellPlansFromDynamoDbReducer.response.Items),
+          x: createSectCoordinates(convertNumberStringsToNumbersAndSort(getWellPlansFromDynamoDbReducer.response.Items, "Plan")),
+          y: createTVDCoordinates(convertNumberStringsToNumbersAndSort(getWellPlansFromDynamoDbReducer.response.Items, "Plan")),
           type: "scatter",
           mode: "lines+markers",
           marker: {color: "blue"},
           name: "Plan"
         },
         {
-          x: createSectCoordinates(getSurveysFromDynamoDbReducer.response.Items),
-          y: createTVDCoordinates(getSurveysFromDynamoDbReducer.response.Items),
+          x: createSectCoordinates(convertNumberStringsToNumbersAndSort(getSurveysFromDynamoDbReducer.response.Items, "Survey")),
+          y: createTVDCoordinates(convertNumberStringsToNumbersAndSort(getSurveysFromDynamoDbReducer.response.Items, "Survey")),
           type: "scatter",
           mode: "lines+markers",
           marker: {color: "Red"},
@@ -108,44 +146,44 @@ const ExistingPVA = ({
 
   const renderPlanView = () => {
     return (
-      // <Container>
-      //   <Col xs={2}>
-      //     <Form className="mt-7">
-      //       <Form.Group controlId="formBasicEmail">
-      //         <Form.Control className="mt-3" type="float" disabled placeholder="Enter VS Here" onChange={event => event.target.value}/>
-      //       </Form.Group>
-      //     </Form>
-      //   </Col>
+      <Container>
+        <Col xs={2}>
+          <Form className="mt-7">
+            <Form.Group controlId="formBasicEmail">
+              <Form.Control className="mt-3" type="float" disabled placeholder="Enter VS Here" onChange={event => event.target.value}/>
+            </Form.Group>
+          </Form>
+        </Col>
 
       <Plot
         data={[
           {
-            x: createEastingCoordinates(getWellPlansFromDynamoDbReducer.response.data),
-            y: createNorthingCoordinates(getWellPlansFromDynamoDbReducer.response.data),
+            x: createEastingCoordinates(convertNumberStringsToNumbersAndSort(getWellPlansFromDynamoDbReducer.response.Items, "Plan")),
+            y: createNorthingCoordinates(convertNumberStringsToNumbersAndSort(getWellPlansFromDynamoDbReducer.response.Items, "Plan")),
             type: "scatter",
             mode: "lines+markers",
             marker: {color: "blue"},
             name: "Plan"
           },
           {
-            x: createEastingCoordinates(getSurveysFromDynamoDbReducer.response.data),
-            y: createNorthingCoordinates(getSurveysFromDynamoDbReducer.response.data),
+            x: createEastingCoordinates(convertNumberStringsToNumbersAndSort(getSurveysFromDynamoDbReducer.response.Items, "Survey")),
+            y: createNorthingCoordinates(convertNumberStringsToNumbersAndSort(getSurveysFromDynamoDbReducer.response.Items, "Survey")),
             type: "scatter",
             mode: "lines+markers",
             marker: {color: "red"},
             name: "Surveys"
           },
           {
-            x: createEastingCoordinates(getLeaseLinesFromDynamoDbReducer.response.data, true),
-            y: createNorthingCoordinates(getLeaseLinesFromDynamoDbReducer.response.data, true),
+            x: createEastingCoordinates(convertNumberStringsToNumbersAndSort(getLeaseLinesFromDynamoDbReducer.response.Items, "LeaseLine"), true),
+            y: createNorthingCoordinates(convertNumberStringsToNumbersAndSort(getLeaseLinesFromDynamoDbReducer.response.Items, "LeaseLine"), true),
             type: "scatter",
             mode: "lines+markers",
             marker: {color: "black"},
             name: "Lease Lines"
           },
           {
-            x: createEastingCoordinates(getHardLinesFromDynamoDbReducer.response.data, true),
-            y: createNorthingCoordinates(getHardLinesFromDynamoDbReducer.response.data, true),
+            x: createEastingCoordinates(convertNumberStringsToNumbersAndSort(getHardLinesFromDynamoDbReducer.response.Items,"HardLines"), true),
+            y: createNorthingCoordinates(convertNumberStringsToNumbersAndSort(getHardLinesFromDynamoDbReducer.response.Items, "HardLines"), true),
             type: "scatter",
             mode: "lines+markers",
             marker: {color: "red"},
@@ -154,11 +192,11 @@ const ExistingPVA = ({
         ]}
         layout = { {width: 1000, height: 800, title: 'Plan View'} }
         />
-      // </Container>
+      </Container>
     )
   }
 
-  
+
 
 
   if (getLeaseLinesFromDynamoDbReducer.status === "received" && getWellPlansFromDynamoDbReducer.status === "received") {
@@ -166,14 +204,14 @@ const ExistingPVA = ({
       <Container>
         <h3>{activeWell.response.Operator.S} - {activeWell.response.Rig.S} - {activeWell.response.Well_Name.S}</h3>
         {renderSectionView()}
-        {/* {renderPlanView()}  */}
+        {renderPlanView()}
       </Container>
     )
-      
+
       // <Container>
-      //   {renderPlanView()} 
+      //   {renderPlanView()}
       // </Container>
-    
+
   } else {
     return (
       "Data Loading"
@@ -184,15 +222,15 @@ const ExistingPVA = ({
 }
 
 const mapStateToProps = ({
-  savePlansToReduxStoreReducer, 
-  getHardLinesFromDynamoDbReducer, 
+  savePlansToReduxStoreReducer,
+  getHardLinesFromDynamoDbReducer,
   saveSurveysToReduxStoreReducer,
-  getSurveysFromDynamoDbReducer, 
-  getWellPlansFromDynamoDbReducer, 
-  activeWell, 
+  getSurveysFromDynamoDbReducer,
+  getWellPlansFromDynamoDbReducer,
+  activeWell,
   getLeaseLinesFromDynamoDbReducer}) => {
   return {
-    getWellPlansFromDynamoDbReducer, 
+    getWellPlansFromDynamoDbReducer,
     activeWell,
     getLeaseLinesFromDynamoDbReducer,
     getSurveysFromDynamoDbReducer,

@@ -16,6 +16,7 @@ import HardLines from "./HardLines"
 
 
 const PolyLines = ({saveWellInfoToReduxStoreReducer, getLeaseLinesFromDynamoDbReducer, getHardLinesFromDynamoDbReducer, activeWell}) => {
+  
   const renderWellData = () => {
     if (saveWellInfoToReduxStoreReducer.status === "received") {
       const { well, rig, operator} = saveWellInfoToReduxStoreReducer.response
@@ -28,76 +29,115 @@ const PolyLines = ({saveWellInfoToReduxStoreReducer, getLeaseLinesFromDynamoDbRe
       return "No well data"
     }
   }
-  if (getLeaseLinesFromDynamoDbReducer.status === "received" && getHardLinesFromDynamoDbReducer.status === "received") {
+  
 
-    return (
-      <Container>
-        {renderWellData()}
-        <Row className="mt-4">
-          <Col>
-            <h4>Lease Lines</h4>
-            <ExistingLeaseLines/>
-          </Col>
-          <Col>
-          <h4>Hard Lines</h4>
-            <ExistingHardLines/>
-          </Col>
-        </Row>
-      </Container>
-    )
-  }     else {
-    return "something here"
-  } 
-//   else if (getLeaseLinesFromDynamoDbReducer.status === "received") {
-//     return (
-//       <Container>
-//         {renderWellData()}
-//         <Row className="mt-4">
-//           <Col>
-//             <h4>Lease Lines</h4>
-//             <ExistingLeaseLines/>
-//           </Col>
-//           <Col>
-//           <h4>Hard Lines</h4>
-//             <HardLines/>
-//           </Col>
-//         </Row>
-//       </Container>
-//     )
-//   } else if (getHardLinesFromDynamoDbReducer.status === "received") {
-//     <Container>
-//       {renderWellData()}
-//       <Row className="mt-4">
-//         <Col>
-//           <h4>Lease Lines</h4>
-//           <LeaseLines/>
-//         </Col>
-//         <Col>
-//           <h4>Hard Lines</h4>
-//           <ExistingHardLines/>
-//         </Col>
-//       </Row>
-//   </Container>
-//   } else {
-//     return (
-//       <Container>
-//         {renderWellData()}
-//         <Row className="mt-4">
-//           <Col>
-//             <h4>Lease Lines</h4>
-//             <LeaseLines/>
-//           </Col>
-//           <Col>
-//           <h4>Hard Lines</h4>
-//             <HardLines/>
-//           </Col>
-//         </Row>
-//       </Container>
-//     )
-//   }
+  const renderLeaseLineGrid = () => {
+    const existingLeaseLines = getLeaseLinesFromDynamoDbReducer.response.Count > 0;
+    if (existingLeaseLines) {
+      return <ExistingLeaseLines/>
+    } else {
+      return <LeaseLines/>
+      }
+  }
 
+  const renderHardLineGrid = () => {
+    const existingHardLines = getHardLinesFromDynamoDbReducer.response.Count > 0;
+    if (existingHardLines) {
+      return <ExistingHardLines/>
+    } else {
+      return <HardLines/>
+      }
+  }
 
+  return (
+    <Container>
+      {renderWellData()}
+      <Row className="mt-4">
+        <Col>
+          <h4>Lease Lines</h4>
+          {renderLeaseLineGrid()}
+        </Col>
+        <Col>
+        <h4>Hard Lines</h4>
+          {renderHardLineGrid()}
+        </Col>
+      </Row>
+    </Container>
+  )
 }
+
+  // if (getLeaseLinesFromDynamoDbReducer.status === "received" && getHardLinesFromDynamoDbReducer.status === "received") {
+  //   console.log("existing lease and existing hard")
+  //   return (
+  //     <Container>
+  //       {renderWellData()}
+  //       <Row className="mt-4">
+  //         <Col>
+  //           <h4>Lease Lines</h4>
+  //           <ExistingLeaseLines/>
+  //         </Col>
+  //         <Col>
+  //         <h4>Hard Lines</h4>
+  //           <ExistingHardLines/>
+  //         </Col>
+  //       </Row>
+  //     </Container>
+  //   )
+  // } else if (getLeaseLinesFromDynamoDbReducer.status === "received" && getHardLinesFromDynamoDbReducer.status === "") {
+  //   console.log("existing lease and new hard")
+  //   return (
+  //     <Container>
+  //       {renderWellData()}
+  //       <Row className="mt-4">
+  //         <Col>
+  //           <h4>Lease Lines</h4>
+  //           <ExistingLeaseLines/>
+  //         </Col>
+  //         <Col>
+  //         <h4>Hard Lines</h4>
+  //           <HardLines/>
+  //         </Col>
+  //       </Row>
+  //     </Container>
+  //   )
+  // } else if (getHardLinesFromDynamoDbReducer.status === "received" && getLeaseLinesFromDynamoDbReducer.status === "") {
+  //   console.log("existing hard and new lease")
+  //   return (
+  //     <Container>
+  //     {renderWellData()}
+  //     <Row className="mt-4">
+  //       <Col>
+  //         <h4>Lease Lines</h4>
+  //         <LeaseLines/>
+  //       </Col>
+  //       <Col>
+  //         <h4>Hard Lines</h4>
+  //         <ExistingHardLines/>
+  //       </Col>
+  //     </Row>
+  //   </Container>
+  //   )
+  // } else {
+  //   console.log("both new lease and hard")
+  //   return (
+  //     <Container>
+  //       {renderWellData()}
+  //       <Row className="mt-4">
+  //         <Col>
+  //           <h4>Lease Lines</h4>
+  //           <LeaseLines/>
+  //         </Col>
+  //         <Col>
+  //         <h4>Hard Lines</h4>
+  //           <HardLines/>
+  //         </Col>
+  //       </Row>
+  //     </Container>
+  //   )
+  // }
+
+
+
 
 const mapStateToProps = ({saveWellInfoToReduxStoreReducer, activeWell, getHardLinesFromDynamoDbReducer, getLeaseLinesFromDynamoDbReducer}) => {
  return {

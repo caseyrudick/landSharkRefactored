@@ -114,6 +114,7 @@ const Home = ({
       easting
     }
     // postWellInfoToJSONDb(wellInfo)
+    console.log("submit puta")
     postWellInfoToDynamoDb(wellInfo)
     saveWellInfoToReduxStore(wellInfo)
     saveActiveWellToReduxStore(wellInfo)
@@ -163,7 +164,7 @@ const Home = ({
 }
 
 const mapStateToProps = ({
-  getSurveysFromDynamoDb, 
+  getSurveysFromDynamoDbReducer, 
   getWellsFromDynamoDbReducer, 
   postWellInfoToDynamoDbReducer, 
   saveActiveWellToReduxStoreReducer, 
@@ -176,4 +177,14 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, {getLeaseLinesFromDynamoDb, getWellPlansFromDynamoDb, getWellsFromDynamoDb, postWellInfoToDynamoDb, getHardLinesFromDynamoDb, saveActiveWellToReduxStore, saveWellInfoToReduxStore })(Home);
+export default connect(
+  mapStateToProps, 
+  { getLeaseLinesFromDynamoDb, 
+    getWellPlansFromDynamoDb,
+    getSurveysFromDynamoDb, 
+    getWellsFromDynamoDb, 
+    postWellInfoToDynamoDb, 
+    getHardLinesFromDynamoDb, 
+    saveActiveWellToReduxStore, 
+    saveWellInfoToReduxStore 
+  })(Home);
